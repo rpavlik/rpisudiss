@@ -1,0 +1,105 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+\documentclass[draft]{rpisudiss}
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+\usepackage[T1]{fontenc}
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+
+\usepackage{url}
+\usepackage{prettyref}
+
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+
+\title{This is the title}
+
+
+\author{Ryan Andrew Pavlik}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+
+\pagestyle{fancy}
+\tableofcontents{}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoffigures
+
+\phantomsection
+\addcontentsline{toc}{chapter}{List of Tables}
+\listoftables
+
+%\begin{abstract}
+%This is an abstract. How abstract!
+%\end{abstract}
+
+\chapter{Intro}
+
+
+A wide variety of software frameworks for building virtual reality
+applications have been developed. The CAVE~Library initially developed
+for use with the CAVE~Automated~Virtual~Environment \cite{Cruz-Neira1993}
+is an example of early work in the systems category of virtual reality
+frameworks. It has evolved into a commercial solution integrating
+clustering support and focusing on multi-screen application development.
+VR~Juggler introduced a highly modular architecture for VR applications
+to provide a ``virtual platform'' for development and execution
+on diverse systems \cite{Bierbaum2001,Bierbaum2005}.
+
+frameworks. It has evolved into a commercial solution integrating
+clustering support and focusing on multi-screen application development.
+VR~Juggler introduced a highly modular architecture for VR applications
+
+\section{Bla bla}
+Later development
+extended its use from high-end graphics systems to commodity computer
+clusters \cite{Allard2002,Bierbaum2005}.
+
+
+frameworks. It has evolved into a commercial solution integrating
+clustering support and focusing on multi-screen application development.
+VR~Juggler introduced a highly modular architecture for VR applications
+
+\subsection{bla bla bla}
+The commercial
+VR authoring environment Virtools%
+\footnote{\url{http://www.virtools.com/}%
+} integrates a custom scripting language, VSL, for content creation.
+
+frameworks. It has evolved into a commercial solution integrating
+clustering support and focusing on multi-screen application development.
+VR~Juggler introduced a highly modular architecture for VR applications
+\chapter{middle}
+
+A VR~JuggLua application uses both the osgLua module
+and the VR~Juggler bindings included in the VR~JuggLua framework
+to access a complete set of virtual reality functionality from Lua
+(Figure \ref{fig:System-diagram}). 
+\begin{figure}
+\begin{centering}
+\includegraphics[width=1\columnwidth]{accessdiagram}
+\par\end{centering}
+
+\caption{\label{fig:System-diagram}System diagram}
+\end{figure}
+
+
+\chapter{Conclusion}
+
+aefawefwaefadfwdcw
+
+
+\bibliographystyle{abbrv}
+\bibliography{vrjugglua}
+
+\end{document}
