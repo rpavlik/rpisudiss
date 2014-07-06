@@ -69,23 +69,43 @@
 % Don't include chapter number in section numbering
 \renewcommand\thesection{\arabic{section}}
 
+% Double-space overall
 \usepackage[doublespacing]{setspace}
 
 % Rename the ToC
 \RequirePackage[subfigure,titles]{tocloft}
 \renewcommand{\contentsname}{Table of Contents}
 
+% Remove parskips from toc/lof/lot
+\setlength{\cftparskip}{0pt}
+
+
 \RequirePackage{xpatch}
 
+% Single space ToC
+\xpretocmd{\tableofcontents}{%
+	\begin{singlespace}}{}{}
+\xapptocmd{\tableofcontents}{%
+	\end{singlespace}}{}{}
+
 % Put the List of Figures in the ToC
+% and single space it
 \xpretocmd{\listoffigures}{%
 	\phantomsection%
-	\addcontentsline{toc}{chapter}{List of Figures}}{}{}
+	\addcontentsline{toc}{chapter}{List of Figures}%
+	\begin{singlespace}}{}{}
+\xapptocmd{\listoffigures}{%
+	\end{singlespace}}{}{}
 
-% Put the List of Tables in the ToC
+% Put the List of Tables in the ToC,
+% and single space it.
 \xpretocmd{\listoftables}{%
 	\phantomsection%
-	\addcontentsline{toc}{chapter}{List of Tables}}{}{}
+	\addcontentsline{toc}{chapter}{List of Tables}%
+	\begin{singlespace}}{}{}
+\xapptocmd{\listoftables}{%
+	\end{singlespace}}{}{}
+
 % \RequirePackage{xpatch}
 % \xpatchcmd{\@chapter}
 	% {{\protect\numberline{\thechapter}#1}}
