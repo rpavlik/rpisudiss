@@ -75,6 +75,17 @@
 \RequirePackage[subfigure,titles]{tocloft}
 \renewcommand{\contentsname}{Table of Contents}
 
+\RequirePackage{xpatch}
+
+% Put the List of Figures in the ToC
+\xpretocmd{\listoffigures}{%
+	\phantomsection%
+	\addcontentsline{toc}{chapter}{List of Figures}}{}{}
+
+% Put the List of Tables in the ToC
+\xpretocmd{\listoftables}{%
+	\phantomsection%
+	\addcontentsline{toc}{chapter}{List of Tables}}{}{}
 % \RequirePackage{xpatch}
 % \xpatchcmd{\@chapter}
 	% {{\protect\numberline{\thechapter}#1}}
