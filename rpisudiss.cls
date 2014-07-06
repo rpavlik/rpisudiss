@@ -80,29 +80,38 @@
 
 \RequirePackage{xpatch}
 
-% Single space ToC
+% ToC:
+% - Single space
+% - Added to PDF ToC
+% - Page break after
 \xpretocmd{\tableofcontents}{%
-	\begin{singlespace}}{}{}
+	\begin{singlespace}%
+	\pdfbookmark[0]{\contentsname}{toc}}{}{}
 \xapptocmd{\tableofcontents}{%
-	\end{singlespace}}{}{}
+	\end{singlespace}\clearpage}{}{}
 
-% Put the List of Figures in the ToC
-% and single space it
+% List of Figures:
+% - Added to ToC
+% - Single space
+% - Page break after
 \xpretocmd{\listoffigures}{%
 	\phantomsection%
 	\addcontentsline{toc}{chapter}{List of Figures}%
 	\begin{singlespace}}{}{}
 \xapptocmd{\listoffigures}{%
-	\end{singlespace}}{}{}
+	\end{singlespace}\clearpage}{}{}
 
-% Put the List of Tables in the ToC,
-% and single space it.
+% List of Tables:
+% - Added to ToC
+% - Single space
+% - Page break after
 \xpretocmd{\listoftables}{%
 	\phantomsection%
 	\addcontentsline{toc}{chapter}{List of Tables}%
 	\begin{singlespace}}{}{}
 \xapptocmd{\listoftables}{%
-	\end{singlespace}}{}{}
+	\end{singlespace}\clearpage}{}{}
+
 
 % Command to indicate when we're done
 % with preface content
