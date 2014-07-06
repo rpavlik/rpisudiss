@@ -8,7 +8,7 @@
 \RequirePackage{datetime}
 \newcommand{\isu@draftfooter}{}
 \DeclareOption{draftcls}{%
-	\renewcommand{\isu@draftfooter}{DRAFT - rendered \today at \currenttime}%
+	\renewcommand{\isu@draftfooter}{DRAFT - rendered \today\ at \currenttime}%
 }
 
 % Forward everything not recognized
