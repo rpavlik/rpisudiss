@@ -4,13 +4,11 @@
 
 
 
-% In addition to whatever draft normally does, let's
-% have it add "DRAFT" and a date/time stamp on the footer.
+% option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \RequirePackage{datetime}
 \newcommand{\isu@draftfooter}{}
-\DeclareOption{draft}{%
-	\renewcommand{\isu@draftfooter}{DRAFT \today \currenttime}%
-	\PassOptionsToClass{draft}{report}%
+\DeclareOption{draftcls}{%
+	\renewcommand{\isu@draftfooter}{DRAFT - rendered \today at \currenttime}%
 }
 
 % Forward everything not recognized
