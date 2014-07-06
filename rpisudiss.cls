@@ -46,14 +46,12 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 
-\fancypagestyle{prelude}{%
-\fancyhf{} % clear all header and footer fields
-\fancyhead[C]{\thepage} % Always put the page in the center header
-\fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
-\renewcommand{\headrulewidth}{0pt}
-\renewcommand{\footrulewidth}{0pt}}
+\renewcommand{\titlepage}
+	{\thispagestyle{empty}
+	\pagenumbering{roman}}
+\renewcommand{\endtitlepage}
+	{\newpage}
 
-\pagestyle{plain}
 
 % Set up sectioning
 \RequirePackage{titlesec}
