@@ -43,11 +43,17 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 
-% Title page starts with no style but numbered
-% in roman numerals
+\newif\if@mainmatter \@mainmatterfalse
+
+% Title page:
+% - empty style (no numbering shown)
+% - starts the preface/roman numerals
+% - gets a PDF bookmark, just because we can.
 \renewcommand{\titlepage}
 	{\thispagestyle{empty}
-	\pagenumbering{roman}}
+	\pagenumbering{roman}
+	\pdfbookmark[0]{\@title}{toc}
+	\@mainmatterfalse}
 \renewcommand{\endtitlepage}
 	{\newpage}
 
@@ -57,7 +63,7 @@
 % Caps, bold, large, and center for chapter titles.
 \titleformat{\chapter}[block]
 	{\normalfont\large\bfseries\centering}
-	{\MakeUppercase{\chaptertitlename} \thechapter.\quad}
+	{\if@mainmatter\MakeUppercase{\chaptertitlename} \thechapter.\quad\fi}
 	{0pt}
 	{\MakeUppercase}{}
 
@@ -110,9 +116,11 @@
 % Command to indicate when we're done
 % with preface content
 \newcommand{\mainmatter}{%
-	\newpage%
-	\pagenumbering{arabic}%
+	\clearpage
+	\pagenumbering{arabic}
 	\pagestyle{plain}
+	\@mainmattertrue
+	\setcounter{chapter}{0}
 }
 
 \endinput
