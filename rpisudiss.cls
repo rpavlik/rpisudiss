@@ -27,6 +27,9 @@
 \RequirePackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
 
+% Choose font encoding
+\usepackage[T1]{fontenc}
+
 \RequirePackage{indentfirst}
 
 % Setup page layout
