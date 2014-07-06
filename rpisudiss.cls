@@ -104,6 +104,13 @@
 \xapptocmd{\listoftables}{%
 	\end{singlespace}}{}{}
 
+% Command to indicate when we're done
+% with preface content
+\newcommand{\mainmatter}{%
+	\newpage%
+	\pagenumbering{arabic}%
+	\pagestyle{plain}
+}
 % \RequirePackage{xpatch}
 % \xpatchcmd{\@chapter}
 	% {{\protect\numberline{\thechapter}#1}}
