@@ -1,9 +1,6 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
-
-
-
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \RequirePackage{datetime}
 \newcommand{\isu@draftfooter}{}
@@ -46,29 +43,26 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 
+% Title page starts with no style but numbered
+% in roman numerals
 \renewcommand{\titlepage}
 	{\thispagestyle{empty}
 	\pagenumbering{roman}}
 \renewcommand{\endtitlepage}
 	{\newpage}
 
-
 % Set up sectioning
 \RequirePackage{titlesec}
+
+% Caps, bold, large, and center for chapter titles.
 \titleformat{\chapter}[block]
 	{\normalfont\large\bfseries\centering}
 	{\MakeUppercase{\chaptertitlename} \thechapter.\quad}
 	{0pt}
 	{\MakeUppercase}{}
 
-% For journal paper format
-\newcommand{\paperinfo}[1]{\begin{center} A paper #1 \end{center} \vspace{.4in}}
-
-% Don't include chapter number in section numbering
-\renewcommand\thesection{\arabic{section}}
-
 % Double-space overall
-\usepackage[doublespacing]{setspace}
+\RequirePackage[doublespacing]{setspace}
 
 % Rename the ToC
 \RequirePackage[subfigure,titles]{tocloft}
@@ -120,37 +114,6 @@
 	\pagenumbering{arabic}%
 	\pagestyle{plain}
 }
-% \RequirePackage{xpatch}
-% \xpatchcmd{\@chapter}
-	% {{\protect\numberline{\thechapter}#1}}
-	% {{\protect\numberline{\thechapter} MEGATEST! \texorpdfstring{\MakeUppercase{#1}}{#1}}}
-	% {}{}
-
-%\renewcommand{\titlepage}{}
-%%% PACKAGES
-%\usepackage{booktabs} % for much better looking tables
-%\usepackage{array} % for better arrays (eg matrices) in maths
-%\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
-%\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
-%\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
-% These packages are all incorporated in the memoir class to one degree or another...
-
 
 \endinput
-%%% HEADERS & FOOTERS
-%\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-%\pagestyle{fancy} % options: empty , plain , fancy
-%\renewcommand{\headrulewidth}{0pt} % customise the layout...
-%\lhead{}\chead{}\rhead{}
-%\lfoot{}\cfoot{\thepage}\rfoot{}
 
-%%% SECTION TITLE APPEARANCE
-%\usepackage{sectsty}
-%\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
-% (This matches ConTeXt defaults)
-
-%%% ToC (table of contents) APPEARANCE
-%\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-%\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-%\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-%\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
