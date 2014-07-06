@@ -30,6 +30,7 @@
 % Choose font encoding
 \usepackage[T1]{fontenc}
 
+% Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
 
 % Setup page layout
@@ -70,6 +71,7 @@
 
 \usepackage[doublespacing]{setspace}
 
+% Rename the ToC
 \RequirePackage[subfigure,titles]{tocloft}
 \renewcommand{\contentsname}{Table of Contents}
 
