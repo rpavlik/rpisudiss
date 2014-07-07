@@ -16,6 +16,7 @@
 }
 
 % option print: Optimize for print rather than on-screen (hide links, etc.)
+% Apparently doesn't work right now. Sad.
 \newif\if@isu@print	\@isu@printfalse
 \DeclareOption{print}{%
 	\@isu@printtrue%
@@ -43,12 +44,17 @@
 % Put lot, lof, and bibliography in the ToC
 \RequirePackage[nottoc]{tocbibind}
 
-% Basic hyperref
+% Basic hyperref - note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
 \RequirePackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
-\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
+\hypersetup{bookmarksnumbered=true,pdfview=FitB}
 
 \if@isu@print
+	% Hide links for print
+	% Apparently doesn't work right now. Sad.
 	\hypersetup{hidelinks}
+\else
+	% Nice blue links.
+	\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
 
 % Choose font encoding
