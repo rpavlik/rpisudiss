@@ -9,6 +9,12 @@
 	\@isu@capstoctrue%
 }
 
+% option capschap: Capitalize chapters everywhere else
+\newif\if@isu@capschap	\@isu@capschapfalse
+\DeclareOption{capschap}{%
+	\@isu@capschaptrue%
+}
+
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newcommand{\isu@draftfooter}{}
 \DeclareOption{draftcls}{%
@@ -76,12 +82,15 @@
 % Set up sectioning
 \RequirePackage{titlesec}
 
-% Caps, bold, large, and center for chapter titles.
+% Caps (optional), bold, large, and center for chapter titles.
 \titleformat{\chapter}[block]
 	{\normalfont\large\bfseries\centering}
-	{\if@mainmatter\MakeUppercase{\chaptertitlename} \thechapter.\quad\fi}
+	{\if@mainmatter%
+		\if@isu@capschap\MakeUppercase{\chaptertitlename}%
+		\else\chaptertitlename\fi\
+		\thechapter.\quad\fi}
 	{0pt}
-	{\MakeUppercase}{}
+	{\if@isu@capschap\MakeUppercase\fi}{}
 
 % Double-space overall
 \RequirePackage[doublespacing]{setspace}
@@ -112,11 +121,13 @@
 
 % - Prefix "Chapter " to chapter number
 % - Adjust indentation of levels
+% - Capitalize title entries, if appropriate
 \if@isu@capstoc
 	\renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
 	\cftsetindents{chapter}{0em}{8em}
 	\cftsetindents{section}{2em}{0em}
 	\cftsetindents{subsection}{3em}{0em}
+	\renewcommand{\cftchapfont}{\MakeUppercase}
 \else
 	\renewcommand\cftchappresnum{\chaptertitlename\ }
 	\cftsetindents{chapter}{0em}{6em}
