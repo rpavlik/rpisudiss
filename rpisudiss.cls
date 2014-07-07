@@ -90,13 +90,13 @@
 
 % ToC:
 % - Single space
-% - Added to PDF ToC
+% - Added to PDF ToC - not presently working
 % - Page break after
 \xpretocmd{\tableofcontents}{%
 	\begin{singlespace}}{}{}
 \xapptocmd{\tableofcontents}{%
 	\end{singlespace}%
-	\pdfbookmark[0]{\contentsname}{toc}%
+	% \pdfbookmark[0]{\contentsname}{toc}%
 	\clearpage}{}{}
 
 % List of Figures:
