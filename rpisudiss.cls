@@ -57,9 +57,6 @@
 	\hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
 
-% Choose font encoding
-\usepackage[T1]{fontenc}
-
 % Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
 
