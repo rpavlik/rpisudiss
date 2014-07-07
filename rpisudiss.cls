@@ -20,6 +20,9 @@
 % had to choose to put this here for tocloft
 \RequirePackage{subfigure}
 
+% Put lot, lof, and bibliography in the ToC
+\RequirePackage[nottoc]{tocbibind}
+
 % Basic hyperref
 \RequirePackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
@@ -89,33 +92,27 @@
 % - Added to PDF ToC
 % - Page break after
 \xpretocmd{\tableofcontents}{%
-	\begin{singlespace}%
-	\pdfbookmark[0]{\contentsname}{toc}}{}{}
+	\begin{singlespace}}{}{}
 \xapptocmd{\tableofcontents}{%
-	\end{singlespace}\clearpage}{}{}
+	\end{singlespace}%
+	\pdfbookmark[0]{\contentsname}{toc}%
+	\clearpage}{}{}
 
 % List of Figures:
-% - Added to ToC
 % - Single space
 % - Page break after
 \xpretocmd{\listoffigures}{%
-	\phantomsection%
-	\addcontentsline{toc}{chapter}{List of Figures}%
 	\begin{singlespace}}{}{}
 \xapptocmd{\listoffigures}{%
 	\end{singlespace}\clearpage}{}{}
 
 % List of Tables:
-% - Added to ToC
 % - Single space
 % - Page break after
 \xpretocmd{\listoftables}{%
-	\phantomsection%
-	\addcontentsline{toc}{chapter}{List of Tables}%
 	\begin{singlespace}}{}{}
 \xapptocmd{\listoftables}{%
 	\end{singlespace}\clearpage}{}{}
-
 
 % Command to indicate when we're done
 % with preface content
