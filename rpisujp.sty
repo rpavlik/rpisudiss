@@ -2,9 +2,18 @@
 \ProvidesPackage{rpisujp}[2014/07/06 Ryan Pavlik's ISU Thesis - Journal Paper Format]
 
 % For journal paper format: \paperinfo
-\newcommand{\paperinfo}[1]{\begin{center} A paper #1 \end{center} \vspace{.4in}}
+\newcommand{\paperinfo}[1]{\vspace{-.4 in} \begin{center} #1 \end{center} \vspace{.4in}}
+\newcommand{\paperauthor}[1]{\vspace{-.5 in} \begin{center} #1 \end{center} \vspace{.25in}}
+% Easy unmarked footnote.
+% http://tex.stackexchange.com/questions/30720/footnote-without-a-marker
+\newcommand{\papernote}[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{\textit{#1}}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
 
 % Don't include chapter number in section numbering
-\renewcommand\thesection{\arabic{section}}
+% \renewcommand\thesection{\arabic{section}}
 
 \endinput
