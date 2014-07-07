@@ -22,6 +22,19 @@
 	\@isu@printtrue%
 }
 
+% option tocnumbersections: Number sections in the ToC.
+\newif\if@isu@tocnumbersections@	\@isu@tocnumbersections@false
+\DeclareOption{tocnumbersections}{%
+	\@isu@tocnumbersections@true%
+}
+
+% option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
+\newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
+\DeclareOption{tocnumbersubsections}{%
+	\@isu@tocnumbersections@true%
+	\@isu@tocnumbersubsections@true%
+}
+
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newcommand{\isu@draftfooter}{}
 \DeclareOption{draftcls}{%
@@ -178,10 +191,15 @@
 
 % - Remove section/subsection numbers from ToC by capturing
 %   see idea at  http://tex.stackexchange.com/questions/71123/remove-section-number-toc-entries-with-tocloft
+\if@isu@tocnumbersections@\else
 \renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
 \renewcommand{\cftsecaftersnum}{\end{lrbox}}
+\fi
+
+\if@isu@tocnumbersubsections@\else
 \renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
 \renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
+\fi
 
 %%%
 % List of Figures:
@@ -269,7 +287,7 @@ Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
 		Iowa State University\\
 		Ames, Iowa\\
 		\isu@gradyear\\
-		Copyright \copyright\/ \@author,\ \isu@gradyear. All rights reserved.
+		Copyright $\copyright$\ \@author,\ \isu@gradyear. All rights reserved.
 		\end{center}
 	}
 	\end{titlepage}
