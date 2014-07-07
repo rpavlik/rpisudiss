@@ -140,6 +140,7 @@
 	\begin{singlespace}}{}{}
 \xapptocmd{\tableofcontents}{%
 	\end{singlespace}%
+	\pagestyle{plain}%
 	% \pdfbookmark[0]{\contentsname}{toc}%
 	\clearpage}{}{}
 
