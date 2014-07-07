@@ -32,7 +32,7 @@
 \LoadClass[12pt]{report}
 
 % had to choose to put this here for tocloft
-\RequirePackage{subfigure}
+\RequirePackage{subfig}
 
 % Put lot, lof, and bibliography in the ToC
 \RequirePackage[nottoc]{tocbibind}
