@@ -15,6 +15,12 @@
 	\@isu@capschaptrue%
 }
 
+% option print: Optimize for print rather than on-screen (hide links, etc.)
+\newif\if@isu@print	\@isu@printfalse
+\DeclareOption{print}{%
+	\@isu@printtrue%
+}
+
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newcommand{\isu@draftfooter}{}
 \DeclareOption{draftcls}{%
@@ -40,6 +46,10 @@
 % Basic hyperref
 \RequirePackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue,bookmarksnumbered=true,pdfview=FitB}
+
+\if@isu@print
+	\hypersetup{hidelinks}
+\fi
 
 % Choose font encoding
 \usepackage[T1]{fontenc}
