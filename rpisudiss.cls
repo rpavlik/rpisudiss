@@ -1,12 +1,20 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
-% option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \RequirePackage{datetime}
+
+% option capstoc: Capitalize chapters in the table of contents
+\newif\if@isu@capstoc	\@isu@capstocfalse
+\DeclareOption{capstoc}{%
+	\@isu@capstoctrue%
+}
+
+% option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newcommand{\isu@draftfooter}{}
 \DeclareOption{draftcls}{%
 	\renewcommand{\isu@draftfooter}{DRAFT - rendered \today\ at \currenttime}%
 }
+
 
 % Forward everything not recognized
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
@@ -85,9 +93,9 @@
 % Remove parskips from toc/lof/lot
 \setlength{\cftparskip}{0pt}
 
-
 \RequirePackage{xpatch}
 
+%%%
 % ToC:
 % - Single space
 % - Added to PDF ToC - not presently working
@@ -99,6 +107,31 @@
 	% \pdfbookmark[0]{\contentsname}{toc}%
 	\clearpage}{}{}
 
+% - Add dot leader for chapter levels
+\renewcommand\cftchapdotsep{\cftdotsep}
+
+% - Prefix "Chapter " to chapter number
+% - Adjust indentation of levels
+\if@isu@capstoc
+	\renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
+	\cftsetindents{chapter}{0em}{8em}
+	\cftsetindents{section}{2em}{0em}
+	\cftsetindents{subsection}{3em}{0em}
+\else
+	\renewcommand\cftchappresnum{\chaptertitlename\ }
+	\cftsetindents{chapter}{0em}{6em}
+	\cftsetindents{section}{1em}{0em}
+	\cftsetindents{subsection}{2em}{0em}
+\fi
+
+% - Remove section/subsection numbers from ToC by capturing
+%   see idea at  http://tex.stackexchange.com/questions/71123/remove-section-number-toc-entries-with-tocloft
+\renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
+\renewcommand{\cftsecaftersnum}{\end{lrbox}}
+\renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
+\renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
+
+%%%
 % List of Figures:
 % - Single space
 % - Page break after
@@ -107,6 +140,11 @@
 \xapptocmd{\listoffigures}{%
 	\end{singlespace}\clearpage}{}{}
 
+% - Prepend the word "Figure" to the number
+\renewcommand\cftfigpresnum{Figure }
+\cftsetindents{figure}{0em}{6em}
+
+%%%
 % List of Tables:
 % - Single space
 % - Page break after
@@ -114,6 +152,10 @@
 	\begin{singlespace}}{}{}
 \xapptocmd{\listoftables}{%
 	\end{singlespace}\clearpage}{}{}
+
+% - Prepend the word "Table" to the number
+\renewcommand\cfttabpresnum{Table }
+\cftsetindents{table}{0em}{6em}
 
 % Command to indicate when we're done
 % with preface content
