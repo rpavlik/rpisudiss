@@ -79,10 +79,16 @@
 \renewcommand{\endtitlepage}
 	{\newpage}
 
+%%%
 % Set up sectioning
 \RequirePackage{titlesec}
+% \titleformat{hcommandi}[hshapei]{hformati}{hlabeli}{hsepi}{hbeforei}[hafteri]
 
-% Caps (optional), bold, large, and center for chapter titles.
+% Chapter titles:
+% - Caps (optional)
+% - large
+% - bold
+% - center
 \titleformat{\chapter}[block]
 	{\normalfont\large\bfseries\centering}
 	{\if@mainmatter%
@@ -92,7 +98,28 @@
 	{0pt}
 	{\if@isu@capschap\MakeUppercase\fi}{}
 
-% Double-space overall
+% Section:
+% - bold
+% - center
+\titleformat{\section}[block]
+	{\normalfont\normalsize\bfseries\centering}
+	{\thesection.}{1em}{}{}
+
+% Subsection:
+% - bold
+% - left-justified
+\titleformat{\subsection}[block]
+	{\normalfont\normalsize\bfseries}
+	{\thesubsection.}{1em}{}{}
+
+% Subsubsection:
+% - bold
+% - left-justified with indent
+\titleformat{\subsubsection}[block]
+	{\normalfont\normalsize\bfseries}
+	{\quad\thesubsubsection.}{1em}{}{}
+
+% Doublespace by default
 \RequirePackage[doublespacing]{setspace}
 
 % Rename the ToC
