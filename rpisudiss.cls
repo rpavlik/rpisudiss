@@ -53,6 +53,10 @@
 	{\thispagestyle{empty}
 	\pagenumbering{roman}
 	\pdfbookmark[0]{\@title}{toc}
+	% backup and set secnumdepth
+	\newcounter{isu@secnumdepth}
+	\setcounter{isu@secnumdepth}{\value{secnumdepth}}
+	\setcounter{secnumdepth}{-1}
 	\@mainmatterfalse}
 \renewcommand{\endtitlepage}
 	{\newpage}
@@ -121,6 +125,8 @@
 	\pagestyle{plain}
 	\@mainmattertrue
 	\setcounter{chapter}{0}
+	% restore secnumdepth
+	\setcounter{secnumdepth}{\value{isu@secnumdepth}}
 }
 
 \endinput
