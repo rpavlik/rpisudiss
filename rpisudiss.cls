@@ -175,5 +175,53 @@
 	\setcounter{secnumdepth}{-1}
 	\@mainmatterfalse
 }
+
+%%%
+% Title Page
+
+% Temporary: hardcode these values in.
+\newcommand\isu@degree{Doctor of Philosophy}
+\newcommand\isu@gradyear{2014}
+\newcommand\isu@submissiontype{dissertation}
+\newcommand\isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
+\newcommand\isu@committee{%
+Judy M. Vance, Co-major Professor\\%
+Leslie Miller, Co-major Professor\\%
+Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
+
+\renewcommand{\maketitle}{
+	\begin{titlepage}
+	\vbox to \textheight{
+		\begin{center}
+		\begin{singlespace}
+		\textbf{\@title}\\
+		\vspace{26pt}
+		by\\
+		\vspace{26pt}
+		\textbf{\@author}
+		\end{singlespace}
+		\vfill{}
+		\begin{doublespace}
+			A \isu@submissiontype\ submitted to the graduate faculty\\
+			in partial fulfillment of the requirements of the degree of\\
+			\MakeUppercase{\isu@degree}
+		\end{doublespace}
+		\vspace{26pt}
+		\isu@majorline\\
+		\medskip
+		\begin{singlespace}
+		Program of Study Committee:\\
+		\isu@committee
+		\end{singlespace}
+		\vfill{}
+		Iowa State University\\
+		Ames, Iowa\\
+		\isu@gradyear\\
+		Copyright \copyright\/ \@author,\ \isu@gradyear. All rights reserved.
+		\end{center}
+	}
+	\end{titlepage}
+}
+
 \endinput
 
