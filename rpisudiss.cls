@@ -46,6 +46,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 
+% Set up a bool for mainmatter or not.
 \newif\if@mainmatter \@mainmatterfalse
 
 % Title page:
@@ -126,5 +127,11 @@
 	\setcounter{secnumdepth}{\value{isu@secnumdepth}}
 }
 
+% Command to indicate we're done with main content
+\newcommand{\backmatter}{
+	\setcounter{isu@secnumdepth}{\value{secnumdepth}}
+	\setcounter{secnumdepth}{-1}
+	\@mainmatterfalse
+}
 \endinput
 
