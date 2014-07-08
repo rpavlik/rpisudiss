@@ -13,34 +13,34 @@
 
 % option capstoc: Capitalize chapters in the table of contents
 \newif\if@isu@capstoc	\@isu@capstocfalse
-\DeclareOption{capstoc}{%
-	\@isu@capstoctrue%
+\DeclareOption{capstoc}{
+	\@isu@capstoctrue
 }
 
 % option capschap: Capitalize chapters everywhere else
 \newif\if@isu@capschap	\@isu@capschapfalse
-\DeclareOption{capschap}{%
-	\@isu@capschaptrue%
+\DeclareOption{capschap}{
+	\@isu@capschaptrue
 }
 
 % option print: Optimize for print rather than on-screen (hide links, etc.)
 % Apparently doesn't work right now. Sad.
 \newif\if@isu@print	\@isu@printfalse
-\DeclareOption{print}{%
-	\@isu@printtrue%
+\DeclareOption{print}{
+	\@isu@printtrue
 }
 
 % option tocnumbersections: Number sections in the ToC.
 \newif\if@isu@tocnumbersections@	\@isu@tocnumbersections@false
-\DeclareOption{tocnumbersections}{%
-	\@isu@tocnumbersections@true%
+\DeclareOption{tocnumbersections}{
+	\@isu@tocnumbersections@true
 }
 
 % option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
 \newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
-\DeclareOption{tocnumbersubsections}{%
-	\@isu@tocnumbersections@true%
-	\@isu@tocnumbersubsections@true%
+\DeclareOption{tocnumbersubsections}{
+	\@isu@tocnumbersections@true
+	\@isu@tocnumbersubsections@true
 }
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
