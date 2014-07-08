@@ -1,6 +1,15 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
+\RequirePackage{setspace}
+
+% option doublespacing: Double-space where we would have 1.5 spaced.
+\newcommand\isu@spacing{\onehalfspacing}
+\newcommand\isu@space{onehalfspace}
+\DeclareOption{doublespacing}{%
+	\renewcommand\isu@spacing{\doublespacing}
+	\renewcommand\isu@space{doublespace}
+}
 \RequirePackage{datetime}
 
 % option capstoc: Capitalize chapters in the table of contents
@@ -145,8 +154,8 @@
 	{\normalfont\normalsize\bfseries}
 	{\quad\thesubsubsection.}{1em}{}{}
 
-% Doublespace by default
-\RequirePackage[doublespacing]{setspace}
+% Apply default spacing
+\isu@spacing
 
 % Rename the ToC
 \RequirePackage[subfigure,titles]{tocloft}
