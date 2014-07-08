@@ -1,16 +1,41 @@
-% !TEX TS-program = pdflatex
-% !TEX encoding = UTF-8 Unicode
+\RequirePackage[l2tabu, orthodox]{nag}
 
 \documentclass[capstoc,capschap,draftcls]{rpisudiss}
 %\documentclass[draftcls]{rpisudiss}
 \usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
 
+% Latin Modern fonts - improved substitute for computer modern
+\usepackage{lmodern}
 
-\usepackage{graphicx} % support the \includegraphics command and options
+% Improves type appearance through subtle changes.
+\usepackage{microtype}
 
+% Promises non-lousy copyright symbol.
+\usepackage{textcomp}
+
+% Super-common: support the \includegraphics command and options
+\usepackage{graphicx}
 
 \usepackage{url}
+
+% Supports cross-references to labels of form format:name (like fig:mypicture) and formats them nicer
+% (Figure X) when you use \prettyref{fig:mypicture} instead of \ref{fig:mypicture}
 \usepackage{prettyref}
+
+% Font mappings for math stuff - makes better copy and paste.
+\RequirePackage{cmap} % Works with multiple fonts, apparently.
+%\RequirePackage{mmap} % Only compatible with computer modern math fonts.
+
+% Make copy-pasteable PDF files.  Yes, it needs to be "input", not "usepackage"
+\input{glyphtounicode}
+\pdfgentounicode=1
+
+%\usepackage[a-1b]{pdfx}
+
+
+
+\widowpenalty=450                         % three times normal widow penalty
+\clubpenalty=450                          % three times normal orphan penalty
 
 
 %%% END Article customizations
@@ -26,7 +51,6 @@
          % otherwise the current date is printed 
 
 \begin{document}
-\thispagestyle{empty}
 \maketitle
 
 \tableofcontents{}
@@ -59,6 +83,8 @@ frameworks. It has evolved into a commercial solution integrating
 clustering support and focusing on multi-screen application development.
 VR~Juggler introduced a highly modular architecture for VR applications
 
+\[e=m\mathrm{c}^2\]
+
 \section{Bla bla}
 Later development
 extended its use from high-end graphics systems to commodity computer
@@ -85,10 +111,8 @@ and the VR~Juggler bindings included in the VR~JuggLua framework
 to access a complete set of virtual reality functionality from Lua
 (Figure \ref{fig:System-diagram}). 
 \begin{figure}
-\begin{centering}
+\centering
 \includegraphics[width=1\columnwidth]{accessdiagram}
-\par\end{centering}
-
 \caption{\label{fig:System-diagram}System diagram}
 \end{figure}
 
