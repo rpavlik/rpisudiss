@@ -267,36 +267,60 @@
 Judy M. Vance, Co-major Professor\\%
 Leslie Miller, Co-major Professor\\%
 Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
+\newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
+Copyright \copyright\ \@author, \isu@gradyear.
+All rights reserved.}
 
+% Spacing tools
+% - used for what the thesis office calls "two blank lines"
+\newcommand{\@isu@twoblanklines}{20pt}
+\newcommand{\@isu@maketwoblanklines}{\vspace{\@isu@twoblanklines}}
+
+% The actual title page layout.
+% Note that portions that appear double-spaced in the sample/annotated PDF
+% are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{
 	\begin{titlepage}
-	\vbox to \textheight{
-		\begin{center}
-		\begin{singlespace}
-		\textbf{\@title}\\
-		\vspace{26pt}
-		by\\
-		\vspace{26pt}
-		\textbf{\@author}
+	\setlength{\parindent}{0pt} % Don't you dare try to indent!
+	\vbox to \textheight{ % Full-page box to contain everything and stretch everything.
+		\begin{center}                      % Center this whole page
+		\vspace*{12pt}                      % Designated blank line at the top of the page.
+
+		\begin{singlespace}                 % Single-space this section, we manually add spacing.
+		\textbf{\@title}\\                  % Title in bold
+		\@isu@maketwoblanklines             % "two blank lines"
+		by\\                                % the word 'by', not in bold
+		\@isu@maketwoblanklines             % "two blank lines"
+		\textbf{\@author}                   % Author in bold
 		\end{singlespace}
-		\vfill{}
-		\begin{doublespace}
-			A \isu@submissiontype\ submitted to the graduate faculty\\
-			in partial fulfillment of the requirements of the degree of\\
-			\MakeUppercase{\isu@degree}
-		\end{doublespace}
-		\vspace{26pt}
-		\isu@majorline\\
-		\medskip
-		\begin{singlespace}
+
+		\vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
+
+		\begin{\isu@space}                  % Normal document spacing here.
+		A \isu@submissiontype\ submitted to the graduate faculty\\
+		in partial fulfillment of the requirements of the degree of\\
+		\MakeUppercase{\isu@degree}         % Doctor of Philosophy, etc. We enforce caps so they don't have to.
+		\end{\isu@space}
+
+		\@isu@maketwoblanklines             % "two blank lines"
+
+		\begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
+		\isu@majorline\\                    % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
+		\medskip                            % Unspecified space here, looks like just "one blank line" on sample
 		Program of Study Committee:\\
-		\isu@committee
+		\isu@committee                      % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
 		\end{singlespace}
-		\vfill{}
+
+		\vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
+		\@isu@maketwoblanklines             % Suggest it's a little longer than the other vfill.
+
+		\begin{\isu@space}                  % Normal document spacing here
 		Iowa State University\\
 		Ames, Iowa\\
-		\isu@gradyear\\
-		Copyright $\copyright$\ \@author,\ \isu@gradyear. All rights reserved.
+		\isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
+		\isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
+		\end{\isu@space}
+
 		\end{center}
 	}
 	\end{titlepage}
