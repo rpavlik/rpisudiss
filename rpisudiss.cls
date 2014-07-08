@@ -10,7 +10,6 @@
 	\renewcommand\isu@spacing{\doublespacing}
 	\renewcommand\isu@space{doublespace}
 }
-\RequirePackage{datetime}
 
 % option capstoc: Capitalize chapters in the table of contents
 \newif\if@isu@capstoc	\@isu@capstocfalse
@@ -45,11 +44,16 @@
 }
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
-\newcommand{\isu@draftfooter}{}
-\DeclareOption{draftcls}{%
-	\renewcommand{\isu@draftfooter}{DRAFT - rendered \today\ at \currenttime}%
+\newif\if@isu@draftcls@	\@isu@draftcls@false
+\DeclareOption{draftcls}{
+	\@isu@draftcls@true
 }
 
+% option draft: draftcls plus whatever anyone else thinks about draft.
+\DeclareOption{draft}{
+	\@isu@draftcls@true
+	\PassOptionsToClass{draft}{report}
+}
 
 % Forward everything not recognized
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
@@ -86,7 +90,14 @@
 \RequirePackage{geometry}
 \geometry{left=1in, top=1in, headheight=0.25in, headsep=0.5in, right=1in, bottom=1in, includehead=false}
 
-% Setup headers
+% Setup headers/footers
+\if@isu@draftcls@
+	\RequirePackage{datetime}
+	\newcommand{\isu@draftfooter}{DRAFT - rendered \today\ at \currenttime}
+\else
+	\newcommand{\isu@draftfooter}{}
+\fi
+
 \RequirePackage{fancyhdr}
 \fancypagestyle{plain}{%
 \fancyhf{} % clear all header and footer fields
