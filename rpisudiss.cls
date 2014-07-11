@@ -159,14 +159,17 @@
 % - large
 % - bold
 % - center
+\if@isu@capschap
+    \newcommand{\@isu@chapformat}{\MakeUppercase}
+\else
+    \newcommand{\@isu@chapformat}{}
+\fi
+
 \titleformat{\chapter}[block]
     {\normalfont\large\bfseries\centering}
-    {\if@mainmatter%
-        \if@isu@capschap\MakeUppercase{\chaptertitlename}%
-        \else\chaptertitlename\fi
-        \thechapter.\quad\fi}
+    {\if@mainmatter \@isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
     {0pt}
-    {\if@isu@capschap\MakeUppercase\fi}{}
+    {\@isu@chapformat}{}
 
 % Section:
 % - bold
