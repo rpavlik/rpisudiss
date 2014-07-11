@@ -200,13 +200,12 @@
 
 % - Remove parskips from toc (and lof/lot)
 \setlength{\cftparskip}{0pt}
-
 % - Single space
+% - Add PDF bookmark
 % - Page break after
-% - TODO: couldn't get pdfbookmark to point to this page instead of the
-%   first page so it was removed.
 \xpretocmd{\tableofcontents}{%
-    \begin{singlespace}}{}{}
+    \begin{singlespace}%
+    \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}}{}{}
 \xapptocmd{\tableofcontents}{%
     \end{singlespace}%
     \pagestyle{plain}%
