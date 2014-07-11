@@ -29,11 +29,11 @@
 \RequirePackage{setspace}
 
 % option doublespacing: Double-space where we would have 1.5 spaced.
-\newcommand\isu@spacing{\onehalfspacing}
-\newcommand\isu@space{onehalfspace}
+\newcommand\@isu@spacing{\onehalfspacing}
+\newcommand\@isu@space{onehalfspace}
 \DeclareOption{doublespacing}{%
-    \renewcommand\isu@spacing{\doublespacing}
-    \renewcommand\isu@space{doublespace}
+    \renewcommand\@isu@spacing{\doublespacing}
+    \renewcommand\@isu@space{doublespace}
 }
 
 % option capstoc: Capitalize chapters in the table of contents
@@ -114,9 +114,9 @@
 \if@isu@draftcls@
     \RequirePackage[firstpage]{draftwatermark}
     \RequirePackage{datetime}
-    \newcommand{\isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime}
+    \newcommand{\@isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime}
 \else
-    \newcommand{\isu@draftfooter}{}
+    \newcommand{\@isu@draftfooter}{}
 \fi
 
 % Setup headers/footers - override the plain page style.
@@ -124,7 +124,7 @@
 \fancypagestyle{plain}{%
     \fancyhf{} % clear all header and footer fields
     \fancyhead[C]{\thepage} % Always put the page in the center header
-    \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
+    \fancyfoot[C]{\@isu@draftfooter} % In draft mode, put stuff in the center footer.
     \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}}
 
@@ -190,7 +190,7 @@
     {\quad\thesubsubsection.}{1em}{}{}
 
 % Apply default spacing
-\isu@spacing
+\@isu@spacing
 
 
 % Needed for toc/lof/lot spacing and headfoot tweaking
@@ -317,16 +317,16 @@
 % Title Page
 
 % Temporary: hardcode these values in.
-\newcommand\isu@degree{Doctor of Philosophy}
-\newcommand\isu@gradyear{2014}
-\newcommand\isu@submissiontype{dissertation}
-\newcommand\isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
-\newcommand\isu@committee{%
+\newcommand\@isu@degree{Doctor of Philosophy}
+\newcommand\@isu@gradyear{2014}
+\newcommand\@isu@submissiontype{dissertation}
+\newcommand\@isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
+\newcommand\@isu@committee{%
     Judy M. Vance, Co-major Professor\\%
     Leslie Miller, Co-major Professor\\%
     Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
-\newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
-    Copyright \copyright\ \@author, \isu@gradyear.
+\newcommand\@isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
+    Copyright \copyright\ \@author, \@isu@gradyear.
 All rights reserved.}
 
 % Spacing tools
@@ -357,30 +357,30 @@ All rights reserved.}
 
                 \vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
 
-                \begin{\isu@space}                  % Normal document spacing here.
-                    A \isu@submissiontype\ submitted to the graduate faculty\\
+                \begin{\@isu@space}                 % Normal document spacing here.
+                    A \@isu@submissiontype\ submitted to the graduate faculty\\
                     in partial fulfillment of the requirements of the degree of\\
-                    \MakeUppercase{\isu@degree}         % Doctor of Philosophy, etc. We enforce caps so they don't have to.
-                \end{\isu@space}
+                    \MakeUppercase{\@isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
+                \end{\@isu@space}
 
                 \@isu@maketwoblanklines             % "two blank lines"
 
                 \begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
-                    \isu@majorline\\                    % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
+                    \@isu@majorline\\                   % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
                     \medskip                            % Unspecified space here, looks like just "one blank line" on sample
                     Program of Study Committee:\\
-                    \isu@committee                      % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
+                    \@isu@committee                     % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
                 \end{singlespace}
 
                 \vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
                 \@isu@maketwoblanklines             % Suggest it's a little longer than the other vfill.
 
-                \begin{\isu@space}                  % Normal document spacing here
+                \begin{\@isu@space}                 % Normal document spacing here
                     Iowa State University\\
                     Ames, Iowa\\
-                    \isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
-                    \isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
-                \end{\isu@space}
+                    \@isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
+                    \@isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
+                \end{\@isu@space}
 
             \end{center}
         }
