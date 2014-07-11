@@ -328,6 +328,13 @@
     Copyright \copyright\ \@author, \@isu@gradyear.
 All rights reserved.}
 
+% Fix abstract.
+% In front matter, chapters are a fine substitute for this sort of thing:
+% right formatting, included in ToC, etc.
+% Much better than the stock abstract environment in report.cls, which
+% uses the titlepage environment totally messing up everything.
+\renewenvironment{abstract}{\chapter{Abstract}\begin{\@isu@space}}{\end{\@isu@space}}
+
 % Spacing tools
 % - used for what the thesis office calls "two blank lines"
 \newcommand{\@isu@twoblanklines}{20pt}
