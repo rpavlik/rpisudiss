@@ -70,6 +70,11 @@
 % Put lot, lof, and bibliography in the ToC
 \RequirePackage[nottoc]{tocbibind}
 
+% Watermark drafts
+\if@isu@draftcls@
+	\RequirePackage[firstpage]{draftwatermark}
+\fi
+
 % Basic hyperref - note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
 \RequirePackage[pdftex,pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
