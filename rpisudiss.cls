@@ -106,6 +106,8 @@
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}}
 
+\AtBeginDocument{\pagestyle{plain}}
+
 % Set up a bool for mainmatter or not.
 \newif\if@mainmatter \@mainmatterfalse
 
@@ -123,7 +125,7 @@
 	\setcounter{secnumdepth}{-1}
 	\@mainmatterfalse}
 \renewcommand{\endtitlepage}
-	{\newpage}
+	{\newpage\pagestyle{plain}}
 
 %%%
 % Set up sectioning
