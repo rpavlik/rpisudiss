@@ -25,17 +25,33 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{rpisujp}[2014/07/06 Ryan Pavlik's ISU Thesis - Journal Paper Format]
 
-% For journal paper format: \paperinfo
+% Use of \usepackage[hang]{footmisc} in your preamble is recommended so
+% that \papernote looks good.
+
+% You should also add hyperfootnotes=false to the document class options
+% since \papernote breaks hyperlinks to footnotes.
+
+% Each chapter should start with these commands in order:
+
+% \paperinfo - "A paper to be submitted to ..."
 \newcommand{\paperinfo}[1]{\vspace{-.4 in} \begin{center} #1 \end{center} \vspace{.4in}}
+% \paperauthor - exactly what it sounds like
 \newcommand{\paperauthor}[1]{\vspace{-.5 in} \begin{center} #1 \end{center} \vspace{.25in}}
-% Easy unmarked footnote.
+
+% \papernote - may be repeated. This would be role of authors (if multiple),
+%              a citation, copyright info, etc. Looks like an unnumbered footnote.
 % http://tex.stackexchange.com/questions/30720/footnote-without-a-marker
-\newcommand{\papernote}[1]{%
-  \begingroup
-  \renewcommand\thefootnote{}\footnote{\textit{#1}}%
-  \addtocounter{footnote}{-1}%
-  \endgroup
-}
+
+% The following two approaches both more or less work and both break hyperfootnote.
+%\newcommand{\papernote}[1]{%
+%  \begingroup
+%  \renewcommand\thefootnote{}\footnote{#1}%
+%  \addtocounter{footnote}{-1}%
+%  \addtocounter{Hfootnote}{-1}%
+%  \endgroup
+%}
+\def\papernote{\gdef\@thefnmark{}\@footnotetext}
+
 
 % TODO make this an option
 % Don't include chapter number in section numbering
