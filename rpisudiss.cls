@@ -120,23 +120,6 @@
 % Set up a bool for mainmatter or not.
 \newif\if@mainmatter \@mainmatterfalse
 
-% Title page:
-% - empty style (no numbering shown)
-% - starts the preface/roman numerals
-% - gets a PDF bookmark, just because we can.
-% - Temporarily set secnumdepth such that no numbering is shown in front matter.
-\renewcommand{\titlepage}{
-    \thispagestyle{empty}
-    \pagenumbering{roman}
-    \pdfbookmark[0]{\@title}{toc}
-    % backup and set secnumdepth
-    \newcounter{isu@secnumdepth}
-    \setcounter{isu@secnumdepth}{\value{secnumdepth}}
-    \setcounter{secnumdepth}{-1}
-    \@mainmatterfalse
-}
-\renewcommand{\endtitlepage}{\newpage\pagestyle{plain}}
-
 %%%
 % Set up sectioning
 \RequirePackage{titlesec}
@@ -358,6 +341,19 @@ All rights reserved.}
     \ClassInfo{\@isu@classname}{Generating title page -- assuming we are typesetting a full dissertation.}
 
     \begin{titlepage}
+        % - empty style (no numbering shown)
+        % - starts the preface/roman numerals
+        % - gets a PDF bookmark, just because we can.
+        % - Temporarily set secnumdepth such that no numbering is shown in front matter.
+        \thispagestyle{empty}
+        \pagenumbering{roman}
+        \pdfbookmark[0]{\@title}{toc}
+        % backup and set secnumdepth
+        \newcounter{isu@secnumdepth}
+        \setcounter{isu@secnumdepth}{\value{secnumdepth}}
+        \setcounter{secnumdepth}{-1}
+        \@mainmatterfalse
+
         \setlength{\parindent}{0pt} % Don't you dare try to indent!
         \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
             \begin{center}                      % Center this whole page
@@ -400,6 +396,8 @@ All rights reserved.}
 
             \end{center}
         \end{minipage}
+        \newpage
+        \pagestyle{plain}
     \end{titlepage}
 }
 
