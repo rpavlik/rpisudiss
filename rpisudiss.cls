@@ -98,7 +98,7 @@
 % Setup headers/footers
 \if@isu@draftcls@
 	\RequirePackage{datetime}
-	\newcommand{\isu@draftfooter}{DRAFT - rendered \today\ at \currenttime}
+	\newcommand{\isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime}
 \else
 	\newcommand{\isu@draftfooter}{}
 \fi
