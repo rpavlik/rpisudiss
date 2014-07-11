@@ -1,6 +1,7 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
+\newcommand{\@isu@classname}{rpisudiss}
 \RequirePackage{setspace}
 
 % option doublespacing: Double-space where we would have 1.5 spaced.
@@ -35,6 +36,10 @@
 % option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
 \newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
 \DeclareOption{tocnumbersubsections}{	\@isu@tocnumbersubsections@true\@isu@tocnumbersections@true}
+
+% option ignoremissingmainmatter: Don't error if we've seen a titlepage but no \mainmatter by the end of the document.
+\newif\if@isu@errormissingmainmatter@ \@isu@errormissingmainmatter@true
+\DeclareOption{ignoremissingmainmatter}{\@isu@errormissingmainmatter@false}
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newif\if@isu@draftcls@	\@isu@draftcls@false
@@ -268,6 +273,20 @@
     \setcounter{secnumdepth}{-1}
     \@mainmatterfalse
 }
+
+% Verify that we actually got some main matter
+\AtEndDocument{
+    \if@isu@errormissingmainmatter@
+        \ifdefined\@isu@gottitle
+            \ClassInfo{\@isu@classname}{Full dissertation mode}
+            \unless\ifdefined\@isu@gotmainmatter@
+                \ClassError{\@isu@classname}{Missing \protect\mainmatter\space before your first real chapter!}{Missing mainmatter}
+%                 \ClassError{\@isu@classname}{%
+%                     \protect\mainmatter\space not called in your document expected before your first real chapter}{%
+%                     You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
+            \fi
+        \fi
+    \fi
 }
 
 %%%
@@ -295,6 +314,8 @@ All rights reserved.}
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{
+    \newcommand{\@isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
+    \ClassInfo{\@isu@classname}{Generating title page -- assuming we are typesetting a full dissertation.}
 
     \begin{titlepage}
         \setlength{\parindent}{0pt} % Don't you dare try to indent!
