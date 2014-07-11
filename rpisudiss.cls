@@ -96,7 +96,7 @@
 
 \if@isu@print
     % Hide links for print
-    % Apparently doesn't work right now. Sad.
+    % Apparently doesn't work right now. Sad. TODO
     \hypersetup{hidelinks}
 \else
     % Nice blue links.
