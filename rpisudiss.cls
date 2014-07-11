@@ -30,6 +30,8 @@
 % Additional options of included packages, and why you'd want to pass them:
 %
 % - hyperfootnotes=false - if you're using the journal paper style which abuses footnotes.
+% - subfigure - if you will use the subfigure package. The 'subfig' package requires no such option.
+
 % option doublespacing: Double-space where we would have 1.5 spaced.
 \newcommand\@isu@spacing{\onehalfspacing}
 \newcommand\@isu@space{onehalfspace}
@@ -85,9 +87,6 @@
 
 % Based on report
 \LoadClass[12pt]{report}
-
-% had to choose to put this here for tocloft
-\RequirePackage{subfig}
 
 % Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
@@ -192,7 +191,7 @@
 
 % Needed for ToC renaming, enforcing lot/lof titles as chapter title type,
 % and formatting
-\RequirePackage[subfigure,titles]{tocloft}
+\RequirePackage[titles]{tocloft}
 
 % - Remove parskips from toc (and lof/lot)
 \setlength{\cftparskip}{0pt}
