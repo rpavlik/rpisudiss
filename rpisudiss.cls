@@ -93,9 +93,8 @@
 \hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
 
 \if@isu@print
-    % Hide links for print
-    % Apparently doesn't work right now. Sad. TODO
-    \hypersetup{hidelinks}
+    % Hide (don't color) links for print
+    \hypersetup{hidelinks, colorlinks=false}
 \else
     % Nice blue links.
     \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
