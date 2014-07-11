@@ -6,6 +6,13 @@ scratch.
 
 This is a stub of a readme file.
 
+For reference, these are the guidelines we are trying to comply with:
+[Iowa State University - Organizing Your Thesis/Dissertation][organizing]
+and [Iowa State University - Thesis Checklist][checklist]
+
+[organizing]:http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/
+[checklist]:http://www.grad-college.iastate.edu/current/thesis/checklist/
+
 License
 -------
 
