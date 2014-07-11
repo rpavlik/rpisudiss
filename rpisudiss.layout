@@ -5,7 +5,6 @@
 Input stdclass.inc
 
 Provides hyperref 1
-Provides subfig 1
 
 ClassOptions
 	FontSize "12"
