@@ -124,6 +124,7 @@
 % - empty style (no numbering shown)
 % - starts the preface/roman numerals
 % - gets a PDF bookmark, just because we can.
+% - Temporarily set secnumdepth such that no numbering is shown in front matter.
 \renewcommand{\titlepage}{
     \thispagestyle{empty}
     \pagenumbering{roman}
@@ -286,7 +287,7 @@
     \@mainmattertrue
     \newcommand{\@isu@gotmainmatter@}{}
     \setcounter{chapter}{0}
-    % restore secnumdepth
+    % restore secnumdepth: OK to number chapters from here on out.
     \setcounter{secnumdepth}{\value{isu@secnumdepth}}
 }
 
