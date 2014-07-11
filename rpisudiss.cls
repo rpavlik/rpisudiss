@@ -86,19 +86,6 @@
 % had to choose to put this here for tocloft
 \RequirePackage{subfig}
 
-
-% Basic hyperref - note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
-\RequirePackage[pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
-\hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
-
-\if@isu@print
-    % Hide (don't color) links for print
-    \hypersetup{hidelinks, colorlinks=false}
-\else
-    % Nice blue links.
-    \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
-\fi
-
 % Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
 
@@ -320,6 +307,21 @@
         \fi
     \fi
 }
+
+%%%
+% Basic PDF hyperref
+
+% note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
+\RequirePackage[pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
+\hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
+
+\if@isu@print
+    % Hide (don't color) links for print
+    \hypersetup{hidelinks, colorlinks=false}
+\else
+    % Nice blue links.
+    \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
+\fi
 
 %%%
 % Title Page
