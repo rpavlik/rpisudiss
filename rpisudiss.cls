@@ -26,7 +26,6 @@
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
 \newcommand{\@isu@classname}{rpisudiss}
-\RequirePackage{setspace}
 
 % option doublespacing: Double-space where we would have 1.5 spaced.
 \newcommand\@isu@spacing{\onehalfspacing}
@@ -192,6 +191,7 @@
     {\quad\thesubsubsection.}{1em}{}{}
 
 % Apply default spacing
+\RequirePackage{setspace}
 \@isu@spacing
 
 %%%
