@@ -27,16 +27,19 @@
 
 \newcommand{\@isu@classname}{rpisudiss}
 
-% Additional options of included packages, and why you'd want to pass them:
+%%%
+% Additional options not listed below, and why you'd want to pass them:
 %
 % - hyperfootnotes=false - if you're using the journal paper style which abuses footnotes.
 % - subfigure - if you will use the subfigure package. The 'subfig' package requires no such option.
 
+%%%
+% Major formatting options - along with what the rules say.
 
-% option doublespacing: Double-space where we would have 1.5 spaced.
+% option doublespacing: Double-space where we would have preferred the look of 1.5 spaced.
 %
 % Technically required: `Text should be double-spaced and, consistent throughout thesis'
-% 2014-07-11
+% 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/checklist/ under Line Spacing
 \newcommand\@isu@spacing{\onehalfspacing}
 \newcommand\@isu@space{onehalfspace}
 \DeclareOption{doublespacing}{%
@@ -67,10 +70,6 @@
 \newif\if@isu@capschap	\@isu@capschapfalse
 \DeclareOption{capschap}{\@isu@capschaptrue}
 
-% option print: Optimize for print rather than on-screen (turns links black instead of blue)
-\newif\if@isu@print	\@isu@printfalse
-\DeclareOption{print}{\@isu@printtrue}
-
 % option tocnumbersections: Number sections in the ToC.
 %
 % Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
@@ -85,9 +84,8 @@
 \newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
 \DeclareOption{tocnumbersubsections}{	\@isu@tocnumbersubsections@true\@isu@tocnumbersections@true}
 
-% option ignoremissingmainmatter: Don't error if we've seen a titlepage but no \mainmatter by the end of the document.
-\newif\if@isu@errormissingmainmatter@ \@isu@errormissingmainmatter@true
-\DeclareOption{ignoremissingmainmatter}{\@isu@errormissingmainmatter@false}
+%%%
+% Minor formatting options, composition aids, etc.
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newif\if@isu@draftcls@	\@isu@draftcls@false
@@ -98,6 +96,17 @@
     \@isu@draftcls@true
     \PassOptionsToClass{draft}{report}
 }
+
+% option print: Optimize for print rather than on-screen (turns links black instead of blue)
+\newif\if@isu@print     \@isu@printfalse
+\DeclareOption{print}{\@isu@printtrue}
+
+% option ignoremissingmainmatter: Don't error if we've seen a titlepage but no \mainmatter by the end of the document.
+\newif\if@isu@errormissingmainmatter@ \@isu@errormissingmainmatter@true
+\DeclareOption{ignoremissingmainmatter}{\@isu@errormissingmainmatter@false}
+
+%%%
+% Start of implementation
 
 % Forward everything not recognized
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
@@ -112,7 +121,7 @@
 \RequirePackage{indentfirst}
 
 % Setup page layout
-% TODO optional asymmetric layout - is not twosided though!
+% TODO optional ``leftbound'' layout - is not twosided though!
 \RequirePackage{geometry}
 \geometry{margin=1in,headheight=0.25in, headsep=0.5in, includehead=false}
 
