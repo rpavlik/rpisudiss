@@ -91,7 +91,7 @@
 \RequirePackage[nottoc]{tocbibind}
 
 % Basic hyperref - note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
-\RequirePackage[pdftex,pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
+\RequirePackage[pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
 
 \if@isu@print
