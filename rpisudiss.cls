@@ -32,7 +32,11 @@
 % - hyperfootnotes=false - if you're using the journal paper style which abuses footnotes.
 % - subfigure - if you will use the subfigure package. The 'subfig' package requires no such option.
 
+
 % option doublespacing: Double-space where we would have 1.5 spaced.
+%
+% Technically required: `Text should be double-spaced and, consistent throughout thesis'
+% 2014-07-11
 \newcommand\@isu@spacing{\onehalfspacing}
 \newcommand\@isu@space{onehalfspace}
 \DeclareOption{doublespacing}{%
@@ -41,8 +45,12 @@
 }
 
 % option capstoc: Capitalize chapters in the table of contents
+%
 % Technically required if you go by the text of the grad college site,
 % but rule inconsistently applied and results painful to read.
+%
+% Implied by `Titles have all the same capitalization, size, and same font'
+% 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
 \newif\if@isu@capstoc	\@isu@capstocfalse
 \DeclareOption{capstoc}{\@isu@capstoctrue}
 
@@ -50,6 +58,12 @@
 %
 % Technically required if you go by the text of the grad college site,
 % but rule inconsistently applied and results painful to read.
+%
+% `All Top Level (Preliminary Pages, Chapter Title, Reference/Bibliography,
+% and Appendix) headings must be in all caps, the same size font, and
+% location at the top of the page' and `Chapter titles should include
+% chapter and number centered in ALL CAPS (ex. CHAPTER 1. INTRODUCTION)'
+% 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/body_of_manuscript.php
 \newif\if@isu@capschap	\@isu@capschapfalse
 \DeclareOption{capschap}{\@isu@capschaptrue}
 
@@ -58,10 +72,16 @@
 \DeclareOption{print}{\@isu@printtrue}
 
 % option tocnumbersections: Number sections in the ToC.
+%
+% Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
+% 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
 \newif\if@isu@tocnumbersections@	\@isu@tocnumbersections@false
 \DeclareOption{tocnumbersections}{\@isu@tocnumbersections@true}
 
 % option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
+%
+% Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
+% 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
 \newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
 \DeclareOption{tocnumbersubsections}{	\@isu@tocnumbersubsections@true\@isu@tocnumbersections@true}
 
