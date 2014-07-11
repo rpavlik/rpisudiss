@@ -346,7 +346,7 @@ All rights reserved.}
 
     \begin{titlepage}
         \setlength{\parindent}{0pt} % Don't you dare try to indent!
-        \vbox to \textheight{ % Full-page box to contain everything and stretch everything.
+        \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
             \begin{center}                      % Center this whole page
                 \vspace*{12pt}                      % Designated blank line at the top of the page.
 
@@ -386,7 +386,7 @@ All rights reserved.}
                 \end{\@isu@space}
 
             \end{center}
-        }
+        \end{minipage}
     \end{titlepage}
 }
 
