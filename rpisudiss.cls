@@ -184,9 +184,15 @@
 %%%
 % Table of Contents (toc)/List of Figures (lof)/List of Tables (lot)
 
-
 % Put lot, lof, and bibliography (but not the contents itself) in the ToC
 \RequirePackage[nottoc]{tocbibind}
+
+% Needed for ToC renaming, enforcing lot/lof titles as chapter title type,
+% and formatting
+\RequirePackage[subfigure,titles]{tocloft}
+
+% - Remove parskips from toc (and lof/lot)
+\setlength{\cftparskip}{0pt}
 
 % Needed for toc/lof/lot spacing and headfoot tweaking
 \RequirePackage{xpatch}
@@ -194,12 +200,9 @@
 %%%
 % ToC:
 
-% Rename the ToC
-\RequirePackage[subfigure,titles]{tocloft}
+% - Rename the ToC
 \renewcommand{\contentsname}{Table of Contents}
 
-% - Remove parskips from toc (and lof/lot)
-\setlength{\cftparskip}{0pt}
 % - Single space
 % - Add PDF bookmark
 % - Page break after
