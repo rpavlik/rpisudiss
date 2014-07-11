@@ -27,6 +27,9 @@
 
 \newcommand{\@isu@classname}{rpisudiss}
 
+% Additional options of included packages, and why you'd want to pass them:
+%
+% - hyperfootnotes=false - if you're using the journal paper style which abuses footnotes.
 % option doublespacing: Double-space where we would have 1.5 spaced.
 \newcommand\@isu@spacing{\onehalfspacing}
 \newcommand\@isu@space{onehalfspace}
