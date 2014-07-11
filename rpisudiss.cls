@@ -105,8 +105,8 @@
 \RequirePackage{indentfirst}
 
 % Setup page layout
+% TODO optional asymmetric layout - is not twosided though!
 \RequirePackage{geometry}
-% TODO optional asymmetric layout - is not twosided though! \geometry{left=1in, top=1in, headheight=0.25in, headsep=0.5in, right=1in, bottom=1in, includehead=false}
 \geometry{margin=1in,headheight=0.25in, headsep=0.5in, includehead=false}
 
 
