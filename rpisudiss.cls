@@ -59,7 +59,7 @@
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
 
 % Process options
-\ProcessOptions \relax
+\ProcessOptions\relax
 
 % Based on report
 \LoadClass[12pt]{report}
