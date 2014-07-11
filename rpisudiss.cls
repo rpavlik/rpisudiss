@@ -46,14 +46,14 @@
 \newif\if@isu@capstoc	\@isu@capstocfalse
 \DeclareOption{capstoc}{\@isu@capstoctrue}
 
-% option capschap: Capitalize chapters everywhere else
+% option capschap: Capitalize chapters in their headings.
+%
 % Technically required if you go by the text of the grad college site,
 % but rule inconsistently applied and results painful to read.
 \newif\if@isu@capschap	\@isu@capschapfalse
 \DeclareOption{capschap}{\@isu@capschaptrue}
 
-% option print: Optimize for print rather than on-screen (hide links, etc.)
-% Apparently doesn't work right now. Sad.
+% option print: Optimize for print rather than on-screen (turns links black instead of blue)
 \newif\if@isu@print	\@isu@printfalse
 \DeclareOption{print}{\@isu@printtrue}
 
