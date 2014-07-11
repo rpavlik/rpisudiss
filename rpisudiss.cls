@@ -87,8 +87,6 @@
 % had to choose to put this here for tocloft
 \RequirePackage{subfig}
 
-% Put lot, lof, and bibliography (but not the contents itself) in the ToC
-\RequirePackage[nottoc]{tocbibind}
 
 % Basic hyperref - note that backreferences are incompatible with bibtopic (for per-chapter bibliographies)
 \RequirePackage[pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
@@ -194,6 +192,12 @@
 % Apply default spacing
 \@isu@spacing
 
+%%%
+% Table of Contents (toc)/List of Figures (lof)/List of Tables (lot)
+
+
+% Put lot, lof, and bibliography (but not the contents itself) in the ToC
+\RequirePackage[nottoc]{tocbibind}
 
 % Needed for toc/lof/lot spacing and headfoot tweaking
 \RequirePackage{xpatch}
