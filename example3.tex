@@ -20,6 +20,7 @@
 % Super-common: support the \includegraphics command and options
 \usepackage{graphicx}
 
+% Add the \url command.
 \usepackage{url}
 
 % Supports cross-references to labels of form format:name (like fig:mypicture) and formats them nicer
@@ -36,8 +37,6 @@
 
 %\usepackage[a-1b]{pdfx}
 
-
-
 \widowpenalty=450                         % three times normal widow penalty
 \clubpenalty=450                          % three times normal orphan penalty
 
@@ -48,14 +47,10 @@
 
 
 \title{This is the title}
-
-
 \author{Ryan Andrew Pavlik}
-%\date{} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed 
 
 \begin{document}
-\maketitle
+\maketitle % Including a title page implies you're typesetting the whole thesis, which means you need to call mainmatter.
 
 \tableofcontents{}
 \listoffigures
@@ -64,11 +59,7 @@
 \chapter{Acknowledgements}
 asdfawafesd
 
-%	\begin{abstract}
-%	This is an abstract. How abstract!
-%	\end{abstract}
-
-\mainmatter
+\mainmatter % Start the body of your doc with numbered chapters, etc.
 
 \chapter{Intro}
 
@@ -113,11 +104,11 @@ VR~Juggler introduced a highly modular architecture for VR applications
 A VR~JuggLua application uses both the osgLua module
 and the VR~Juggler bindings included in the VR~JuggLua framework
 to access a complete set of virtual reality functionality from Lua
-(Figure \ref{fig:System-diagram}). 
+(Figure \ref{fig:System-diagram}).
 \begin{figure}
-\centering
-\includegraphics[width=1\columnwidth]{accessdiagram}
-\caption{\label{fig:System-diagram}System diagram}
+    \centering
+    \includegraphics[width=1\columnwidth]{accessdiagram}
+    \caption{\label{fig:System-diagram}System diagram}
 \end{figure}
 
 
