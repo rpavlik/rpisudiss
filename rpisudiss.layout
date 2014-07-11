@@ -1,0 +1,37 @@
+#% Do not delete the line below; configure depends on this
+#\DeclareLaTeXClass[rpisudiss]{report(RP's ISU Dissertation)}
+ 
+# Input general definitions
+Input stdclass.inc
+
+Provides hyperref 1
+Provides subfig 1
+
+ClassOptions
+	FontSize "12"
+	PageStyle "plain"
+End
+
+Style "Paper Info"
+	Category "Alternate Thesis Style"
+	Align left
+	LatexType Command
+	LatexName paperinfo
+	LabelType Above
+	LabelString "Paper publication status:"
+	LabelFont
+		Family Typewriter
+	EndFont
+End
+
+Style "Paper Authors"
+	CopyStyle "Paper Info"
+	LatexName paperauthor
+	LabelString "Paper Author(s): "
+End
+
+Style "Paper Note"
+	CopyStyle "Paper Info"
+	LatexName papernote
+	LabelString "Paper note(s): "
+End
