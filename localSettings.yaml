@@ -1,0 +1,7 @@
+# https://github.com/cmhughes/latexindent.pl
+# call like location/latexindent.pl -l thefile > someoutput
+# and merge the desired changes using meld or equivalent.
+
+defaultIndent: "    "
+removeTrailingWhitespace: 1
+
