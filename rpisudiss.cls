@@ -364,6 +364,9 @@ All rights reserved.}
 % uses the titlepage environment totally messing up everything.
 \renewenvironment{abstract}{\chapter{Abstract}\begin{\@isu@space}}{\end{\@isu@space}}
 
+% Basically wipe out this environment so it doesn't monkey with page numbering.
+\renewenvironment{titlepage}{}{}
+
 % Spacing tools
 % - used for what the thesis office calls "two blank lines"
 \newcommand{\@isu@twoblanklines}{20pt}
