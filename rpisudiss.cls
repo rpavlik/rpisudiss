@@ -131,8 +131,10 @@
     \RequirePackage[firstpage]{draftwatermark}
     \RequirePackage{datetime}
     \newcommand{\@isu@draftfooter@}{DRAFT --- rendered \today\ at \currenttime}
+    \newcommand{\@isu@drafttitlefooter@}{Draft rendered \today\ at \currenttime}
 \else
     \newcommand{\@isu@draftfooter@}{}
+    \newcommand{\@isu@drafttitlefooter@}{}
 \fi
 
 % Setup headers/footers - override the plain page style.
@@ -380,12 +382,20 @@ All rights reserved.}
     \ClassInfo{\@isu@classname@}{Generating title page -- assuming we are typesetting a full dissertation.}
 
     \begin{titlepage}
-        % - empty style (no numbering shown)
+        % - custom header/footer - no numbers, only anything in the footer if draft mode
+        \thispagestyle{fancy}
+
+        \fancyhf{} % clear all header and footer fields
+        \fancyfoot[C]{\@isu@drafttitlefooter@} % In draft mode, put stuff in the center footer.
+        \renewcommand{\headrulewidth}{0pt}
+        \renewcommand{\footrulewidth}{0pt}
+
         % - starts the preface/roman numerals
         \pagenumbering{roman}
+
+
         % - gets a PDF bookmark, just because we can.
         % - Temporarily set secnumdepth such that no numbering is shown in front matter.
-        \thispagestyle{empty}
         \pdfbookmark[0]{\@title}{toc}
         % backup and set secnumdepth
         \newcounter{@isu@secnumdepth@backup@}
