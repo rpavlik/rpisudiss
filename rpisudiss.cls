@@ -105,6 +105,9 @@
 \newif\if@isu@errormissingmainmatter@ \@isu@errormissingmainmatter@true
 \DeclareOption{ignoremissingmainmatter}{\@isu@errormissingmainmatter@false}
 
+% preamble command \extradraftfooter{} - some text to add to the footer in draftcls mode. Automatically delimited by --- before appending.
+\newcommand{\extradraftfooter}[1]{}
+
 %%%
 % Start of implementation
 
@@ -131,15 +134,15 @@
     \RequirePackage[firstpage]{draftwatermark}
     \RequirePackage{datetime}
 
-    % TODO can I get away with something not base-TeX for this line?
+    % Actually make \extradraftfooter{} have an effect.
     \newcommand{\@isu@extradraftfooter@}{}
-    \newcommand{\extradraftfooter}[1]{\def\@isu@extradraftfooter@{\space---\space#1}}
+    \renewcommand{\extradraftfooter}[1]{\renewcommand\@isu@extradraftfooter@{\space---\space#1}}
+
     \newcommand{\@isu@draftfooter@}{DRAFT --- rendered \today\ at \currenttime\@isu@extradraftfooter@}
     \newcommand{\@isu@drafttitlefooter@}{Draft rendered \today\ at \currenttime\@isu@extradraftfooter@}
 \else
     \newcommand{\@isu@draftfooter@}{}
     \newcommand{\@isu@drafttitlefooter@}{}
-    \newcommand{\extradraftfooter}[1]{}
 \fi
 
 % Setup headers/footers - override the plain page style.
