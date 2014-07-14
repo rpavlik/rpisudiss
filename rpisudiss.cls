@@ -130,11 +130,16 @@
 \if@isu@draftcls@
     \RequirePackage[firstpage]{draftwatermark}
     \RequirePackage{datetime}
-    \newcommand{\@isu@draftfooter@}{DRAFT --- rendered \today\ at \currenttime}
-    \newcommand{\@isu@drafttitlefooter@}{Draft rendered \today\ at \currenttime}
+
+    % TODO can I get away with something not base-TeX for this line?
+    \newcommand{\@isu@extradraftfooter@}{}
+    \newcommand{\extradraftfooter}[1]{\def\@isu@extradraftfooter@{\space---\space#1}}
+    \newcommand{\@isu@draftfooter@}{DRAFT --- rendered \today\ at \currenttime\@isu@extradraftfooter@}
+    \newcommand{\@isu@drafttitlefooter@}{Draft rendered \today\ at \currenttime\@isu@extradraftfooter@}
 \else
     \newcommand{\@isu@draftfooter@}{}
     \newcommand{\@isu@drafttitlefooter@}{}
+    \newcommand{\extradraftfooter}[1]{}
 \fi
 
 % Setup headers/footers - override the plain page style.
