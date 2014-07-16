@@ -29,6 +29,10 @@
 \RequirePackage{hardwrap}
 \GenerateLogMacros{class}[isu]{rpisudiss}
 
+% For parsing key-value pairs and class options
+\RequirePackage{xkeyval}
+
+
 %%%
 % Additional options not listed below, and why you'd want to pass them:
 %
@@ -42,12 +46,15 @@
 %
 % Technically required: `Text should be double-spaced and, consistent throughout thesis'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/checklist/ under Line Spacing
-\newcommand\isu@spacing{\onehalfspacing}
-\newcommand\isu@space{onehalfspace}
-\DeclareOption{doublespacing}{%
-    \renewcommand\isu@spacing{\doublespacing}
-    \renewcommand\isu@space{doublespace}
+\DeclareOptionX{doublespacing}{%
+  \renewcommand\isu@spacing{\doublespacing}%
+  \renewcommand\isu@space{doublespace}%
 }
+\DeclareOptionX{onehalfspacing}{%
+  \def\isu@spacing{\onehalfspacing}%
+  \def\isu@space{onehalfspace}%
+}
+
 
 % option capstoc: Capitalize chapters in the table of contents
 %
@@ -58,7 +65,7 @@
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
 \newif\ifisu@capstoc
 \isu@capstocfalse
-\DeclareOption{capstoc}{\isu@capstoctrue}
+\DeclareOptionX{capstoc}{\isu@capstoctrue}
 
 % option capschap: Capitalize chapters in their headings.
 %
@@ -70,58 +77,68 @@
 % location at the top of the page' and `Chapter titles should include
 % chapter and number centered in ALL CAPS (ex. CHAPTER 1. INTRODUCTION)'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/body_of_manuscript.php
-\newif\ifisu@capschap	\isu@capschapfalse
-\DeclareOption{capschap}{\isu@capschaptrue}
+\newif\ifisu@capschap
+\isu@capschapfalse
+\DeclareOptionX{capschap}{\isu@capschaptrue}
 
 % option tocnumbersections: Number sections in the ToC.
 %
 % Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
-\newif\ifisu@tocnumbersections	\isu@tocnumbersectionsfalse
-\DeclareOption{tocnumbersections}{\isu@tocnumbersectionstrue}
+\newif\ifisu@tocnumbersections
+\isu@tocnumbersectionsfalse
+\DeclareOptionX{tocnumbersections}{\isu@tocnumbersectionstrue}
 
 % option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
 %
 % Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
-\newif\ifisu@tocnumbersubsections	\isu@tocnumbersubsectionsfalse
-\DeclareOption{tocnumbersubsections}{	\isu@tocnumbersubsectionstrue\isu@tocnumbersectionstrue}
+\newif\ifisu@tocnumbersubsections
+\isu@tocnumbersubsectionsfalse
+\DeclareOptionX{tocnumbersubsections}{\isu@tocnumbersubsectionstrue\isu@tocnumbersectionstrue}
 
 %%%
 % Minor formatting options, composition aids, etc.
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
-\newif\ifisu@draftcls	\isu@draftclsfalse
-\DeclareOption{draftcls}{\isu@draftclstrue}
+\newif\ifisu@draftcls
+\isu@draftclsfalse
+\DeclareOptionX{draftcls}{\isu@draftclstrue}
 
 % option draft: draftcls plus whatever anyone else thinks about draft.
-\DeclareOption{draft}{
-    \isu@draftclstrue
-    \PassOptionsToClass{draft}{report}
+\DeclareOptionX{draft}{%
+  \isu@draftclstrue
+  \PassOptionsToClass{draft}{book}%
 }
 
 % option print: Optimize for print rather than on-screen (turns links black instead of blue)
-\newif\ifisu@print     \isu@printfalse
-\DeclareOption{print}{\isu@printtrue}
+\newif\ifisu@print
+\isu@printfalse
+\DeclareOptionX{print}{\isu@printtrue}
 
 % option ignoremissingmainmatter: Don't error if we've seen a titlepage but no \mainmatter by the end of the document.
-\newif\ifisu@errormissingmainmatter \isu@errormissingmainmattertrue
-\DeclareOption{ignoremissingmainmatter}{\isu@errormissingmainmatterfalse}
+\newif\ifisu@errormissingmainmatter
+\isu@errormissingmainmattertrue
+\DeclareOptionX{ignoremissingmainmatter}{\isu@errormissingmainmatterfalse}
 
 % preamble command \extradraftfooter{} - some text to add to the footer in draftcls mode. Automatically delimited by --- before appending.
 \newcommand{\extradraftfooter}[1]{}
 
-%%%
-% Start of implementation
-
 % Forward everything not recognized
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\DeclareOptionX*{%
+  \isu@info@noline{Passing \CurrentOption\space to the `book' class.}
+  \PassOptionsToClass{\CurrentOption}{book}
+}
+
+% Default options
+\ExecuteOptionsX{onehalfspacing}
+\ExecuteOptions{12pt}
 
 % Process options
-\ProcessOptions\relax
+\ProcessOptionsX*\relax
 
-% Based on report
-\LoadClass[12pt]{report}
+% Based on book
+\LoadClass{book}
 
 % Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
@@ -159,9 +176,6 @@
 
 \AtBeginDocument{\pagestyle{plain}}
 
-% Set up a bool for mainmatter or not.
-\newif\ifmainmatter \mainmatterfalse
-
 %%%
 % Set up sectioning
 \RequirePackage{titlesec}
@@ -180,7 +194,7 @@
 
 \titleformat{\chapter}[block]
     {\normalfont\large\bfseries\centering}
-    {\ifmainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
+    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
     {0pt}
     {\isu@chapformat}{}
 
@@ -235,12 +249,15 @@
 % - Add PDF bookmark
 % - Page break after
 \xpretocmd{\tableofcontents}{%
-    \begin{singlespace}%
-    \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}}{}{}
+  \begin{singlespace}%
+  \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}%
+}{}{}
+
 \xapptocmd{\tableofcontents}{%
-    \end{singlespace}%
-    \pagestyle{plain}%
-    \clearpage}{}{}
+  \end{singlespace}%
+  \pagestyle{plain}%
+  \clearpage}{%
+}{}
 
 % - Add dot leader for chapter levels
 \renewcommand\cftchapdotsep{\cftdotsep}
@@ -305,22 +322,22 @@
 % Command to indicate when we're done
 % with preface content - must be called!
 % (If we're actually typesetting a full thesis...)
-\newcommand{\mainmatter}{%
-    \clearpage
-    \pagenumbering{arabic}
-    \pagestyle{plain}
-    \mainmattertrue
-    \newcommand{\isu@gotmainmatter}{}
-    \setcounter{chapter}{0}
-    % restore secnumdepth: OK to number chapters from here on out.
-    \setcounter{secnumdepth}{\value{@isu@secnumdepth@backup}}
+\renewcommand{\mainmatter}{%
+  \clearpage
+  \pagenumbering{arabic}%
+  \pagestyle{plain}%
+  \@mainmattertrue
+  \newcommand{\isu@gotmainmatter}{}%
+  \setcounter{chapter}{0}%
+  % restore secnumdepth: OK to number chapters from here on out.
+  \setcounter{secnumdepth}{\value{isu@secnumdepth@backup}}%
 }
 
 % Command to indicate we're done with main content
-\newcommand{\backmatter}{
-    \setcounter{@isu@secnumdepth@backup}{\value{secnumdepth}}
-    \setcounter{secnumdepth}{-1}
-    \mainmatterfalse
+\renewcommand{\backmatter}{
+  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}
+  \setcounter{secnumdepth}{-1}
+  \@mainmatterfalse
 }
 
 % Verify that we actually got some main matter
@@ -370,12 +387,14 @@
     Copyright \copyright\ \@author, \isu@gradyear.
 All rights reserved.}
 
-% Fix abstract.
-% In front matter, chapters are a fine substitute for this sort of thing:
-% right formatting, included in ToC, etc.
-% Much better than the stock abstract environment in report.cls, which
-% uses the titlepage environment totally messing up everything.
-\renewenvironment{abstract}{\chapter{Abstract}\begin{\isu@space}}{\end{\isu@space}}
+% Abstract environment
+\newenvironment{abstract}{%
+  \chapter{Abstract}%
+  \isu@spacing
+  %\begin{\isu@space}%
+}{%
+  %\end{\isu@space}%
+}
 
 % Basically wipe out this environment so it doesn't monkey with page numbering.
 \renewenvironment{titlepage}{}{}
@@ -385,10 +404,18 @@ All rights reserved.}
 \newcommand{\isu@twoblanklines}{20pt}
 \newcommand{\isu@maketwoblanklines}{\vspace{\isu@twoblanklines}}
 
+\newcounter{isu@secnumdepth@backup}%
+\AtBeginDocument{%
+  % backup and set secnumdepth
+  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}%
+  \setcounter{secnumdepth}{-1}%
+}
+
+
 % The actual title page layout.
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
-\renewcommand{\maketitle}{
+\renewcommand{\maketitle}{%
     \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
     \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
@@ -408,11 +435,7 @@ All rights reserved.}
         % - gets a PDF bookmark, just because we can.
         % - Temporarily set secnumdepth such that no numbering is shown in front matter.
         \pdfbookmark[0]{\@title}{toc}
-        % backup and set secnumdepth
-        \newcounter{@isu@secnumdepth@backup}
-        \setcounter{@isu@secnumdepth@backup}{\value{secnumdepth}}
-        \setcounter{secnumdepth}{-1}
-        \mainmatterfalse
+        \@mainmatterfalse
 
         \setlength{\parindent}{0pt} % Don't you dare try to indent!
         \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
