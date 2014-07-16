@@ -177,6 +177,10 @@
 
 \AtBeginDocument{\pagestyle{plain}}
 
+\RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
+
+\RequirePackage{etoolbox}% for list processing
+
 %%%
 % Set up sectioning
 \RequirePackage{titlesec}
@@ -188,7 +192,7 @@
 % - bold
 % - center
 \ifisu@capschap
-  \newcommand{\isu@chapformat}{\MakeUppercase}
+  \newcommand{\isu@chapformat}{\MakeTextUppercase}
 \else
   \newcommand{\isu@chapformat}{}
 \fi
@@ -267,11 +271,11 @@
 % - Adjust indentation of levels
 % - Capitalize title entries, if requested
 \ifisu@capstoc
-  \renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
+  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename} }
   \cftsetindents{chapter}{0em}{8em}
   \cftsetindents{section}{2em}{0em}
   \cftsetindents{subsection}{3em}{0em}
-  \renewcommand{\cftchapfont}{\MakeUppercase}
+  \renewcommand{\cftchapfont}{\MakeTextUppercase}
 \else
   \renewcommand\cftchappresnum{\chaptertitlename\ }
   \cftsetindents{chapter}{0em}{6em}
@@ -376,14 +380,63 @@
   \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
 
+
+\newcommand\isuset[1]{%
+  \setkeys{isu}{#1}%
+}
+
 %%%
 % Title Page
 
 % Temporary: hardcode these values in.
 % TODO: make these configurable by macros just like \author and \title
-\newcommand\isu@degree{Doctor of Philosophy}
-\newcommand\isu@gradyear{2014}
-\newcommand\isu@submissiontype{dissertation}
+
+% The degree may be one of: ma, ms, mfa, phd.
+\newcommand\isudegree[1]{\isuset{degree=#1}}
+\define@choicekey*+{isu}{degree}[\val\nr]{ma,ms,msc,mfa,phd,dphil}{%
+  \ifcase\nr\relax
+    \gdef\isu@degree{Master of Arts}%
+  \or
+    \gdef\isu@degree{Master of Science}%
+  \or
+    \gdef\isu@degree{Master of Science}%
+  \or
+    \gdef\isu@degree{Master of Fine Arts}%
+  \or
+    \gdef\isu@degree{Doctor of Philosophy}%
+  \or
+    \gdef\isu@degree{Doctor of Philosophy}%
+  \fi
+}{%
+  \isu@error{Missing \protect\isudegree!}{You must specify an \protect\isudegree{type} where `type' may be one of: MA, MS, MFA, PhD.}%
+}
+\def\isu@degree{\NoCaseChange{\isu@error{You must set the degree type!}{You must specify an \protect\isudegree{type} where `type' may be one of: MA, MS, MFA, PhD.}}}
+
+% Graduation year. Defaults to current year.
+\newcommand\isugradyear[1]{\isuset{gradyear=#1}}
+\define@key{isu}{gradyear}[\the\year]{%
+  \gdef\isu@gradyear{#1}%
+}
+\isugradyear{\the\year}
+
+% Submission type must be one of: dissertation, thesis, proposal, prelim.
+\newcommand\isusubmissiontype[1]{\isuset{submissiontype=#1}}
+\define@choicekey*+{isu}{submissiontype}[\val\nr]{dissertation,thesis,proposal,prelim}{%
+  \ifcase\nr\relax
+    \gdef\isu@submissiontype{dissertation}
+  \or
+    \gdef\isu@submissiontype{thesis}
+  \or
+    \gdef\isu@submissiontype{research proposal}
+  \or
+    \gdef\isu@submissiontype{research proposal}
+  \fi
+}{%
+  \isu@error{Missing \protect\isusubmissiontype!}{You must specify an \protect\isusubmissiontype{type} where `type' may be one of: dissertation, thesis, proposal.}%
+}
+\def\isu@submissiontype{\NoCaseChange{\isu@error{Missing \protect\isusubmissiontype!}{You must specify an \protect\isusubmissiontype{type} where `type' may be one of: dissertation, thesis, proposal.}}}
+
+
 \newcommand\isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
 \newcommand\isu@committee{%
   Judy M. Vance, Co-major Professor\\%
@@ -398,10 +451,7 @@
 \newenvironment{abstract}{%
   \chapter{Abstract}%
   \isu@spacing
-  %\begin{\isu@space}%
-}{%
-  %\end{\isu@space}%
-}
+}{}
 
 % Basically wipe out this environment so it doesn't monkey with page numbering.
 \renewenvironment{titlepage}{}{}
@@ -417,7 +467,6 @@
   \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}%
   \setcounter{secnumdepth}{-1}%
 }
-
 
 % The actual title page layout.
 % Note that portions that appear double-spaced in the sample/annotated PDF
@@ -462,7 +511,7 @@
         \begin{\isu@space}                 % Normal document spacing here.
           A \isu@submissiontype\ submitted to the graduate faculty\\
           in partial fulfillment of the requirements of the degree of\\
-          \MakeUppercase{\isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
+          \MakeTextUppercase{\isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
         \end{\isu@space}
 
         \isu@maketwoblanklines             % "two blank lines"
