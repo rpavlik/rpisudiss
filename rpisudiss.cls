@@ -134,6 +134,8 @@
 % Default options
 \ExecuteOptionsX{onehalfspacing}
 \PassOptionsToClass{12pt}{book}
+\PassOptionsToClass{openany}{book}
+\PassOptionsToClass{oneside}{book}
 
 % Process options
 \ProcessOptionsX*\relax
@@ -537,10 +539,6 @@
   \fi
 }
 
-%\newcommand\isu@committee{%
-%  Judy M. Vance, Co-major Professor\\%
-%  Leslie Miller, Co-major Professor\\%
-%  Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
 \newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
   Copyright \copyright\ \@author, \isu@gradyear.
   All rights reserved.
