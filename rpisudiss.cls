@@ -132,7 +132,7 @@
 
 % Default options
 \ExecuteOptionsX{onehalfspacing}
-\ExecuteOptions{12pt}
+\PassOptionsToClass{12pt}{book}
 
 % Process options
 \ProcessOptionsX*\relax
@@ -151,28 +151,29 @@
 
 % Handle draftcls option placing timestamp in footer and watermarking first page.
 \ifisu@draftcls
-    \RequirePackage[firstpage]{draftwatermark}
-    \RequirePackage{datetime}
+  \RequirePackage[firstpage]{draftwatermark}
+  \RequirePackage{datetime}
 
-    % Actually make \extradraftfooter{} have an effect.
-    \newcommand{\isu@extradraftfooter}{}
-    \renewcommand{\extradraftfooter}[1]{\renewcommand\isu@extradraftfooter{\space---\space#1}}
+  % Actually make \extradraftfooter{} have an effect.
+  \newcommand{\isu@extradraftfooter}{}
+  \renewcommand{\extradraftfooter}[1]{\renewcommand\isu@extradraftfooter{\space---\space#1}}
 
-    \newcommand{\isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime\isu@extradraftfooter}
-    \newcommand{\isu@drafttitlefooter}{Draft rendered \today\ at \currenttime\isu@extradraftfooter}
+  \newcommand{\isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime\isu@extradraftfooter}
+  \newcommand{\isu@drafttitlefooter}{Draft rendered \today\ at \currenttime\isu@extradraftfooter}
 \else
-    \newcommand{\isu@draftfooter}{}
-    \newcommand{\isu@drafttitlefooter}{}
+  \newcommand{\isu@draftfooter}{}
+  \newcommand{\isu@drafttitlefooter}{}
 \fi
 
 % Setup headers/footers - override the plain page style.
 \RequirePackage{fancyhdr}
 \fancypagestyle{plain}{%
-    \fancyhf{} % clear all header and footer fields
-    \fancyhead[C]{\thepage} % Always put the page in the center header
-    \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}}
+  \fancyhf{} % clear all header and footer fields
+  \fancyhead[C]{\thepage} % Always put the page in the center header
+  \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
 
 \AtBeginDocument{\pagestyle{plain}}
 
@@ -187,37 +188,37 @@
 % - bold
 % - center
 \ifisu@capschap
-    \newcommand{\isu@chapformat}{\MakeUppercase}
+  \newcommand{\isu@chapformat}{\MakeUppercase}
 \else
-    \newcommand{\isu@chapformat}{}
+  \newcommand{\isu@chapformat}{}
 \fi
 
 \titleformat{\chapter}[block]
-    {\normalfont\large\bfseries\centering}
-    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
-    {0pt}
-    {\isu@chapformat}{}
+  {\normalfont\large\bfseries\centering}
+  {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
+  {0pt}
+  {\isu@chapformat}{}
 
 % Section:
 % - bold
 % - center
 \titleformat{\section}[block]
-    {\normalfont\normalsize\bfseries\centering}
-    {\thesection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries\centering}
+  {\thesection.}{1em}{}{}
 
 % Subsection:
 % - bold
 % - left-justified
 \titleformat{\subsection}[block]
-    {\normalfont\normalsize\bfseries}
-    {\thesubsection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection.}{1em}{}{}
 
 % Subsubsection:
 % - bold
 % - left-justified with indent
 \titleformat{\subsubsection}[block]
-    {\normalfont\normalsize\bfseries}
-    {\quad\thesubsubsection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries}
+  {\quad\thesubsubsection.}{1em}{}{}
 
 % Apply default spacing
 \RequirePackage{setspace}
@@ -266,28 +267,28 @@
 % - Adjust indentation of levels
 % - Capitalize title entries, if requested
 \ifisu@capstoc
-    \renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
-    \cftsetindents{chapter}{0em}{8em}
-    \cftsetindents{section}{2em}{0em}
-    \cftsetindents{subsection}{3em}{0em}
-    \renewcommand{\cftchapfont}{\MakeUppercase}
+  \renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
+  \cftsetindents{chapter}{0em}{8em}
+  \cftsetindents{section}{2em}{0em}
+  \cftsetindents{subsection}{3em}{0em}
+  \renewcommand{\cftchapfont}{\MakeUppercase}
 \else
-    \renewcommand\cftchappresnum{\chaptertitlename\ }
-    \cftsetindents{chapter}{0em}{6em}
-    \cftsetindents{section}{1em}{0em}
-    \cftsetindents{subsection}{2em}{0em}
+  \renewcommand\cftchappresnum{\chaptertitlename\ }
+  \cftsetindents{chapter}{0em}{6em}
+  \cftsetindents{section}{1em}{0em}
+  \cftsetindents{subsection}{2em}{0em}
 \fi
 
 % - Remove section/subsection numbers from ToC by capturing
 %   see idea at  http://tex.stackexchange.com/questions/71123/remove-section-number-toc-entries-with-tocloft
 \ifisu@tocnumbersections\else
-    \renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
-    \renewcommand{\cftsecaftersnum}{\end{lrbox}}
+  \renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
+  \renewcommand{\cftsecaftersnum}{\end{lrbox}}
 \fi
 
 \ifisu@tocnumbersubsections\else
-    \renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
-    \renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
+  \renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
+  \renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
 \fi
 
 %%%
@@ -295,9 +296,12 @@
 % - Single space
 % - Page break after
 \xpretocmd{\listoffigures}{%
-    \begin{singlespace}}{}{}
+  \begin{singlespace}%
+}{}{}
+
 \xapptocmd{\listoffigures}{%
-    \end{singlespace}\clearpage}{}{}
+  \end{singlespace}\clearpage
+}{}{}
 
 % - Prepend the word "Figure" to the number
 \renewcommand\cftfigpresnum{Figure }
@@ -308,9 +312,11 @@
 % - Single space
 % - Page break after
 \xpretocmd{\listoftables}{%
-    \begin{singlespace}}{}{}
+  \begin{singlespace}%
+}{}{}
 \xapptocmd{\listoftables}{%
-    \end{singlespace}\clearpage}{}{}
+    \end{singlespace}\clearpage
+}{}{}
 
 % - Prepend the word "Table" to the number
 \renewcommand\cfttabpresnum{Table }
@@ -342,17 +348,17 @@
 
 % Verify that we actually got some main matter
 \AtEndDocument{
-    \ifisu@errormissingmainmatter
-        \ifdefined\isu@gottitle
-            \isu@info{Full dissertation mode}
-            \unless\ifdefined\isu@gotmainmatter
-                \isu@error{Missing \protect\mainmatter}{Missing \protect\mainmatter\space before your first and real chapter!}
-%                 \isu@error{%
-%                     \protect\mainmatter\space not called in your document expected before your first real chapter}{%
-%                     You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
-            \fi
-        \fi
+  \ifisu@errormissingmainmatter
+    \ifdefined\isu@gottitle
+      \isu@info{Full dissertation mode}
+      \unless\ifdefined\isu@gotmainmatter
+          \isu@error{Missing \protect\mainmatter}{Missing \protect\mainmatter\space before your first and real chapter!}
+%           \isu@error{%
+%               \protect\mainmatter\space not called in your document expected before your first real chapter}{%
+%               You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
+      \fi
     \fi
+  \fi
 }
 
 %%%
@@ -363,11 +369,11 @@
 \hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
 
 \ifisu@print
-    % Hide (don't color) links for print
-    \hypersetup{hidelinks, colorlinks=false}
+  % Hide (don't color) links for print
+  \hypersetup{hidelinks, colorlinks=false}
 \else
-    % Nice blue links.
-    \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
+  % Nice blue links.
+  \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
 
 %%%
@@ -380,12 +386,13 @@
 \newcommand\isu@submissiontype{dissertation}
 \newcommand\isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
 \newcommand\isu@committee{%
-    Judy M. Vance, Co-major Professor\\%
-    Leslie Miller, Co-major Professor\\%
-    Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
+  Judy M. Vance, Co-major Professor\\%
+  Leslie Miller, Co-major Professor\\%
+  Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
 \newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
-    Copyright \copyright\ \@author, \isu@gradyear.
-All rights reserved.}
+  Copyright \copyright\ \@author, \isu@gradyear.
+  All rights reserved.
+}
 
 % Abstract environment
 \newenvironment{abstract}{%
@@ -416,72 +423,72 @@ All rights reserved.}
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{%
-    \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
-    \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
+  \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
+  \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
-    \begin{titlepage}
-        % - custom header/footer - no numbers, only anything in the footer if draft mode
-        \thispagestyle{fancy}
+  \begin{titlepage}
+    % - custom header/footer - no numbers, only anything in the footer if draft mode
+    \thispagestyle{fancy}
 
-        \fancyhf{} % clear all header and footer fields
-        \fancyfoot[C]{\isu@drafttitlefooter} % In draft mode, put stuff in the center footer.
-        \renewcommand{\headrulewidth}{0pt}
-        \renewcommand{\footrulewidth}{0pt}
+    \fancyhf{} % clear all header and footer fields
+    \fancyfoot[C]{\isu@drafttitlefooter} % In draft mode, put stuff in the center footer.
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
 
-        % - starts the preface/roman numerals
-        \pagenumbering{roman}
+    % - starts the preface/roman numerals
+    \pagenumbering{roman}
 
 
-        % - gets a PDF bookmark, just because we can.
-        % - Temporarily set secnumdepth such that no numbering is shown in front matter.
-        \pdfbookmark[0]{\@title}{toc}
-        \@mainmatterfalse
+    % - gets a PDF bookmark, just because we can.
+    % - Temporarily set secnumdepth such that no numbering is shown in front matter.
+    \pdfbookmark[0]{\@title}{toc}
+    \@mainmatterfalse
 
-        \setlength{\parindent}{0pt} % Don't you dare try to indent!
-        \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
-            \begin{center}                      % Center this whole page
-                \vspace*{12pt}                      % Designated blank line at the top of the page.
+    \setlength{\parindent}{0pt} % Don't you dare try to indent!
+    \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
+      \begin{center}                      % Center this whole page
+        \vspace*{12pt}                      % Designated blank line at the top of the page.
 
-                \begin{singlespace}                 % Single-space this section, we manually add spacing.
-                    \textbf{\@title}\\                  % Title in bold
-                    \isu@maketwoblanklines             % "two blank lines"
-                    by\\                                % the word 'by', not in bold
-                    \isu@maketwoblanklines             % "two blank lines"
-                    \textbf{\@author}                   % Author in bold
-                \end{singlespace}
+        \begin{singlespace}                 % Single-space this section, we manually add spacing.
+          \textbf{\@title}\\                  % Title in bold
+          \isu@maketwoblanklines             % "two blank lines"
+          by\\                                % the word 'by', not in bold
+          \isu@maketwoblanklines             % "two blank lines"
+          \textbf{\@author}                   % Author in bold
+        \end{singlespace}
 
-                \vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
+        \vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
 
-                \begin{\isu@space}                 % Normal document spacing here.
-                    A \isu@submissiontype\ submitted to the graduate faculty\\
-                    in partial fulfillment of the requirements of the degree of\\
-                    \MakeUppercase{\isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
-                \end{\isu@space}
+        \begin{\isu@space}                 % Normal document spacing here.
+          A \isu@submissiontype\ submitted to the graduate faculty\\
+          in partial fulfillment of the requirements of the degree of\\
+          \MakeUppercase{\isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
+        \end{\isu@space}
 
-                \isu@maketwoblanklines             % "two blank lines"
+        \isu@maketwoblanklines             % "two blank lines"
 
-                \begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
-                    \isu@majorline\\                   % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
-                    \medskip                            % Unspecified space here, looks like just "one blank line" on sample
-                    Program of Study Committee:\\
-                    \isu@committee                     % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
-                \end{singlespace}
+        \begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
+          \isu@majorline\\                   % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
+          \medskip                            % Unspecified space here, looks like just "one blank line" on sample
+          Program of Study Committee:\\
+          \isu@committee                     % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
+        \end{singlespace}
 
-                \vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
-                \isu@maketwoblanklines             % Suggest it's a little longer than the other vfill.
+        \vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
+        \isu@maketwoblanklines             % Suggest it's a little longer than the other vfill.
 
-                \begin{\isu@space}                 % Normal document spacing here
-                    Iowa State University\\
-                    Ames, Iowa\\
-                    \isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
-                    \isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
-                \end{\isu@space}
+        \begin{\isu@space}                 % Normal document spacing here
+          Iowa State University\\
+          Ames, Iowa\\
+          \isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
+          \isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
+        \end{\isu@space}
 
-            \end{center}
-        \end{minipage}
-        \newpage
-        \pagestyle{plain}
-    \end{titlepage}
+      \end{center}
+    \end{minipage}
+    \newpage
+    \pagestyle{plain}
+  \end{titlepage}
 }
 
 \endinput
