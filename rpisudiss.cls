@@ -25,7 +25,9 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
-\newcommand{\isu@classname}{rpisudiss}
+% For nicer, word-wrapped error, warning, and info messages
+\RequirePackage{hardwrap}
+\GenerateLogMacros{class}[isu]{rpisudiss}
 
 %%%
 % Additional options not listed below, and why you'd want to pass them:
@@ -325,10 +327,10 @@
 \AtEndDocument{
     \ifisu@errormissingmainmatter
         \ifdefined\isu@gottitle
-            \ClassInfo{\isu@classname}{Full dissertation mode}
+            \isu@info{Full dissertation mode}
             \unless\ifdefined\isu@gotmainmatter
-                \ClassError{\isu@classname}{Missing \protect\mainmatter\space before your first real chapter!}{Missing mainmatter}
-%                 \ClassError{\isu@classname}{%
+                \isu@error{Missing \protect\mainmatter}{Missing \protect\mainmatter\space before your first and real chapter!}
+%                 \isu@error{%
 %                     \protect\mainmatter\space not called in your document expected before your first real chapter}{%
 %                     You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
             \fi
@@ -388,7 +390,7 @@ All rights reserved.}
 % are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{
     \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
-    \ClassInfo{\isu@classname}{Generating title page -- assuming we are typesetting a full dissertation.}
+    \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
     \begin{titlepage}
         % - custom header/footer - no numbers, only anything in the footer if draft mode
