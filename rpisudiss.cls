@@ -476,11 +476,71 @@
   \fi
 }
 
+% Program of study committee
+\newcounter{isu@majorprofs@counter}
+\newcounter{isu@profs@counter}
+\def\isu@majorprofs@list{}% major professors list
+\def\isu@profs@list{}% non-major professors list
+\def\isuprofessor{\@ifstar\isu@professor@star\isu@professor}
+\let\isuprofessors\isuprofessor
+\newcommand\isu@professor@star[1]{% major professor
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@majorprofs@list}{##1}%
+    \stepcounter{isu@majorprofs@counter}%
+  }%
+  \docsvlist{#1}%
+}
+\newcommand\isu@professor[1]{% non-major professor
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@profs@list}{##1}%
+    \stepcounter{isu@profs@counter}%
+  }%
+  \docsvlist{#1}%
+}
+\define@key{isu}{major professor}{\isuprofessor*{#1}}
+\define@key{isu}{major professors}{\isuprofessor*{#1}}
+\define@key{isu}{professor}{\isuprofessor{#1}}
+\define@key{isu}{professors}{\isuprofessor{#1}}
 
 \newcommand\isu@committee{%
-  Judy M. Vance, Co-major Professor\\%
-  Leslie Miller, Co-major Professor\\%
-  Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
+  % List the major professors first
+  \ifcase\value{isu@majorprofs@counter}%
+    \isu@error{Missing major professor(s)!}{%
+      You must specify one or more major professors using the \string\isuprofessor*{...} macro.
+      Separate each major professor in the list with a comma. Don't forget the \string*!
+    }%
+  \or
+    \isu@info{There is only 1 major professor.}%
+    \renewcommand*{\do}[1]{##1, Major Professor\\}%
+    \dolistloop{\isu@majorprofs@list}%
+  \else
+    \isu@info{There are \theisu@majorprofs@counter\ major professors.}%
+    \renewcommand*{\do}[1]{##1, Co-major Professor\\}%
+    \dolistloop{\isu@majorprofs@list}%
+  \fi
+
+  % Now list the non-major professors
+  \ifcase\value{isu@profs@counter}%
+    \isu@error{Missing non-major professor(s)!}{%
+      You must specify one or more professors using the \string\isuprofessor{...} macro.
+      Separate each professor in the list with a comma.
+      Don't use a \string* for non-major professors.
+    }%
+  \or
+    \isu@info{There is only 1 non-major professor.}%
+    \renewcommand*{\do}[1]{##1\\}%
+    \dolistloop{\isu@profs@list}%
+  \else
+    \isu@info{There are \theisu@profs@counter\ non-major professors.}%
+    \renewcommand*{\do}[1]{##1\\}%
+    \dolistloop{\isu@profs@list}%
+  \fi
+}
+
+%\newcommand\isu@committee{%
+%  Judy M. Vance, Co-major Professor\\%
+%  Leslie Miller, Co-major Professor\\%
+%  Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
 \newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
   Copyright \copyright\ \@author, \isu@gradyear.
   All rights reserved.
