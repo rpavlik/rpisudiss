@@ -29,6 +29,7 @@
 \RequirePackage{hardwrap}
 \GenerateLogMacros{class}[isu]{rpisudiss}
 
+
 % For parsing key-value pairs and class options
 \RequirePackage{xkeyval}
 
@@ -436,8 +437,46 @@
 }
 \def\isu@submissiontype{\NoCaseChange{\isu@error{Missing \protect\isusubmissiontype!}{You must specify an \protect\isusubmissiontype{type} where `type' may be one of: dissertation, thesis, proposal.}}}
 
+% Majors
 
-\newcommand\isu@majorline{Co-majors: Human-Computer Interaction; Computer Science}
+\newcounter{isu@majors@counter}
+\setcounter{isu@majors@counter}{0}
+\def\isu@majors@list{}% contains list of majors
+\newcommand\isumajor[1]{%
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@majors@list}{##1}%
+    \stepcounter{isu@majors@counter}%
+    \isu@info{Adding major `##1' as major number \theisu@majors@counter.}%
+  }%
+  \docsvlist{#1}%
+}
+\let\isumajors\isumajor
+\define@key{isu}{major}{\isumajor{#1}}
+\define@key{isu}{majors}{\isumajor{#1}}
+
+\newcommand\isu@majorline{%
+  \ifcase\value{isu@majors@counter}%
+    \isu@error{Missing \protect\isumajor!}{%
+      You must specify one or more majors using the \string\isumajor{...} macro. 
+      Separate each major in the list with a comma.\\
+      \\
+      Examples:\\
+      \@spaces\string\isumajors{Computer Science,Computer Engineering}\\
+      \@spaces\string\isumajor{Human Computer Interaction}
+    }%
+  \or
+    \isu@info{There is only 1 major.}%
+    \renewcommand*{\do}[1]{##1}%
+    Major: \dolistloop{\isu@majors@list}%
+  \else
+    \isu@info{There are \theisu@majors@counter\ majors.}%
+    \def\dosep{}% no separator before first element
+    \renewcommand*{\do}[1]{\dosep ##1\def\dosep{; }}%
+    Co-majors: \dolistloop{\isu@majors@list}%
+  \fi
+}
+
+
 \newcommand\isu@committee{%
   Judy M. Vance, Co-major Professor\\%
   Leslie Miller, Co-major Professor\\%
