@@ -1,6 +1,8 @@
 #!/bin/sh
 
-TESTDIR="$(cd $(dirname $0) && pwd)"
+export TESTDIR="$(cd $(dirname $0) && pwd)"
+export SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
+export TEXINPUTS="${SRCDIR}:${TESTDIR}::"
 
 if [ ! -f "$TESTDIR/$DOCNAME.tex" ]; then
     echo "in $0 - Could not find $TESTDIR/$DOCNAME.tex!"
@@ -14,17 +16,11 @@ finish() {
 }
 trap finish EXIT
 
-
 export DIR=$scratch
 export BASICLOG=$scratch/basiclog.txt
 export LOG=$scratch/$DOCNAME.log
 
 _runbuild() {
-    SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
-    export TEXINPUTS="${SRCDIR}:${TESTDIR}::"
-
-
-
     (
         cd $scratch
 
@@ -35,27 +31,15 @@ _runbuild() {
 }
 
 _oppositegrep() {
-    if grep "$@" 2>&1 >/dev/null; then
-        false
-    else
-        true
-    fi
-}
-
-_oppositebuild() {
-    if _runbuild; then
-        false
-    else
-        true
-    fi
+    ! grep "$@" 2>&1 >/dev/null
 }
 
 shouldbuild() {
-    juLog -name="document should build" "_runbuild"
+    juLog -name="document should build" -error="^Latexmk: Errors" "_runbuild"
 }
 
 shouldfailtobuild() {
-    juLog -name="document should fail to build" "_oppositebuild"
+    juLog -name="document should fail to build" -error="^Latexmk: All targets.*are up-to-date" "_runbuild"
 }
 
 passiflogmatches() {
