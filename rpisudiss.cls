@@ -48,8 +48,8 @@
 % Technically required: `Text should be double-spaced and, consistent throughout thesis'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/checklist/ under Line Spacing
 \DeclareOptionX{doublespacing}{%
-  \renewcommand\isu@spacing{\doublespacing}%
-  \renewcommand\isu@space{doublespace}%
+  \def\isu@spacing{\doublespacing}%
+  \def\isu@space{doublespace}%
 }
 \DeclareOptionX{onehalfspacing}{%
   \def\isu@spacing{\onehalfspacing}%
