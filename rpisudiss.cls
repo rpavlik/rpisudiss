@@ -178,8 +178,6 @@
   \renewcommand{\footrulewidth}{0pt}
 }
 
-\AtBeginDocument{\pagestyle{plain}}
-
 \RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
 
 \RequirePackage{etoolbox}% for list processing
@@ -571,25 +569,28 @@
   \setcounter{secnumdepth}{-1}%
 }
 
+% Title page page style
+\newcommand\ps@titlepage{%
+  % Disable running heads and rules and typeset draft footer
+  \def\@oddhead{}%
+  \def\@evenhead{}%
+  \def\@oddfoot{\centerline\isu@drafttitlefooter}% draft footer
+  \def\@evenfoot{\centerline\isu@drafttitlefooter}% draft footer
+  \renewcommand\headrulewidth{0pt}%
+  \renewcommand\footrulewidth{0pt}%
+}
+
+
 % The actual title page layout.
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{%
+  \frontmatter% just in case the author forgot
   \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
   \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
   \begin{titlepage}
-    % - custom header/footer - no numbers, only anything in the footer if draft mode
-    \thispagestyle{fancy}
-
-    \fancyhf{} % clear all header and footer fields
-    \fancyfoot[C]{\isu@drafttitlefooter} % In draft mode, put stuff in the center footer.
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}
-
-    % - starts the preface/roman numerals
-    \pagenumbering{roman}
-
+    \thispagestyle{titlepage}
 
     % - gets a PDF bookmark, just because we can.
     % - Temporarily set secnumdepth such that no numbering is shown in front matter.
@@ -638,8 +639,7 @@
 
       \end{center}
     \end{minipage}
-    \newpage
-    \pagestyle{plain}
+    \clearpage
   \end{titlepage}
 }
 
