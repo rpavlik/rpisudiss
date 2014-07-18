@@ -172,15 +172,28 @@
   \newcommand{\isu@drafttitlefooter}{}
 \fi
 
-% Setup headers/footers - override the plain page style.
-\RequirePackage{fancyhdr}
-\fancypagestyle{plain}{%
-  \fancyhf{} % clear all header and footer fields
-  \fancyhead[C]{\thepage} % Always put the page in the center header
-  \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
+% Regular page style
+\def\ps@plain{%
+  \let\@mkboth\@gobbletwo% disable marks
+  \def\@oddhead{\hfil\thepage\hfil}% centered page number
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{\hfil\isu@draftfooter\hfil}% draft notice
+  \let\@evenfoot\@oddfoot
 }
+
+% Title page page style
+\newcommand\ps@titlepage{%
+  % Disable running heads and rules and typeset draft footer
+  \def\@oddhead{}%
+  \def\@evenhead{}%
+  \def\@oddfoot{\centerline\isu@drafttitlefooter}% draft footer
+  \def\@evenfoot{\centerline\isu@drafttitlefooter}% draft footer
+}
+
+\let\ps@fancy\ps@plain
+\let\ps@headings\ps@plain
+
+\pagestyle{plain}% default page style
 
 \RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
 
@@ -582,17 +595,6 @@
 % - used for what the thesis office calls "two blank lines"
 \newcommand{\isu@twoblanklines}{20pt}
 \newcommand{\isu@maketwoblanklines}{\vspace{\isu@twoblanklines}}
-
-% Title page page style
-\newcommand\ps@titlepage{%
-  % Disable running heads and rules and typeset draft footer
-  \def\@oddhead{}%
-  \def\@evenhead{}%
-  \def\@oddfoot{\centerline\isu@drafttitlefooter}% draft footer
-  \def\@evenfoot{\centerline\isu@drafttitlefooter}% draft footer
-  \renewcommand\headrulewidth{0pt}%
-  \renewcommand\footrulewidth{0pt}%
-}
 
 
 % The actual title page layout.
