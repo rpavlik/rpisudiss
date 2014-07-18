@@ -562,13 +562,6 @@
 \newcommand{\isu@twoblanklines}{20pt}
 \newcommand{\isu@maketwoblanklines}{\vspace{\isu@twoblanklines}}
 
-\newcounter{isu@secnumdepth@backup}%
-\AtBeginDocument{%
-  % backup and set secnumdepth
-  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}%
-  \setcounter{secnumdepth}{-1}%
-}
-
 % Title page page style
 \newcommand\ps@titlepage{%
   % Disable running heads and rules and typeset draft footer
@@ -585,7 +578,9 @@
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
 \renewcommand{\maketitle}{%
-  \frontmatter% just in case the author forgot
+  \if@frontmatter\else
+    \frontmatter% just in case the author forgot
+  \fi
   \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
   \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
@@ -593,7 +588,6 @@
     \thispagestyle{titlepage}
 
     % - gets a PDF bookmark, just because we can.
-    % - Temporarily set secnumdepth such that no numbering is shown in front matter.
     \pdfbookmark[0]{\@title}{toc}
     \@mainmatterfalse
 
