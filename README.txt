@@ -13,6 +13,18 @@ and [Iowa State University - Thesis Checklist][checklist]
 [organizing]:http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/
 [checklist]:http://www.grad-college.iastate.edu/current/thesis/checklist/
 
+Testing
+-------
+
+These regression tests are by no means complete, but they're at least a
+smoketest. You'll need `latexmk` installed, as well as `pdflatex` and
+`xelatex` and the dependencies of this class itself.
+
+Running `tests/run-all-tests.sh` will, logically, run all tests,
+generating xUnit-style results files in `tests/results` (courtesy of
+<https://github.com/manolo/shell2junit> - see that page for how to hook
+up your Jenkins to this, too).
+
 License
 -------
 
