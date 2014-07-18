@@ -331,13 +331,32 @@
 \renewcommand\cfttabpresnum{Table }
 \cftsetindents{table}{0em}{6em}
 
+% Disable section numbering and backs up the current secnumdepth value
+\newcounter{isu@secnumdepth@backup}
+\newcommand{\isu@disable@secnum}{%
+  \expandafter\isu@info\expandafter{Backing up secnumdepth (was \the\value{secnumdepth}).}%
+  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}%
+  \setcounter{secnumdepth}{-1}%
+}
+
+% Restore original secnumdepth value
+\newcommand{\isu@restore@secnum}{%
+  \expandafter\isu@info\expandafter{Restoring secnumdepth to \the\value{isu@secnumdepth@backup} (was \the\value{secnumdepth}).}%
+  \setcounter{secnumdepth}{\value{isu@secnumdepth@backup}}%
+}
+
 %%%
 % Document division commands
 
+\newif\if@frontmatter
+\@frontmatterfalse
 \renewcommand\frontmatter{%
   \cleardoublepage
   \@mainmatterfalse
+  \@frontmattertrue
   \pagenumbering{roman}%
+  \isu@info{In \string\frontmatter, backing up secnumdepth.}%
+  \isu@disable@secnum
 }
 
 % Command to indicate when we're done
@@ -347,17 +366,19 @@
   \clearpage
   \pagenumbering{arabic}% also resets page number to 1
   \pagestyle{plain}%
+  \@frontmatterfalse
   \@mainmattertrue
   \newcommand{\isu@gotmainmatter}{}%
   \setcounter{chapter}{0}%
   % restore secnumdepth: OK to number chapters from here on out.
-  \setcounter{secnumdepth}{\value{isu@secnumdepth@backup}}%
+  \isu@restore@secnum
 }
 
 % Command to indicate we're done with main content
 \renewcommand{\backmatter}{
-  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}
-  \setcounter{secnumdepth}{-1}
+  \isu@info{In \string\backmatter, backing up secnumdepth.}%
+  \isu@disable@secnum
+  \@frontmatterfalse
   \@mainmatterfalse
 }
 
