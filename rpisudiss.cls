@@ -32,6 +32,10 @@
 
 % For parsing key-value pairs and class options
 \RequirePackage{xkeyval}
+\newcommand\isuset[1]{%
+  \setkeys{isu}{#1}%
+}
+
 
 
 %%%
@@ -387,10 +391,6 @@
   \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
 
-
-\newcommand\isuset[1]{%
-  \setkeys{isu}{#1}%
-}
 
 %%%
 % Title Page
