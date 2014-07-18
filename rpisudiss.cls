@@ -332,12 +332,18 @@
 %%%
 % Document division commands
 
+\renewcommand\frontmatter{%
+  \cleardoublepage
+  \@mainmatterfalse
+  \pagenumbering{roman}%
+}
+
 % Command to indicate when we're done
 % with preface content - must be called!
 % (If we're actually typesetting a full thesis...)
 \renewcommand{\mainmatter}{%
   \clearpage
-  \pagenumbering{arabic}%
+  \pagenumbering{arabic}% also resets page number to 1
   \pagestyle{plain}%
   \@mainmattertrue
   \newcommand{\isu@gotmainmatter}{}%
