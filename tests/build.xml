@@ -14,35 +14,11 @@
         <include name="test-*-xelatex.sh" />
     </fileset>
 
-    <fileset dir="." id="testfiles">
-        <include name="*.tex" />
-    </fileset>
-
-    <fileset dir=".." id="shared">
-        <include name="*.cls" />
-        <include name="*.sty" />
-    </fileset>
-
     <globmapper id="results.files" from="test-*.sh" to="${results.dir}/TEST-*.xml" casesensitive="no"/>
 
     <target name="clean">
         <delete dir="${results.dir}" />
         <delete dir="report" />
-    </target>
-
-    <target name="depends-tests">
-        <DependSet>
-            <srcfileset refid="shared" />
-            <srcfileset refid ="scripts.all" />
-            <srcfileset refid ="testfiles" />
-
-            <targets>
-                <mappedresources>
-                    <fileset refid ="scripts.all" />
-                    <mapper refid="results.files" />
-                </mappedresources>
-            </targets>
-        </DependSet>
     </target>
 
     <macrodef name="runtestscripts">
