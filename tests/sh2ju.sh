@@ -46,8 +46,12 @@ juLogClean() {
 
 # Execute a command and record its results 
 juLog() {
+  asserts="$(printf '%.2d' $tests)"
   # parse arguments
-  name=""; ya=""; icase=""
+  name=""
+  ya=""
+  icase=""
+  ereg=""
   while [ -z "$ya" ]; do  
     case "$1" in
   	  -name=*)   name=$asserts-`echo "$1" | sed -e 's/-name=//'`;   shift;;
@@ -98,7 +102,6 @@ juLog() {
 
   # calculate vars
   tests="$(expr $tests + 1)"
-  asserts="$(printf '%.2d' $tests)"
   errors="$(expr $errors + $err)"
   time=`echo "$end - $ini" | bc -l`
   total=`echo "$total + $time" | bc -l`
