@@ -171,7 +171,7 @@
             <xsl:sort select="@name"/>
             <!-- create an anchor to this class name -->
             <a name="{@name}"></a>
-            <h3>TestCase <xsl:value-of select="@name"/></h3>
+            <h3>Test Suite <xsl:value-of select="@name"/></h3>
 
             <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
               <xsl:call-template name="testcase.test.header"/>
