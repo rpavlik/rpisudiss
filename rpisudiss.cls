@@ -186,8 +186,8 @@
   % Disable running heads and rules and typeset draft footer
   \def\@oddhead{}%
   \def\@evenhead{}%
-  \def\@oddfoot{\centering\isu@drafttitlefooter}% draft footer
-  \def\@evenfoot{\centering\isu@drafttitlefooter}% draft footer
+  \def\@oddfoot{\hfil\isu@drafttitlefooter\hfil}% draft footer
+  \def\@evenfoot{\hfil\isu@drafttitlefooter\hfil}% draft footer
 }
 
 \let\ps@fancy\ps@plain
