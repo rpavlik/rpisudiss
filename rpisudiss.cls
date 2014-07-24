@@ -172,28 +172,30 @@
   \newcommand{\isu@drafttitlefooter}{}
 \fi
 
-% Regular page style
-\def\ps@plain{%
-  \let\@mkboth\@gobbletwo% disable marks
-  \def\@oddhead{\hfil\thepage\hfil}% centered page number
-  \let\@evenhead\@oddhead
-  \def\@oddfoot{\hfil\isu@draftfooter\hfil}% draft notice
-  \let\@evenfoot\@oddfoot
+%%%
+% Setup headers/footers
+\RequirePackage{fancyhdr}
+
+% override the plain page style.
+\fancypagestyle{plain}{
+  \fancyhf{} % clear all header and footer fields
+  \fancyhead[C]{\thepage} % Always put the page in the center header
+  \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
 }
 
-% Title page page style
-\newcommand\ps@titlepage{%
-  % Disable running heads and rules and typeset draft footer
-  \def\@oddhead{}%
-  \def\@evenhead{}%
-  \def\@oddfoot{\hfil\isu@drafttitlefooter\hfil}% draft footer
-  \def\@evenfoot{\hfil\isu@drafttitlefooter\hfil}% draft footer
+% create a "titlepage" page style
+\fancypagestyle{titlepage}{
+  \fancyhf{} % clear all header and footer fields
+  \fancyfoot[C]{\isu@drafttitlefooter} % In draft mode, put stuff in the center footer.
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
 }
 
-\let\ps@fancy\ps@plain
-\let\ps@headings\ps@plain
-
-\pagestyle{plain}% default page style
+\pagestyle{plain} % default page style
+\let\ps@headings\ps@plain % we mean it!
+\let\ps@fancy\ps@plain % really! (these last two lines probably unnecessary if user doesn't mess around much.)
 
 \RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
 
