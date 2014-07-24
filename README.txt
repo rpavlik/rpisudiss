@@ -1,6 +1,8 @@
 Unofficial Iowa State University LaTeX files by Ryan Pavlik
 ===========================================================
 
+[![Build Status](https://travis-ci.org/rpavlik/rpisudiss.svg)](https://travis-ci.org/rpavlik/rpisudiss)
+
 Completely unaffiliated with the `isuthesis` package/class: made from
 scratch.
 
