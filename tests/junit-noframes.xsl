@@ -131,10 +131,6 @@
             <xsl:call-template name="summary"/>
             <hr size="1" width="95%" align="left"/>
 
-            <!-- Package List part -->
-            <xsl:call-template name="packagelist"/>
-            <hr size="1" width="95%" align="left"/>
-
             <!-- For each package create its part -->
             <xsl:call-template name="packages"/>
             <hr size="1" width="95%" align="left"/>
@@ -145,54 +141,6 @@
         </body>
     </html>
 </xsl:template>
-
-
-
-    <!-- ================================================================== -->
-    <!-- Write a list of all packages with an hyperlink to the anchor of    -->
-    <!-- of the package name.                                               -->
-    <!-- ================================================================== -->
-    <xsl:template name="packagelist">
-        <h2>Packages</h2>
-        Note: package statistics are not computed recursively, they only sum up all of its testsuites numbers.
-        <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
-            <xsl:call-template name="testsuite.test.header"/>
-            <!-- list all packages recursively -->
-            <xsl:for-each select="./testsuite[not(./@package = preceding-sibling::testsuite/@package)]">
-                <xsl:sort select="@package"/>
-                <xsl:variable name="testsuites-in-package" select="/testsuites/testsuite[./@package = current()/@package]"/>
-                <xsl:variable name="testCount" select="sum($testsuites-in-package/@tests)"/>
-                <xsl:variable name="errorCount" select="sum($testsuites-in-package/@errors)"/>
-                <xsl:variable name="failureCount" select="sum($testsuites-in-package/@failures)"/>
-                <xsl:variable name="skippedCount" select="sum($testsuites-in-package/@skipped)" />
-                <xsl:variable name="timeCount" select="sum($testsuites-in-package/@time)"/>
-
-                <!-- write a summary for the package -->
-                <tr valign="top">
-                    <!-- set a nice color depending if there is an error/failure -->
-                    <xsl:attribute name="class">
-                        <xsl:choose>
-                            <xsl:when test="$failureCount &gt; 0">Failure</xsl:when>
-                            <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
-                        </xsl:choose>
-                    </xsl:attribute>
-                    <td><a href="#{@package}"><xsl:value-of select="@package"/></a></td>
-                    <td><xsl:value-of select="$testCount"/></td>
-                    <td><xsl:value-of select="$errorCount"/></td>
-                    <td><xsl:value-of select="$failureCount"/></td>
-                    <td><xsl:value-of select="$skippedCount" /></td>
-                    <td>
-                    <xsl:call-template name="display-time">
-                        <xsl:with-param name="value" select="$timeCount"/>
-                    </xsl:call-template>
-                    </td>
-                    <td><xsl:value-of select="$testsuites-in-package/@timestamp"/></td>
-                    <td><xsl:value-of select="$testsuites-in-package/@hostname"/></td>
-                </tr>
-            </xsl:for-each>
-        </table>
-    </xsl:template>
-
 
     <!-- ================================================================== -->
     <!-- Write a package level report                                       -->
@@ -254,30 +202,23 @@
         <h2>Summary</h2>
         <xsl:variable name="testCount" select="sum(testsuite/@tests)"/>
         <xsl:variable name="errorCount" select="sum(testsuite/@errors)"/>
-        <xsl:variable name="failureCount" select="sum(testsuite/@failures)"/>
-        <xsl:variable name="skippedCount" select="sum(testsuite/@skipped)" />
         <xsl:variable name="timeCount" select="sum(testsuite/@time)"/>
-        <xsl:variable name="successRate" select="($testCount - $failureCount - $errorCount) div $testCount"/>
+        <xsl:variable name="successRate" select="($testCount - $errorCount) div $testCount"/>
         <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
         <tr valign="top">
             <th>Tests</th>
-            <th>Failures</th>
             <th>Errors</th>
-            <th>Skipped</th>
             <th>Success rate</th>
             <th>Time</th>
         </tr>
         <tr valign="top">
             <xsl:attribute name="class">
                 <xsl:choose>
-                    <xsl:when test="$failureCount &gt; 0">Failure</xsl:when>
                     <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
                 </xsl:choose>
             </xsl:attribute>
             <td><xsl:value-of select="$testCount"/></td>
-            <td><xsl:value-of select="$failureCount"/></td>
             <td><xsl:value-of select="$errorCount"/></td>
-            <td><xsl:value-of select="$skippedCount" /></td>
             <td>
                 <xsl:call-template name="display-percent">
                     <xsl:with-param name="value" select="$successRate"/>
@@ -289,13 +230,6 @@
                 </xsl:call-template>
             </td>
 
-        </tr>
-        </table>
-        <table border="0" width="95%">
-        <tr>
-        <td style="text-align: justify;">
-        Note: <i>failures</i> are anticipated and checked for with assertions while <i>errors</i> are unanticipated.
-        </td>
         </tr>
         </table>
     </xsl:template>
@@ -315,12 +249,6 @@
 <!-- Page HEADER -->
 <xsl:template name="pageHeader">
     <h1><xsl:value-of select="$TITLE"/></h1>
-    <table width="100%">
-    <tr>
-        <td align="left"></td>
-        <td align="right">Designed for use with <a href='http://www.junit.org'>JUnit</a> and <a href='http://ant.apache.org/ant'>Ant</a>.</td>
-    </tr>
-    </table>
     <hr size="1"/>
 </xsl:template>
 
