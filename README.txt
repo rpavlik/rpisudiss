@@ -41,7 +41,7 @@ required in general for use of the class:
 
 - nag (`texlive-latex-extra`)
 - inputenc (`texlive-latex-base`)
-- mathpazo (`texlive-latex-base`)
+- mathpazo (`texlive-latex-base` and `texlive-fonts-recommended`)
 - tgpagella (`tex-gyre`)
 - microtype (`texlive-latex-recommended`)
 - textcomp (`texlive-latex-base`)
@@ -50,6 +50,7 @@ required in general for use of the class:
 - prettyref (`texlive-latex-extra`)
 - cmap (`texlive-latex-recommended`)
 - glyphtounicode.tex (`texlive-base`)
+- bibtex (`texlive-binaries`)
 
 The regression test suite requires the above packages, plus the following
 
