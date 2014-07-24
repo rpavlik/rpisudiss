@@ -22,7 +22,7 @@
    limitations under the License.
  -->
 
-<xsl:param name="TITLE">Unit Test Results.</xsl:param>
+<xsl:param name="TITLE">Regression Test Results</xsl:param>
 
 <!--
 
@@ -40,11 +40,11 @@
             <script src="jquery.colorbox-min.js"></script>
     <style type="text/css">
       body {
-        font:normal 68% verdana,arial,helvetica;
+        font:normal 80% verdana,arial,helvetica;
         color:#000000;
       }
       table tr td, table tr th {
-          font-size: 68%;
+          font-size: 80%;
       }
       table.details tr th{
         font-weight: bold;
@@ -55,39 +55,39 @@
         background:#eeeee0;
       }
 
+      .summary {
+        border-top: solid 1px #999999;
+        margin-top: 0.5em;
+        padding-top: 0.5em;
+        background:#fffff0;
+      }
+
       p {
         line-height:1.5em;
         margin-top:0.5em; margin-bottom:1.0em;
       }
-      h1 {
-        margin: 0px 0px 5px; font: 165% verdana,arial,helvetica
-      }
-      h2 {
-        margin-top: 1em; margin-bottom: 0.5em; font: bold 125% verdana,arial,helvetica
-      }
-      h3 {
-        margin-bottom: 0.5em; font: bold 115% verdana,arial,helvetica
-      }
-      h4 {
-        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
-      }
-      h5 {
-        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
-      }
-      h6 {
-        margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
-      }
 
       a:link, a:visited{text-decoration:none; color:#416CE5; border-bottom:1px solid #416CE5;}
+
       .Error {
         font-weight:bold; color:red;
       }
+
       .Failure {
         font-weight:bold; color:purple;
       }
+
       .systemlog {
         font-size: 120%;
         overflow: auto;
+      }
+
+      .testsuite, .suites {
+        margin: 1em;
+      }
+
+      .testsuite {
+        border-top: 1px solid #333333;
       }
       </style>
       <script>
@@ -100,13 +100,8 @@
             <a name="top"></a>
             <xsl:call-template name="pageHeader"/>
 
-            <!-- Summary part -->
-            <xsl:call-template name="summary"/>
-            <hr size="1" width="95%" align="left"/>
-
             <!-- For each package create its part -->
             <xsl:call-template name="packages"/>
-            <hr size="1" width="95%" align="left"/>
 
             <!-- For each class create the  part -->
             <xsl:call-template name="classes"/>
@@ -124,90 +119,75 @@
     <!-- create an anchor to this package name -->
     <xsl:for-each select="/testsuites/testsuite[not(./@package = preceding-sibling::testsuite/@package)]">
         <xsl:sort select="@package"/>
-            <a name="{@package}"></a>
-            <h3>Package <xsl:value-of select="@package"/></h3>
 
+        <div class="suites">
             <table class="details" border="0" cellpadding="5" cellspacing="2">
                 <xsl:call-template name="testsuite.test.header"/>
 
                 <!-- match the testsuites of this package -->
                 <xsl:apply-templates select="/testsuites/testsuite[./@package = current()/@package]" mode="print.test"/>
+                <xsl:call-template name="testsuite.test.summary"/>
             </table>
-            <a href="#top">Back to top</a>
-            <p/>
-            <p/>
+        </div>
     </xsl:for-each>
 </xsl:template>
 
 <xsl:template name="classes">
     <xsl:for-each select="testsuite">
         <xsl:sort select="@name"/>
-        <!-- create an anchor to this class name -->
-        <a name="{@name}"></a>
-        <h3>Test Suite <xsl:value-of select="@name"/></h3>
+        <div class="testsuite">
+            <!-- create an anchor to this class name -->
+            <a name="{@name}"></a>
+            <h3>Test Suite <xsl:value-of select="@name"/></h3>
 
-        <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
-        <p>
-            <xsl:call-template name="log">
-                <xsl:with-param name="testcase" select="./testcase[1]"/>
-                <xsl:with-param name="title" select="'Compilation Log'" />
-                <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
-            </xsl:call-template>
-        </p>
-        <table class="details" border="0" cellpadding="5" cellspacing="2">
-          <xsl:call-template name="testcase.test.header"/>
-          <xsl:apply-templates select="./testcase" mode="print.test"/>
-        </table>
-        <p/>
+            <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
+            <p>
+                <xsl:call-template name="log">
+                    <xsl:with-param name="testcase" select="./testcase[1]"/>
+                    <xsl:with-param name="title" select="'Compilation Log'" />
+                    <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
+                </xsl:call-template>
+            </p>
+            <table class="details" border="0" cellpadding="5" cellspacing="2">
+              <xsl:call-template name="testcase.test.header"/>
+              <xsl:apply-templates select="./testcase" mode="print.test"/>
+            </table>
+        </div>
     </xsl:for-each>
 </xsl:template>
 
-<xsl:template name="summary">
-    <h2>Summary</h2>
-    <xsl:variable name="testCount" select="sum(testsuite/@tests)"/>
-    <xsl:variable name="errorCount" select="sum(testsuite/@errors)"/>
-    <xsl:variable name="timeCount" select="sum(testsuite/@time)"/>
+<xsl:template name="testsuite.test.summary">
+    <xsl:variable name="testCount" select="sum(/testsuites/testsuite/@tests)"/>
+    <xsl:variable name="errorCount" select="sum(/testsuites/testsuite/@errors)"/>
+    <xsl:variable name="timeCount" select="sum(/testsuites/testsuite/@time)"/>
     <xsl:variable name="successRate" select="($testCount - $errorCount) div $testCount"/>
-    <table class="details" border="0" cellpadding="5" cellspacing="2">
-    <tr valign="top">
-        <th>Tests</th>
-        <th>Failures</th>
-        <th>Success rate</th>
-        <th>Time</th>
-    </tr>
-    <tr valign="top">
-        <xsl:attribute name="class">
-            <xsl:choose>
-                <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
-            </xsl:choose>
-        </xsl:attribute>
-        <td><xsl:value-of select="$testCount"/></td>
-        <td><xsl:value-of select="$errorCount"/></td>
-        <td>
+    <tr valign="top" class="summary">
+        <td class="summary">
+            Overall success rate:
             <xsl:call-template name="display-percent">
                 <xsl:with-param name="value" select="$successRate"/>
             </xsl:call-template>
         </td>
-        <td>
+        <td class="summary"><xsl:value-of select="$testCount"/></td>
+        <td class="summary"><xsl:value-of select="$errorCount"/></td>
+        <td class="summary">
             <xsl:call-template name="display-time">
                 <xsl:with-param name="value" select="$timeCount"/>
             </xsl:call-template>
         </td>
 
     </tr>
-    </table>
 </xsl:template>
 
 <!-- Page HEADER -->
 <xsl:template name="pageHeader">
     <h1><xsl:value-of select="$TITLE"/></h1>
-    <hr size="1"/>
 </xsl:template>
 
 <!-- class header -->
 <xsl:template name="testsuite.test.header">
     <tr valign="top">
-        <th>Name</th>
+        <th>Test Suite Name</th>
         <th>Tests</th>
         <th>Failures</th>
         <th nowrap="nowrap">Time (s)</th>
@@ -217,7 +197,7 @@
 <!-- method header -->
 <xsl:template name="testcase.test.header">
     <tr valign="top">
-        <th>Name</th>
+        <th>Test Case Name</th>
         <th>Status</th>
         <th nowrap="nowrap">Time (s)</th>
     </tr>
