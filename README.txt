@@ -13,6 +13,51 @@ and [Iowa State University - Thesis Checklist][checklist]
 [organizing]:http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/
 [checklist]:http://www.grad-college.iastate.edu/current/thesis/checklist/
 
+Dependencies
+------------
+
+The following LaTeX packages are required. In parentheses after each is
+the Debian/Ubuntu package that contains it.
+
+- hardwrap (`texlive-latex-extra`, or get it from CTAN if you're still using 12.04)
+- xkeyval (`texlive-latex-recommended`)
+- indentfirst (`texlive-latex-base`)
+- geometry (`texlive-latex-base`)
+- fancyhdr (`texlive-latex-base`)
+- textcase (`texlive-latex-extra` in 12.04 or `texlive-latex-recommended` in Debian)
+- etoolbox (`texlive-latex-extra` recommended, though it also appears to be in `etoolbox`?)
+- titlesec (`texlive-latex-extra`)
+- setspace (`texlive-latex-recommended`)
+- tocbibind (`texlive-latex-extra`)
+- tocloft (`texlive-latex-extra`)
+- xpatch (`texlive-latex-extra`, or get it from CTAN if you're still using 12.04)
+- hyperref (`texlive-latex-base`)
+- In draft/draftcls mode only:
+  - draftwatermark (`texlive-latex-extra`)
+  - datetime (`texlive-latex-extra`)
+
+The sample document and tests also use the following, though they're not
+required in general for use of the class:
+
+- nag (`texlive-latex-extra`)
+- inputenc (`texlive-latex-base`)
+- mathpazo (`texlive-latex-base`)
+- tgpagella (`tex-gyre`)
+- microtype (`texlive-latex-recommended`)
+- textcomp (`texlive-latex-base`)
+- graphicx (`texlive-latex-base`)
+- url (`texlive-latex-base`)
+- prettyref (`texlive-latex-extra`)
+- cmap (`texlive-latex-recommended`)
+- glyphtounicode.tex (`texlive-base`)
+
+The regression test suite requires the above packages, plus the following
+
+- pdfLaTeX (in `texlive-latex-base`)
+- XeLaTeX (in `texlive-xetex`)
+- latexmk (in `latexmk`)
+- ant and its junit support (requires both `ant` and `ant-optional`)
+
 Testing
 -------
 
