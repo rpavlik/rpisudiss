@@ -98,8 +98,8 @@ juLog() {
   rm -f $outf
 
   # calculate vars
-  asserts="$(printf '%.2d' $(expr $asserts + 1))"
   tests="$(expr $tests + 1)"
+  asserts="$(printf '%.2d' $tests)"
   errors="$(expr $errors + $err)"
   time=`echo "$end - $ini" | bc -l`
   total=`echo "$total + $time" | bc -l`
@@ -122,7 +122,7 @@ $out
   "
   ## testsuite block
   cat <<EOF > "$juDIR/TEST-$suite.xml"
-  <testsuite failures="0" assertions="$asserts" name="$suite" tests="$tests" errors="$errors" time="$total">
+  <testsuite failures="0" assertions="$tests" name="$suite" tests="$tests" errors="$errors" time="$total">
     $content
   </testsuite>
 EOF
