@@ -26,16 +26,18 @@
 
 <!--
 
- Sample stylesheet to be used with Ant JUnitReport output.
+ Modified sample stylesheet to be used with Ant JUnitReport output.
 
- It creates a non-framed report that can be useful to send via
- e-mail or such.
+ It creates a non-framed report that looks a little less like the 90's.
 
 -->
 <xsl:template match="testsuites">
     <html>
         <head>
             <title><xsl:value-of select="$TITLE"/></title>
+            <link rel="stylesheet" href="colorbox.css" />
+            <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+            <script src="jquery.colorbox-min.js"></script>
     <style type="text/css">
       body {
         font:normal 68% verdana,arial,helvetica;
@@ -81,10 +83,16 @@
       .Failure {
         font-weight:bold; color:purple;
       }
-      .Properties {
-        text-align:right;
+      .systemlog {
+        font-size: 120%;
+        overflow: auto;
       }
       </style>
+      <script>
+      $(document).ready(function() {
+        $(".loglink").colorbox({inline:true, width:"80%"});
+      })
+      </script>
         </head>
         <body>
             <a name="top"></a>
@@ -136,6 +144,12 @@
             <a name="{@name}"></a>
             <h3>Test Suite <xsl:value-of select="@name"/></h3>
 
+            <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
+            <xsl:call-template name="log">
+                <xsl:with-param name="testcase" select="./testcase[1]"/>
+                <xsl:with-param name="title" select="'Compilation Log'" />
+                <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
+            </xsl:call-template>
             <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
               <xsl:call-template name="testcase.test.header"/>
               <xsl:apply-templates select="./testcase" mode="print.test"/>
@@ -285,6 +299,20 @@
     </tr>
 </xsl:template>
 
+<xsl:template name="log">
+    <xsl:param name="testcase"/>
+    <xsl:param name="title" select="'Log'"/>
+    <xsl:param name="logid" select="generate-id($testcase)" />
+
+    <a href="#{$logid}" class="loglink">
+        <xsl:value-of select="$title" />
+    </a>
+    <div style="display:none">
+        <div id="{$logid}">
+            <xsl:apply-templates select="$testcase/system-out" />
+        </div>
+    </div>
+</xsl:template>
 
 <xsl:template match="failure">
     <xsl:call-template name="display-failures"/>
@@ -306,18 +334,15 @@
             <xsl:value-of select="@message"/>
         </xsl:otherwise>
     </xsl:choose>
-    <!-- display the stacktrace -->
-    <code>
-        <br/><br/>
-        <xsl:call-template name="br-replace">
-            <xsl:with-param name="word" select="."/>
-        </xsl:call-template>
-    </code>
-    <!-- the later is better but might be problematic for non-21" monitors... -->
-    <!--pre><xsl:value-of select="."/></pre-->
 </xsl:template>
 
-
+<xsl:template match="system-out">
+    <div class="systemlog">
+        <code>
+            <pre><xsl:value-of select="." /></pre>
+        </code>
+    </div>
+</xsl:template>
 
 <xsl:template name="display-time">
     <xsl:param name="value"/>
