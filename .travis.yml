@@ -8,6 +8,8 @@ before_install:
   - wget http://mirrors.ctan.org/install/macros/latex/contrib/xpatch.tds.zip
   - sudo unzip xpatch.tds.zip -d /usr/share/texmf
   - sudo texhash
+  - wget http://ftp.debian.org/debian/pool/main/l/latexmk/latexmk_4.39-1_all.deb
+  - sudo dpkg -i latexmk_4.39-1_all.deb
 
 # command to run tests, e.g. python setup.py test
 script:
