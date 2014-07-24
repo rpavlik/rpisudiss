@@ -147,18 +147,18 @@
             <h3>Test Suite <xsl:value-of select="@name"/></h3>
 
             <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
-            <xsl:call-template name="log">
-                <xsl:with-param name="testcase" select="./testcase[1]"/>
-                <xsl:with-param name="title" select="'Compilation Log'" />
-                <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
-            </xsl:call-template>
+            <p>
+                <xsl:call-template name="log">
+                    <xsl:with-param name="testcase" select="./testcase[1]"/>
+                    <xsl:with-param name="title" select="'Compilation Log'" />
+                    <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
+                </xsl:call-template>
+            </p>
             <table class="details" border="0" cellpadding="5" cellspacing="2">
               <xsl:call-template name="testcase.test.header"/>
               <xsl:apply-templates select="./testcase" mode="print.test"/>
             </table>
             <p/>
-
-            <a href="#top">Back to top</a>
         </xsl:for-each>
     </xsl:template>
 
@@ -285,6 +285,7 @@
     </tr>
 </xsl:template>
 
+<!-- Make a lightbox (using Colorbox) containing system-out -->
 <xsl:template name="log">
     <xsl:param name="testcase"/>
     <xsl:param name="title"/>
@@ -298,28 +299,6 @@
             <xsl:apply-templates select="$testcase/system-out" />
         </div>
     </div>
-</xsl:template>
-
-<xsl:template match="failure">
-    <xsl:call-template name="display-failures"/>
-</xsl:template>
-
-<xsl:template match="error">
-    <xsl:call-template name="display-failures"/>
-</xsl:template>
-
-<xsl:template match="skipped">
-    <xsl:call-template name="display-failures"/>
-</xsl:template>
-
-<!-- Style for the error, failure and skipped in the testcase template -->
-<xsl:template name="display-failures">
-    <xsl:choose>
-        <xsl:when test="not(@message)">N/A</xsl:when>
-        <xsl:otherwise>
-            <xsl:value-of select="@message"/>
-        </xsl:otherwise>
-    </xsl:choose>
 </xsl:template>
 
 <xsl:template match="system-out">
