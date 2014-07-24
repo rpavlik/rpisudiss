@@ -429,9 +429,6 @@
 %%%
 % Title Page
 
-% Temporary: hardcode these values in.
-% TODO: make these configurable by macros just like \author and \title
-
 % The degree may be one of: ma, ms, mfa, phd.
 \newcommand\isudegree[1]{\isuset{degree=#1}}
 \define@choicekey*+{isu}{degree}[\val\nr]{ma,ms,msc,mfa,phd,dphil}{%
