@@ -21,7 +21,7 @@
 ###     - Configure Jenkins to parse junit files from the generated folder
 ###
 
-asserts=00; errors=0; total=0; content=""
+asserts=00; tests=0; errors=0; total=0; content=""
 date=`which gdate || which date`
 
 # create output folder
@@ -98,9 +98,9 @@ juLog() {
   rm -f $outf
 
   # calculate vars
-  asserts=`expr $asserts + 1`
-  asserts=`printf "%.2d" $asserts`
-  errors=`expr $errors + $err`
+  asserts="$(printf '%.2d' $(expr $asserts + 1))"
+  tests="$(expr $tests + 1)"
+  errors="$(expr $errors + $err)"
   time=`echo "$end - $ini" | bc -l`
   total=`echo "$total + $time" | bc -l`
 
@@ -122,7 +122,7 @@ $out
   "
   ## testsuite block
   cat <<EOF > "$juDIR/TEST-$suite.xml"
-  <testsuite failures="0" assertions="$assertions" name="$suite" tests="1" errors="$errors" time="$total">
+  <testsuite failures="0" assertions="$asserts" name="$suite" tests="$tests" errors="$errors" time="$total">
     $content
   </testsuite>
 EOF
