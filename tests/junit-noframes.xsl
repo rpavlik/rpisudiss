@@ -276,6 +276,7 @@
     </a>
     <div style="display:none">
         <div id="{$logid}">
+            <h3>Log of suite <em><xsl:value-of select="$testcase/../@name" /></em>, test case <em><xsl:value-of select="$testcase/@name" /></em></h3>
             <xsl:apply-templates select="$testcase/system-out" />
         </div>
     </div>
