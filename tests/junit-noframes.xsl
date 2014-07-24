@@ -115,88 +115,88 @@
     </html>
 </xsl:template>
 
-    <!-- ================================================================== -->
-    <!-- Write a package level report                                       -->
-    <!-- It creates a table with values from the document:                  -->
-    <!-- Name | Tests | Errors | Failures | Time                            -->
-    <!-- ================================================================== -->
-    <xsl:template name="packages">
-        <!-- create an anchor to this package name -->
-        <xsl:for-each select="/testsuites/testsuite[not(./@package = preceding-sibling::testsuite/@package)]">
-            <xsl:sort select="@package"/>
-                <a name="{@package}"></a>
-                <h3>Package <xsl:value-of select="@package"/></h3>
+<!-- ================================================================== -->
+<!-- Write a package level report                                       -->
+<!-- It creates a table with values from the document:                  -->
+<!-- Name | Tests | Errors | Failures | Time                            -->
+<!-- ================================================================== -->
+<xsl:template name="packages">
+    <!-- create an anchor to this package name -->
+    <xsl:for-each select="/testsuites/testsuite[not(./@package = preceding-sibling::testsuite/@package)]">
+        <xsl:sort select="@package"/>
+            <a name="{@package}"></a>
+            <h3>Package <xsl:value-of select="@package"/></h3>
 
-                <table class="details" border="0" cellpadding="5" cellspacing="2">
-                    <xsl:call-template name="testsuite.test.header"/>
-
-                    <!-- match the testsuites of this package -->
-                    <xsl:apply-templates select="/testsuites/testsuite[./@package = current()/@package]" mode="print.test"/>
-                </table>
-                <a href="#top">Back to top</a>
-                <p/>
-                <p/>
-        </xsl:for-each>
-    </xsl:template>
-
-    <xsl:template name="classes">
-        <xsl:for-each select="testsuite">
-            <xsl:sort select="@name"/>
-            <!-- create an anchor to this class name -->
-            <a name="{@name}"></a>
-            <h3>Test Suite <xsl:value-of select="@name"/></h3>
-
-            <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
-            <p>
-                <xsl:call-template name="log">
-                    <xsl:with-param name="testcase" select="./testcase[1]"/>
-                    <xsl:with-param name="title" select="'Compilation Log'" />
-                    <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
-                </xsl:call-template>
-            </p>
             <table class="details" border="0" cellpadding="5" cellspacing="2">
-              <xsl:call-template name="testcase.test.header"/>
-              <xsl:apply-templates select="./testcase" mode="print.test"/>
+                <xsl:call-template name="testsuite.test.header"/>
+
+                <!-- match the testsuites of this package -->
+                <xsl:apply-templates select="/testsuites/testsuite[./@package = current()/@package]" mode="print.test"/>
             </table>
+            <a href="#top">Back to top</a>
             <p/>
-        </xsl:for-each>
-    </xsl:template>
+            <p/>
+    </xsl:for-each>
+</xsl:template>
 
-    <xsl:template name="summary">
-        <h2>Summary</h2>
-        <xsl:variable name="testCount" select="sum(testsuite/@tests)"/>
-        <xsl:variable name="errorCount" select="sum(testsuite/@errors)"/>
-        <xsl:variable name="timeCount" select="sum(testsuite/@time)"/>
-        <xsl:variable name="successRate" select="($testCount - $errorCount) div $testCount"/>
+<xsl:template name="classes">
+    <xsl:for-each select="testsuite">
+        <xsl:sort select="@name"/>
+        <!-- create an anchor to this class name -->
+        <a name="{@name}"></a>
+        <h3>Test Suite <xsl:value-of select="@name"/></h3>
+
+        <!-- LaTeX-specific: the first test contains the full build log, so put it here. -->
+        <p>
+            <xsl:call-template name="log">
+                <xsl:with-param name="testcase" select="./testcase[1]"/>
+                <xsl:with-param name="title" select="'Compilation Log'" />
+                <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
+            </xsl:call-template>
+        </p>
         <table class="details" border="0" cellpadding="5" cellspacing="2">
-        <tr valign="top">
-            <th>Tests</th>
-            <th>Failures</th>
-            <th>Success rate</th>
-            <th>Time</th>
-        </tr>
-        <tr valign="top">
-            <xsl:attribute name="class">
-                <xsl:choose>
-                    <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
-                </xsl:choose>
-            </xsl:attribute>
-            <td><xsl:value-of select="$testCount"/></td>
-            <td><xsl:value-of select="$errorCount"/></td>
-            <td>
-                <xsl:call-template name="display-percent">
-                    <xsl:with-param name="value" select="$successRate"/>
-                </xsl:call-template>
-            </td>
-            <td>
-                <xsl:call-template name="display-time">
-                    <xsl:with-param name="value" select="$timeCount"/>
-                </xsl:call-template>
-            </td>
-
-        </tr>
+          <xsl:call-template name="testcase.test.header"/>
+          <xsl:apply-templates select="./testcase" mode="print.test"/>
         </table>
-    </xsl:template>
+        <p/>
+    </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="summary">
+    <h2>Summary</h2>
+    <xsl:variable name="testCount" select="sum(testsuite/@tests)"/>
+    <xsl:variable name="errorCount" select="sum(testsuite/@errors)"/>
+    <xsl:variable name="timeCount" select="sum(testsuite/@time)"/>
+    <xsl:variable name="successRate" select="($testCount - $errorCount) div $testCount"/>
+    <table class="details" border="0" cellpadding="5" cellspacing="2">
+    <tr valign="top">
+        <th>Tests</th>
+        <th>Failures</th>
+        <th>Success rate</th>
+        <th>Time</th>
+    </tr>
+    <tr valign="top">
+        <xsl:attribute name="class">
+            <xsl:choose>
+                <xsl:when test="$errorCount &gt; 0">Error</xsl:when>
+            </xsl:choose>
+        </xsl:attribute>
+        <td><xsl:value-of select="$testCount"/></td>
+        <td><xsl:value-of select="$errorCount"/></td>
+        <td>
+            <xsl:call-template name="display-percent">
+                <xsl:with-param name="value" select="$successRate"/>
+            </xsl:call-template>
+        </td>
+        <td>
+            <xsl:call-template name="display-time">
+                <xsl:with-param name="value" select="$timeCount"/>
+            </xsl:call-template>
+        </td>
+
+    </tr>
+    </table>
+</xsl:template>
 
 <!-- Page HEADER -->
 <xsl:template name="pageHeader">
