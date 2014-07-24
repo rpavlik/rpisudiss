@@ -303,7 +303,7 @@
 
 <xsl:template name="log">
     <xsl:param name="testcase"/>
-    <xsl:param name="title" select="'Log'"/>
+    <xsl:param name="title"/>
     <xsl:param name="logid" select="generate-id($testcase)" />
 
     <a href="#{$logid}" class="loglink">
