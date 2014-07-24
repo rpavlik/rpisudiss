@@ -25,7 +25,18 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
 
-\newcommand{\@isu@classname@}{rpisudiss}
+% For nicer, word-wrapped error, warning, and info messages
+\RequirePackage{hardwrap}
+\GenerateLogMacros{class}[isu]{rpisudiss}
+
+
+% For parsing key-value pairs and class options
+\RequirePackage{xkeyval}
+\newcommand\isuset[1]{%
+  \setkeys{isu}{#1}%
+}
+
+
 
 %%%
 % Additional options not listed below, and why you'd want to pass them:
@@ -40,12 +51,15 @@
 %
 % Technically required: `Text should be double-spaced and, consistent throughout thesis'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/checklist/ under Line Spacing
-\newcommand\@isu@spacing@{\onehalfspacing}
-\newcommand\@isu@space@{onehalfspace}
-\DeclareOption{doublespacing}{%
-    \renewcommand\@isu@spacing@{\doublespacing}
-    \renewcommand\@isu@space@{doublespace}
+\DeclareOptionX{doublespacing}{%
+  \def\isu@spacing{\doublespacing}%
+  \def\isu@space{doublespace}%
 }
+\DeclareOptionX{onehalfspacing}{%
+  \def\isu@spacing{\onehalfspacing}%
+  \def\isu@space{onehalfspace}%
+}
+
 
 % option capstoc: Capitalize chapters in the table of contents
 %
@@ -54,8 +68,9 @@
 %
 % Implied by `Titles have all the same capitalization, size, and same font'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
-\newif\if@isu@capstoc@	\@isu@capstoc@false
-\DeclareOption{capstoc}{\@isu@capstoc@true}
+\newif\ifisu@capstoc
+\isu@capstocfalse
+\DeclareOptionX{capstoc}{\isu@capstoctrue}
 
 % option capschap: Capitalize chapters in their headings.
 %
@@ -67,58 +82,70 @@
 % location at the top of the page' and `Chapter titles should include
 % chapter and number centered in ALL CAPS (ex. CHAPTER 1. INTRODUCTION)'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/body_of_manuscript.php
-\newif\if@isu@capschap@	\@isu@capschap@false
-\DeclareOption{capschap}{\@isu@capschap@true}
+\newif\ifisu@capschap
+\isu@capschapfalse
+\DeclareOptionX{capschap}{\isu@capschaptrue}
 
 % option tocnumbersections: Number sections in the ToC.
 %
 % Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
-\newif\if@isu@tocnumbersections@	\@isu@tocnumbersections@false
-\DeclareOption{tocnumbersections}{\@isu@tocnumbersections@true}
+\newif\ifisu@tocnumbersections
+\isu@tocnumbersectionsfalse
+\DeclareOptionX{tocnumbersections}{\isu@tocnumbersectionstrue}
 
 % option tocnumbersubsections: Number subsections in the ToC. Implies tocnumbersections.
 %
 % Technically not allowed: `However, neither ... nor reference numbers appearing with text headings are placed in the Table of Contents listing.'
 % 2014-07-11 http://www.grad-college.iastate.edu/current/thesis/organizing_thesis/table_of_contents.php
-\newif\if@isu@tocnumbersubsections@	\@isu@tocnumbersubsections@false
-\DeclareOption{tocnumbersubsections}{	\@isu@tocnumbersubsections@true\@isu@tocnumbersections@true}
+\newif\ifisu@tocnumbersubsections
+\isu@tocnumbersubsectionsfalse
+\DeclareOptionX{tocnumbersubsections}{\isu@tocnumbersubsectionstrue\isu@tocnumbersectionstrue}
 
 %%%
 % Minor formatting options, composition aids, etc.
 
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
-\newif\if@isu@draftcls@	\@isu@draftcls@false
-\DeclareOption{draftcls}{\@isu@draftcls@true}
+\newif\ifisu@draftcls
+\isu@draftclsfalse
+\DeclareOptionX{draftcls}{\isu@draftclstrue}
 
 % option draft: draftcls plus whatever anyone else thinks about draft.
-\DeclareOption{draft}{
-    \@isu@draftcls@true
-    \PassOptionsToClass{draft}{report}
+\DeclareOptionX{draft}{%
+  \isu@draftclstrue
+  \PassOptionsToClass{draft}{book}%
 }
 
 % option print: Optimize for print rather than on-screen (turns links black instead of blue)
-\newif\if@isu@print@     \@isu@print@false
-\DeclareOption{print}{\@isu@print@true}
+\newif\ifisu@print
+\isu@printfalse
+\DeclareOptionX{print}{\isu@printtrue}
 
 % option ignoremissingmainmatter: Don't error if we've seen a titlepage but no \mainmatter by the end of the document.
-\newif\if@isu@errormissingmainmatter@ \@isu@errormissingmainmatter@true
-\DeclareOption{ignoremissingmainmatter}{\@isu@errormissingmainmatter@false}
+\newif\ifisu@errormissingmainmatter
+\isu@errormissingmainmattertrue
+\DeclareOptionX{ignoremissingmainmatter}{\isu@errormissingmainmatterfalse}
 
 % preamble command \extradraftfooter{} - some text to add to the footer in draftcls mode. Automatically delimited by --- before appending.
 \newcommand{\extradraftfooter}[1]{}
 
-%%%
-% Start of implementation
-
 % Forward everything not recognized
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\DeclareOptionX*{%
+  \isu@info@noline{Passing \CurrentOption\space to the `book' class.}
+  \PassOptionsToClass{\CurrentOption}{book}
+}
+
+% Default options
+\ExecuteOptionsX{onehalfspacing}
+\PassOptionsToClass{12pt}{book}
+\PassOptionsToClass{openany}{book}
+\PassOptionsToClass{oneside}{book}
 
 % Process options
-\ProcessOptions\relax
+\ProcessOptionsX*\relax
 
-% Based on report
-\LoadClass[12pt]{report}
+% Based on book
+\LoadClass{book}
 
 % Indent first paragraph after sectioning things.
 \RequirePackage{indentfirst}
@@ -130,34 +157,47 @@
 
 
 % Handle draftcls option placing timestamp in footer and watermarking first page.
-\if@isu@draftcls@
-    \RequirePackage[firstpage]{draftwatermark}
-    \RequirePackage{datetime}
+\ifisu@draftcls
+  \RequirePackage[firstpage]{draftwatermark}
+  \RequirePackage{datetime}
 
-    % Actually make \extradraftfooter{} have an effect.
-    \newcommand{\@isu@extradraftfooter@}{}
-    \renewcommand{\extradraftfooter}[1]{\renewcommand\@isu@extradraftfooter@{\space---\space#1}}
+  % Actually make \extradraftfooter{} have an effect.
+  \newcommand{\isu@extradraftfooter}{}
+  \renewcommand{\extradraftfooter}[1]{\renewcommand\isu@extradraftfooter{\space---\space#1}}
 
-    \newcommand{\@isu@draftfooter@}{DRAFT --- rendered \today\ at \currenttime\@isu@extradraftfooter@}
-    \newcommand{\@isu@drafttitlefooter@}{Draft rendered \today\ at \currenttime\@isu@extradraftfooter@}
+  \newcommand{\isu@draftfooter}{DRAFT --- rendered \today\ at \currenttime\isu@extradraftfooter}
+  \newcommand{\isu@drafttitlefooter}{Draft rendered \today\ at \currenttime\isu@extradraftfooter}
 \else
-    \newcommand{\@isu@draftfooter@}{}
-    \newcommand{\@isu@drafttitlefooter@}{}
+  \newcommand{\isu@draftfooter}{}
+  \newcommand{\isu@drafttitlefooter}{}
 \fi
 
-% Setup headers/footers - override the plain page style.
-\RequirePackage{fancyhdr}
-\fancypagestyle{plain}{%
-    \fancyhf{} % clear all header and footer fields
-    \fancyhead[C]{\thepage} % Always put the page in the center header
-    \fancyfoot[C]{\@isu@draftfooter@} % In draft mode, put stuff in the center footer.
-    \renewcommand{\headrulewidth}{0pt}
-    \renewcommand{\footrulewidth}{0pt}}
+% Regular page style
+\def\ps@plain{%
+  \let\@mkboth\@gobbletwo% disable marks
+  \def\@oddhead{\hfil\thepage\hfil}% centered page number
+  \let\@evenhead\@oddhead
+  \def\@oddfoot{\hfil\isu@draftfooter\hfil}% draft notice
+  \let\@evenfoot\@oddfoot
+}
 
-\AtBeginDocument{\pagestyle{plain}}
+% Title page page style
+\newcommand\ps@titlepage{%
+  % Disable running heads and rules and typeset draft footer
+  \def\@oddhead{}%
+  \def\@evenhead{}%
+  \def\@oddfoot{\centerline\isu@drafttitlefooter}% draft footer
+  \def\@evenfoot{\centerline\isu@drafttitlefooter}% draft footer
+}
 
-% Set up a bool for mainmatter or not.
-\newif\if@mainmatter \@mainmatterfalse
+\let\ps@fancy\ps@plain
+\let\ps@headings\ps@plain
+
+\pagestyle{plain}% default page style
+
+\RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
+
+\RequirePackage{etoolbox}% for list processing
 
 %%%
 % Set up sectioning
@@ -169,42 +209,42 @@
 % - large
 % - bold
 % - center
-\if@isu@capschap@
-    \newcommand{\@isu@chapformat@}{\MakeUppercase}
+\ifisu@capschap
+  \newcommand{\isu@chapformat}{\MakeTextUppercase}
 \else
-    \newcommand{\@isu@chapformat@}{}
+  \newcommand{\isu@chapformat}{}
 \fi
 
 \titleformat{\chapter}[block]
-    {\normalfont\large\bfseries\centering}
-    {\if@mainmatter \@isu@chapformat@ \chaptertitlename\space\thechapter.\quad\fi}
-    {0pt}
-    {\@isu@chapformat@}{}
+  {\normalfont\large\bfseries\centering}
+  {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
+  {0pt}
+  {\isu@chapformat}{}
 
 % Section:
 % - bold
 % - center
 \titleformat{\section}[block]
-    {\normalfont\normalsize\bfseries\centering}
-    {\thesection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries\centering}
+  {\thesection.}{1em}{}{}
 
 % Subsection:
 % - bold
 % - left-justified
 \titleformat{\subsection}[block]
-    {\normalfont\normalsize\bfseries}
-    {\thesubsection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection.}{1em}{}{}
 
 % Subsubsection:
 % - bold
 % - left-justified with indent
 \titleformat{\subsubsection}[block]
-    {\normalfont\normalsize\bfseries}
-    {\quad\thesubsubsection.}{1em}{}{}
+  {\normalfont\normalsize\bfseries}
+  {\quad\thesubsubsection.}{1em}{}{}
 
 % Apply default spacing
 \RequirePackage{setspace}
-\@isu@spacing@
+\isu@spacing
 
 %%%
 % Table of Contents (toc)/List of Figures (lof)/List of Tables (lot)
@@ -232,12 +272,15 @@
 % - Add PDF bookmark
 % - Page break after
 \xpretocmd{\tableofcontents}{%
-    \begin{singlespace}%
-    \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}}{}{}
+  \begin{singlespace}%
+  \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}%
+}{}{}
+
 \xapptocmd{\tableofcontents}{%
-    \end{singlespace}%
-    \pagestyle{plain}%
-    \clearpage}{}{}
+  \end{singlespace}%
+  \pagestyle{plain}%
+  \clearpage}{%
+}{}
 
 % - Add dot leader for chapter levels
 \renewcommand\cftchapdotsep{\cftdotsep}
@@ -245,29 +288,29 @@
 % - Prefix "Chapter " to chapter number
 % - Adjust indentation of levels
 % - Capitalize title entries, if requested
-\if@isu@capstoc@
-    \renewcommand\cftchappresnum{\MakeUppercase{\chaptertitlename} }
-    \cftsetindents{chapter}{0em}{8em}
-    \cftsetindents{section}{2em}{0em}
-    \cftsetindents{subsection}{3em}{0em}
-    \renewcommand{\cftchapfont}{\MakeUppercase}
+\ifisu@capstoc
+  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename} }
+  \cftsetindents{chapter}{0em}{8em}
+  \cftsetindents{section}{2em}{0em}
+  \cftsetindents{subsection}{3em}{0em}
+  \renewcommand{\cftchapfont}{\MakeTextUppercase}
 \else
-    \renewcommand\cftchappresnum{\chaptertitlename\ }
-    \cftsetindents{chapter}{0em}{6em}
-    \cftsetindents{section}{1em}{0em}
-    \cftsetindents{subsection}{2em}{0em}
+  \renewcommand\cftchappresnum{\chaptertitlename\ }
+  \cftsetindents{chapter}{0em}{6em}
+  \cftsetindents{section}{1em}{0em}
+  \cftsetindents{subsection}{2em}{0em}
 \fi
 
 % - Remove section/subsection numbers from ToC by capturing
 %   see idea at  http://tex.stackexchange.com/questions/71123/remove-section-number-toc-entries-with-tocloft
-\if@isu@tocnumbersections@\else
-    \renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
-    \renewcommand{\cftsecaftersnum}{\end{lrbox}}
+\ifisu@tocnumbersections\else
+  \renewcommand{\cftsecpresnum}{\begin{lrbox}{\@tempboxa}}
+  \renewcommand{\cftsecaftersnum}{\end{lrbox}}
 \fi
 
-\if@isu@tocnumbersubsections@\else
-    \renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
-    \renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
+\ifisu@tocnumbersubsections\else
+  \renewcommand{\cftsubsecpresnum}{\begin{lrbox}{\@tempboxa}}
+  \renewcommand{\cftsubsecaftersnum}{\end{lrbox}}
 \fi
 
 %%%
@@ -275,9 +318,12 @@
 % - Single space
 % - Page break after
 \xpretocmd{\listoffigures}{%
-    \begin{singlespace}}{}{}
+  \begin{singlespace}%
+}{}{}
+
 \xapptocmd{\listoffigures}{%
-    \end{singlespace}\clearpage}{}{}
+  \end{singlespace}\clearpage
+}{}{}
 
 % - Prepend the word "Figure" to the number
 \renewcommand\cftfigpresnum{Figure }
@@ -288,51 +334,80 @@
 % - Single space
 % - Page break after
 \xpretocmd{\listoftables}{%
-    \begin{singlespace}}{}{}
+  \begin{singlespace}%
+}{}{}
 \xapptocmd{\listoftables}{%
-    \end{singlespace}\clearpage}{}{}
+    \end{singlespace}\clearpage
+}{}{}
 
 % - Prepend the word "Table" to the number
 \renewcommand\cfttabpresnum{Table }
 \cftsetindents{table}{0em}{6em}
 
+% Disable section numbering and backs up the current secnumdepth value
+\newcounter{isu@secnumdepth@backup}
+\newcommand{\isu@disable@secnum}{%
+  \expandafter\isu@info\expandafter{Backing up secnumdepth (was \the\value{secnumdepth}).}%
+  \setcounter{isu@secnumdepth@backup}{\value{secnumdepth}}%
+  \setcounter{secnumdepth}{-1}%
+}
+
+% Restore original secnumdepth value
+\newcommand{\isu@restore@secnum}{%
+  \expandafter\isu@info\expandafter{Restoring secnumdepth to \the\value{isu@secnumdepth@backup} (was \the\value{secnumdepth}).}%
+  \setcounter{secnumdepth}{\value{isu@secnumdepth@backup}}%
+}
+
 %%%
 % Document division commands
+
+\newif\if@frontmatter
+\@frontmatterfalse
+\renewcommand\frontmatter{%
+  \cleardoublepage
+  \@mainmatterfalse
+  \@frontmattertrue
+  \pagenumbering{roman}%
+  \isu@info{In \string\frontmatter, backing up secnumdepth.}%
+  \isu@disable@secnum
+}
 
 % Command to indicate when we're done
 % with preface content - must be called!
 % (If we're actually typesetting a full thesis...)
-\newcommand{\mainmatter}{%
-    \clearpage
-    \pagenumbering{arabic}
-    \pagestyle{plain}
-    \@mainmattertrue
-    \newcommand{\@isu@gotmainmatter@}{}
-    \setcounter{chapter}{0}
-    % restore secnumdepth: OK to number chapters from here on out.
-    \setcounter{secnumdepth}{\value{@isu@secnumdepth@backup@}}
+\renewcommand{\mainmatter}{%
+  \clearpage
+  \pagenumbering{arabic}% also resets page number to 1
+  \pagestyle{plain}%
+  \@frontmatterfalse
+  \@mainmattertrue
+  \newcommand{\isu@gotmainmatter}{}%
+  \setcounter{chapter}{0}%
+  % restore secnumdepth: OK to number chapters from here on out.
+  \isu@restore@secnum
 }
 
 % Command to indicate we're done with main content
-\newcommand{\backmatter}{
-    \setcounter{@isu@secnumdepth@backup@}{\value{secnumdepth}}
-    \setcounter{secnumdepth}{-1}
-    \@mainmatterfalse
+\renewcommand{\backmatter}{
+  \isu@info{In \string\backmatter, backing up secnumdepth.}%
+  \isu@disable@secnum
+  \@frontmatterfalse
+  \@mainmatterfalse
 }
 
 % Verify that we actually got some main matter
 \AtEndDocument{
-    \if@isu@errormissingmainmatter@
-        \ifdefined\@isu@gottitle@
-            \ClassInfo{\@isu@classname@}{Full dissertation mode}
-            \unless\ifdefined\@isu@gotmainmatter@
-                \ClassError{\@isu@classname@}{Missing \protect\mainmatter\space before your first real chapter!}{Missing mainmatter}
-%                 \ClassError{\@isu@classname@}{%
-%                     \protect\mainmatter\space not called in your document expected before your first real chapter}{%
-%                     You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
-            \fi
-        \fi
+  \ifisu@errormissingmainmatter
+    \ifdefined\isu@gottitle
+      \isu@info{Full dissertation mode}
+      \unless\ifdefined\isu@gotmainmatter
+          \isu@error{Missing \protect\mainmatter}{Missing \protect\mainmatter\space before your first and real chapter!}
+%           \isu@error{%
+%               \protect\mainmatter\space not called in your document expected before your first real chapter}{%
+%               You need to put \protect\mainmatter\space before your first real numbered chapter, typically your introduction.}
+      \fi
     \fi
+  \fi
 }
 
 %%%
@@ -342,120 +417,247 @@
 \RequirePackage[pdfusetitle,hypertexnames=false,linktocpage=true]{hyperref}
 \hypersetup{bookmarksnumbered=true,bookmarksopen=true,pdfpagemode=UseOutlines,pdfview=FitB}
 
-\if@isu@print@
-    % Hide (don't color) links for print
-    \hypersetup{hidelinks, colorlinks=false}
+\ifisu@print
+  % Hide (don't color) links for print
+  \hypersetup{hidelinks, colorlinks=false}
 \else
-    % Nice blue links.
-    \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
+  % Nice blue links.
+  \hypersetup{colorlinks=true,linkcolor=blue,anchorcolor=blue,citecolor=blue,filecolor=blue,urlcolor=blue}
 \fi
+
 
 %%%
 % Title Page
 
 % Temporary: hardcode these values in.
 % TODO: make these configurable by macros just like \author and \title
-\newcommand\@isu@degree@{Doctor of Philosophy}
-\newcommand\@isu@gradyear@{2014}
-\newcommand\@isu@submissiontype@{dissertation}
-\newcommand\@isu@majorline@{Co-majors: Human-Computer Interaction; Computer Science}
-\newcommand\@isu@committee@{%
-    Judy M. Vance, Co-major Professor\\%
-    Leslie Miller, Co-major Professor\\%
-    Debra Satterfield \\ Jonathan Kelly \\ David Weiss \\ Horea Ilies}
-\newcommand\@isu@copyrightnotice@{\\       % Unclear what the spacing between notice and the text above should be.
-    Copyright \copyright\ \@author, \@isu@gradyear@.
-All rights reserved.}
 
-% Fix abstract.
-% In front matter, chapters are a fine substitute for this sort of thing:
-% right formatting, included in ToC, etc.
-% Much better than the stock abstract environment in report.cls, which
-% uses the titlepage environment totally messing up everything.
-\renewenvironment{abstract}{\chapter{Abstract}\begin{\@isu@space@}}{\end{\@isu@space@}}
+% The degree may be one of: ma, ms, mfa, phd.
+\newcommand\isudegree[1]{\isuset{degree=#1}}
+\define@choicekey*+{isu}{degree}[\val\nr]{ma,ms,msc,mfa,phd,dphil}{%
+  \ifcase\nr\relax
+    \gdef\isu@degree{Master of Arts}%
+  \or
+    \gdef\isu@degree{Master of Science}%
+  \or
+    \gdef\isu@degree{Master of Science}%
+  \or
+    \gdef\isu@degree{Master of Fine Arts}%
+  \or
+    \gdef\isu@degree{Doctor of Philosophy}%
+  \or
+    \gdef\isu@degree{Doctor of Philosophy}%
+  \fi
+}{%
+  \isu@error{Missing \protect\isudegree!}{You must specify an \protect\isudegree{type} where `type' may be one of: MA, MS, MFA, PhD.}%
+}
+\def\isu@degree{\NoCaseChange{\isu@error{You must set the degree type!}{You must specify an \protect\isudegree{type} where `type' may be one of: MA, MS, MFA, PhD.}}}
+
+% Graduation year. Defaults to current year.
+\newcommand\isugradyear[1]{\isuset{gradyear=#1}}
+\define@key{isu}{gradyear}[\the\year]{%
+  \gdef\isu@gradyear{#1}%
+}
+\isugradyear{\the\year}
+
+% Submission type must be one of: dissertation, thesis, proposal, prelim.
+\newcommand\isusubmissiontype[1]{\isuset{submissiontype=#1}}
+\define@choicekey*+{isu}{submissiontype}[\val\nr]{dissertation,thesis,proposal,prelim}{%
+  \ifcase\nr\relax
+    \gdef\isu@submissiontype{dissertation}
+  \or
+    \gdef\isu@submissiontype{thesis}
+  \or
+    \gdef\isu@submissiontype{research proposal}
+  \or
+    \gdef\isu@submissiontype{research proposal}
+  \fi
+}{%
+  \isu@error{Missing \protect\isusubmissiontype!}{You must specify an \protect\isusubmissiontype{type} where `type' may be one of: dissertation, thesis, proposal.}%
+}
+\def\isu@submissiontype{\NoCaseChange{\isu@error{Missing \protect\isusubmissiontype!}{You must specify an \protect\isusubmissiontype{type} where `type' may be one of: dissertation, thesis, proposal.}}}
+
+% Majors
+
+\newcounter{isu@majors@counter}
+\setcounter{isu@majors@counter}{0}
+\def\isu@majors@list{}% contains list of majors
+\newcommand\isumajor[1]{%
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@majors@list}{##1}%
+    \stepcounter{isu@majors@counter}%
+    \isu@info{Adding major `##1' as major number \theisu@majors@counter.}%
+  }%
+  \docsvlist{#1}%
+}
+\let\isumajors\isumajor
+\define@key{isu}{major}{\isumajor{#1}}
+\define@key{isu}{majors}{\isumajor{#1}}
+
+\newcommand\isu@majorline{%
+  \ifcase\value{isu@majors@counter}%
+    \isu@error{Missing \protect\isumajor!}{%
+      You must specify one or more majors using the \string\isumajor{...} macro. 
+      Separate each major in the list with a comma.\\
+      \\
+      Examples:\\
+      \@spaces\string\isumajors{Computer Science,Computer Engineering}\\
+      \@spaces\string\isumajor{Human Computer Interaction}
+    }%
+  \or
+    \isu@info{There is only 1 major.}%
+    \renewcommand*{\do}[1]{##1}%
+    Major: \dolistloop{\isu@majors@list}%
+  \else
+    \isu@info{There are \theisu@majors@counter\ majors.}%
+    \def\dosep{}% no separator before first element
+    \renewcommand*{\do}[1]{\dosep ##1\def\dosep{; }}%
+    Co-majors: \dolistloop{\isu@majors@list}%
+  \fi
+}
+
+% Program of study committee
+\newcounter{isu@majorprofs@counter}
+\newcounter{isu@profs@counter}
+\def\isu@majorprofs@list{}% major professors list
+\def\isu@profs@list{}% non-major professors list
+\def\isuprofessor{\@ifstar\isu@professor@star\isu@professor}
+\let\isuprofessors\isuprofessor
+\newcommand\isu@professor@star[1]{% major professor
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@majorprofs@list}{##1}%
+    \stepcounter{isu@majorprofs@counter}%
+  }%
+  \docsvlist{#1}%
+}
+\newcommand\isu@professor[1]{% non-major professor
+  \renewcommand*{\do}[1]{%
+    \listgadd{\isu@profs@list}{##1}%
+    \stepcounter{isu@profs@counter}%
+  }%
+  \docsvlist{#1}%
+}
+\define@key{isu}{major professor}{\isuprofessor*{#1}}
+\define@key{isu}{major professors}{\isuprofessor*{#1}}
+\define@key{isu}{professor}{\isuprofessor{#1}}
+\define@key{isu}{professors}{\isuprofessor{#1}}
+
+\newcommand\isu@committee{%
+  % List the major professors first
+  \ifcase\value{isu@majorprofs@counter}%
+    \isu@error{Missing major professor(s)!}{%
+      You must specify one or more major professors using the \string\isuprofessor*{...} macro.
+      Separate each major professor in the list with a comma. Don't forget the \string*!
+    }%
+  \or
+    \isu@info{There is only 1 major professor.}%
+    \renewcommand*{\do}[1]{##1, Major Professor\\}%
+    \dolistloop{\isu@majorprofs@list}%
+  \else
+    \isu@info{There are \theisu@majorprofs@counter\ major professors.}%
+    \renewcommand*{\do}[1]{##1, Co-major Professor\\}%
+    \dolistloop{\isu@majorprofs@list}%
+  \fi
+
+  % Now list the non-major professors
+  \ifcase\value{isu@profs@counter}%
+    \isu@error{Missing non-major professor(s)!}{%
+      You must specify one or more professors using the \string\isuprofessor{...} macro.
+      Separate each professor in the list with a comma.
+      Don't use a \string* for non-major professors.
+    }%
+  \or
+    \isu@info{There is only 1 non-major professor.}%
+    \renewcommand*{\do}[1]{##1\\}%
+    \dolistloop{\isu@profs@list}%
+  \else
+    \isu@info{There are \theisu@profs@counter\ non-major professors.}%
+    \renewcommand*{\do}[1]{##1\\}%
+    \dolistloop{\isu@profs@list}%
+  \fi
+}
+
+\newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
+  Copyright \copyright\ \@author, \isu@gradyear.
+  All rights reserved.
+}
+
+% Abstract environment
+\newenvironment{abstract}{%
+  \chapter{Abstract}%
+  \isu@spacing
+}{}
 
 % Basically wipe out this environment so it doesn't monkey with page numbering.
 \renewenvironment{titlepage}{}{}
 
 % Spacing tools
 % - used for what the thesis office calls "two blank lines"
-\newcommand{\@isu@twoblanklines@}{20pt}
-\newcommand{\@isu@maketwoblanklines@}{\vspace{\@isu@twoblanklines@}}
+\newcommand{\isu@twoblanklines}{20pt}
+\newcommand{\isu@maketwoblanklines}{\vspace{\isu@twoblanklines}}
+
 
 % The actual title page layout.
 % Note that portions that appear double-spaced in the sample/annotated PDF
 % are given the same spacing as the body of the document (1.5 or 2)
-\renewcommand{\maketitle}{
-    \newcommand{\@isu@gottitle@}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
-    \ClassInfo{\@isu@classname@}{Generating title page -- assuming we are typesetting a full dissertation.}
+\renewcommand{\maketitle}{%
+  \if@frontmatter\else
+    \frontmatter% just in case the author forgot
+  \fi
+  \newcommand{\isu@gottitle}{} % Assume that \maketitle implies typesetting a full thesis, not just a chapter.
+  \isu@info{Generating title page -- assuming we are typesetting a full dissertation.}
 
-    \begin{titlepage}
-        % - custom header/footer - no numbers, only anything in the footer if draft mode
-        \thispagestyle{fancy}
+  \begin{titlepage}
+    \thispagestyle{titlepage}
 
-        \fancyhf{} % clear all header and footer fields
-        \fancyfoot[C]{\@isu@drafttitlefooter@} % In draft mode, put stuff in the center footer.
-        \renewcommand{\headrulewidth}{0pt}
-        \renewcommand{\footrulewidth}{0pt}
+    % - gets a PDF bookmark, just because we can.
+    \pdfbookmark[0]{\@title}{toc}
+    \@mainmatterfalse
 
-        % - starts the preface/roman numerals
-        \pagenumbering{roman}
+    \setlength{\parindent}{0pt} % Don't you dare try to indent!
+    \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
+      \begin{center}                      % Center this whole page
+        \vspace*{12pt}                      % Designated blank line at the top of the page.
 
+        \begin{singlespace}                 % Single-space this section, we manually add spacing.
+          \textbf{\@title}\\                  % Title in bold
+          \isu@maketwoblanklines             % "two blank lines"
+          by\\                                % the word 'by', not in bold
+          \isu@maketwoblanklines             % "two blank lines"
+          \textbf{\@author}                   % Author in bold
+        \end{singlespace}
 
-        % - gets a PDF bookmark, just because we can.
-        % - Temporarily set secnumdepth such that no numbering is shown in front matter.
-        \pdfbookmark[0]{\@title}{toc}
-        % backup and set secnumdepth
-        \newcounter{@isu@secnumdepth@backup@}
-        \setcounter{@isu@secnumdepth@backup@}{\value{secnumdepth}}
-        \setcounter{secnumdepth}{-1}
-        \@mainmatterfalse
+        \vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
 
-        \setlength{\parindent}{0pt} % Don't you dare try to indent!
-        \begin{minipage}[c][\textheight][s]{\linewidth} % Full-page box to contain everything and stretch everything.
-            \begin{center}                      % Center this whole page
-                \vspace*{12pt}                      % Designated blank line at the top of the page.
+        \begin{\isu@space}                 % Normal document spacing here.
+          A \isu@submissiontype\ submitted to the graduate faculty\\
+          in partial fulfillment of the requirements of the degree of\\
+          \MakeTextUppercase{\isu@degree}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
+        \end{\isu@space}
 
-                \begin{singlespace}                 % Single-space this section, we manually add spacing.
-                    \textbf{\@title}\\                  % Title in bold
-                    \@isu@maketwoblanklines@             % "two blank lines"
-                    by\\                                % the word 'by', not in bold
-                    \@isu@maketwoblanklines@             % "two blank lines"
-                    \textbf{\@author}                   % Author in bold
-                \end{singlespace}
+        \isu@maketwoblanklines             % "two blank lines"
 
-                \vfill{}                            % let LaTeX decide what "4-6 blank lines" should be.
+        \begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
+          \isu@majorline\\                   % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
+          \medskip                            % Unspecified space here, looks like just "one blank line" on sample
+          Program of Study Committee:\\
+          \isu@committee                     % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
+        \end{singlespace}
 
-                \begin{\@isu@space@}                 % Normal document spacing here.
-                    A \@isu@submissiontype@\ submitted to the graduate faculty\\
-                    in partial fulfillment of the requirements of the degree of\\
-                    \MakeUppercase{\@isu@degree@}        % Doctor of Philosophy, etc. We enforce caps so they don't have to.
-                \end{\@isu@space@}
+        \vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
+        \isu@maketwoblanklines             % Suggest it's a little longer than the other vfill.
 
-                \@isu@maketwoblanklines@             % "two blank lines"
+        \begin{\isu@space}                 % Normal document spacing here
+          Iowa State University\\
+          Ames, Iowa\\
+          \isu@gradyear                       % Newline after here, if needed, is in the copyright notice macro.
+          \isu@copyrightnotice                % Copyright line optional if copyright not formally filed.
+        \end{\isu@space}
 
-                \begin{singlespace}                 % Committee is single-spaced, looks like really long majors would be too.
-                    \@isu@majorline@\\                   % "Major: MAJ (CONC)" or "Co-majors: MAJ; MAJ;
-                    \medskip                            % Unspecified space here, looks like just "one blank line" on sample
-                    Program of Study Committee:\\
-                    \@isu@committee@                     % Committee, user-delimited with \\ and user-annoted with ", Major Professor" or "Co-major Professor"
-                \end{singlespace}
-
-                \vfill{}                            % let LaTeX decide what "7-8 blank lines" should be.
-                \@isu@maketwoblanklines@             % Suggest it's a little longer than the other vfill.
-
-                \begin{\@isu@space@}                 % Normal document spacing here
-                    Iowa State University\\
-                    Ames, Iowa\\
-                    \@isu@gradyear@                       % Newline after here, if needed, is in the copyright notice macro.
-                    \@isu@copyrightnotice@                % Copyright line optional if copyright not formally filed.
-                \end{\@isu@space@}
-
-            \end{center}
-        \end{minipage}
-        \newpage
-        \pagestyle{plain}
-    \end{titlepage}
+      \end{center}
+    \end{minipage}
+    \clearpage
+  \end{titlepage}
 }
 
 \endinput

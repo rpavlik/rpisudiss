@@ -2,6 +2,6 @@
 # call like location/latexindent.pl -l thefile > someoutput
 # and merge the desired changes using meld or equivalent.
 
-defaultIndent: "    "
+defaultIndent: "  "
 removeTrailingWhitespace: 1
 
