@@ -19,6 +19,7 @@ trap finish EXIT
 export DIR=$scratch
 export BASICLOG=$scratch/basiclog.txt
 export LOG=$scratch/$DOCNAME.log
+export TARGETNAME=$scratch/$DOCNAME
 
 _runbuild() {
     (
@@ -34,20 +35,30 @@ _oppositegrep() {
     ! grep "$@" 2>&1 >/dev/null
 }
 
-shouldbuild() {
-    juLog -name="document should build" -error="Latexmk: Errors, so I did not complete making targets" -error="Fatal error occurred" "_runbuild"
+should_build() {
+    juLog -name="document should build - console log" -error="Latexmk: Errors, so I did not complete making targets" -error="Fatal error occurred" "_runbuild"
+    juLog -name="Full log file" cat "$LOG"
 }
 
-shouldfailtobuild() {
-    juLog -name="document should fail to build" -error="^Latexmk: All targets.*are up-to-date" "_runbuild"
+should_fail_to_build() {
+    juLog -name="document should fail to build - console log" -error="Latexmk: All targets.*are up-to-date" "_runbuild"
+    juLog -name="Full log file" cat "$LOG"
 }
 
-passiflogmatches() {
+pass_if_console_matches() {
     juLog -name="$2" "grep \"$1\" \"$BASICLOG\""
 }
 
-failiflogmatches() {
+fail_if_console_matches() {
     juLog -name="$2" "_oppositegrep \"$1\" \"$BASICLOG\""
+}
+
+pass_if_log_matches() {
+    juLog -name="$2" "grep \"$1\" \"$LOG\""
+}
+
+fail_if_log_matches() {
+    juLog -name="$2" "_oppositegrep \"$1\" \"$LOG\""
 }
 
 
