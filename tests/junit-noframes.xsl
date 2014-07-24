@@ -274,7 +274,21 @@
                 <xsl:when test="failure | error">Error</xsl:when>
             </xsl:choose>
         </xsl:attribute>
-        <td><xsl:value-of select="@name"/></td>
+
+        <!-- Create name - link to the log if we have one -->
+        <td>
+            <xsl:choose>
+                <xsl:when test="./system-out">
+                    <xsl:call-template name="log"> <!-- Add a link to the log -->
+                        <xsl:with-param name="testcase" select="."/>
+                        <xsl:with-param name="title" select="@name"/>
+                    </xsl:call-template>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="@name"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </td>
         <xsl:choose>
             <xsl:when test="failure">
                 <td>Failure</td>
