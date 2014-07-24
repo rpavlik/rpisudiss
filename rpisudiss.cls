@@ -194,8 +194,6 @@
 }
 
 \pagestyle{plain} % default page style
-\let\ps@headings\ps@plain % we mean it!
-\let\ps@fancy\ps@plain % really! (these last two lines probably unnecessary if user doesn't mess around much.)
 
 \RequirePackage{textcase}% provides \MakeTextUppercase and \MakeTextLowercase
 
