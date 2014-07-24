@@ -35,7 +35,7 @@ _oppositegrep() {
 }
 
 shouldbuild() {
-    juLog -name="document should build" -error="^Latexmk: Errors" "_runbuild"
+    juLog -name="document should build" -error="Latexmk: Errors, so I did not complete making targets" -error="Fatal error occurred" "_runbuild"
 }
 
 shouldfailtobuild() {
