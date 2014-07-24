@@ -3,6 +3,8 @@
     <property name="results.dir" value="results" />
     <property name="report.dir" value="report" />
     <property name="style.dir" value="." />
+    <property name="report.format" value="noframes" />
+    <property name="report.file" value="${report.dir}/junit-${report.format}.html" />
 
     <fileset dir="." id="scripts.all">
         <include name="test-*.sh" />
@@ -19,7 +21,7 @@
 
     <target name="clean">
         <delete dir="${results.dir}" />
-        <delete dir="report" />
+        <delete file="${report.file}" />
     </target>
 
     <macrodef name="runtestscripts">
@@ -47,7 +49,7 @@
             <fileset dir="${results.dir}">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report styledir="${style.dir}" format="noframes" todir="${report.dir}"/>
+            <report styledir="${style.dir}" format="${report.format}" todir="${report.dir}"/>
         </junitreport>
     </target>
     
