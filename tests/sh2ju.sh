@@ -46,9 +46,8 @@ juLogClean() {
 
 # Execute a command and record its results 
 juLog() {
-  
   # parse arguments
-  ya=""; icase=""
+  name=""; ya=""; icase=""
   while [ -z "$ya" ]; do  
     case "$1" in
   	  -name=*)   name=$asserts-`echo "$1" | sed -e 's/-name=//'`;   shift;;
