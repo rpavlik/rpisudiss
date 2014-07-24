@@ -60,6 +60,7 @@ The regression test suite requires the above packages, plus the following
 - XeLaTeX (in `texlive-xetex`)
 - latexmk (in `latexmk`)
 - ant and its junit support (requires both `ant` and `ant-optional`)
+- the bc command-line calculator (`bc`)
 
 Testing
 -------
