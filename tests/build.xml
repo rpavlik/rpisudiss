@@ -2,6 +2,7 @@
 <project name="rpisudiss-tests" default="full-test" basedir=".">
     <property name="results.dir" value="results" />
     <property name="report.dir" value="report" />
+    <property name="style.dir" value="." />
 
     <fileset dir="." id="scripts.all">
         <include name="test-*.sh" />
@@ -46,7 +47,7 @@
             <fileset dir="${results.dir}">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="noframes" todir="${report.dir}"/>
+            <report styledir="${style.dir}" format="noframes" todir="${report.dir}"/>
         </junitreport>
     </target>
     
