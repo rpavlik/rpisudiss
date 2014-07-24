@@ -127,7 +127,7 @@
                 <a name="{@package}"></a>
                 <h3>Package <xsl:value-of select="@package"/></h3>
 
-                <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+                <table class="details" border="0" cellpadding="5" cellspacing="2">
                     <xsl:call-template name="testsuite.test.header"/>
 
                     <!-- match the testsuites of this package -->
@@ -152,7 +152,7 @@
                 <xsl:with-param name="title" select="'Compilation Log'" />
                 <xsl:with-param name="logid" select="generate-id()" /> <!-- Must override log ID to avoid duplication with the first test -->
             </xsl:call-template>
-            <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+            <table class="details" border="0" cellpadding="5" cellspacing="2">
               <xsl:call-template name="testcase.test.header"/>
               <xsl:apply-templates select="./testcase" mode="print.test"/>
             </table>
@@ -168,10 +168,10 @@
         <xsl:variable name="errorCount" select="sum(testsuite/@errors)"/>
         <xsl:variable name="timeCount" select="sum(testsuite/@time)"/>
         <xsl:variable name="successRate" select="($testCount - $errorCount) div $testCount"/>
-        <table class="details" border="0" cellpadding="5" cellspacing="2" width="95%">
+        <table class="details" border="0" cellpadding="5" cellspacing="2">
         <tr valign="top">
             <th>Tests</th>
-            <th>Errors</th>
+            <th>Failures</th>
             <th>Success rate</th>
             <th>Time</th>
         </tr>
@@ -204,28 +204,13 @@
     <hr size="1"/>
 </xsl:template>
 
-<xsl:template match="testsuite" mode="header">
-    <tr valign="top">
-        <th width="80%">Name</th>
-        <th>Tests</th>
-        <th>Errors</th>
-        <th>Failures</th>
-        <th>Skipped</th>
-        <th nowrap="nowrap">Time(s)</th>
-    </tr>
-</xsl:template>
-
 <!-- class header -->
 <xsl:template name="testsuite.test.header">
     <tr valign="top">
-        <th width="80%">Name</th>
+        <th>Name</th>
         <th>Tests</th>
-        <th>Errors</th>
         <th>Failures</th>
-        <th>Skipped</th>
-        <th nowrap="nowrap">Time(s)</th>
-        <th nowrap="nowrap">Time Stamp</th>
-        <th>Host</th>
+        <th nowrap="nowrap">Time (s)</th>
     </tr>
 </xsl:template>
 
@@ -234,8 +219,7 @@
     <tr valign="top">
         <th>Name</th>
         <th>Status</th>
-        <th width="80%">Type</th>
-        <th nowrap="nowrap">Time(s)</th>
+        <th nowrap="nowrap">Time (s)</th>
     </tr>
 </xsl:template>
 
@@ -255,15 +239,11 @@
         <td><a href="#{@name}"><xsl:value-of select="@name"/></a></td>
         <td><xsl:value-of select="@tests"/></td>
         <td><xsl:value-of select="@errors"/></td>
-        <td><xsl:value-of select="@failures"/></td>
-        <td><xsl:value-of select="@skipped" /></td>
         <td>
             <xsl:call-template name="display-time">
                 <xsl:with-param name="value" select="@time"/>
             </xsl:call-template>
         </td>
-        <td><xsl:apply-templates select="@timestamp"/></td>
-        <td><xsl:apply-templates select="@hostname"/></td>
     </tr>
 </xsl:template>
 
@@ -292,19 +272,9 @@
         <xsl:choose>
             <xsl:when test="failure">
                 <td>Failure</td>
-                <td><xsl:apply-templates select="failure"/></td>
-            </xsl:when>
-            <xsl:when test="error">
-                <td>Error</td>
-                <td><xsl:apply-templates select="error"/></td>
-            </xsl:when>
-            <xsl:when test="skipped">
-            	<td>Skipped</td>
-            	<td><xsl:apply-templates select="skipped"/></td>
             </xsl:when>
             <xsl:otherwise>
                 <td>Success</td>
-                <td></td>
             </xsl:otherwise>
         </xsl:choose>
         <td>
