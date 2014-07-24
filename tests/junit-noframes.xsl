@@ -77,6 +77,8 @@
       h6 {
         margin-bottom: 0.5em; font: bold 100% verdana,arial,helvetica
       }
+
+      a:link, a:visited{text-decoration:none; color:#416CE5; border-bottom:1px solid #416CE5;}
       .Error {
         font-weight:bold; color:red;
       }
