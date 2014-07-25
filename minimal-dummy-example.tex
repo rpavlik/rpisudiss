@@ -35,8 +35,11 @@
 %\RequirePackage{mmap} % Only compatible with computer modern math fonts.
 
 % Make copy-pasteable PDF files.  Yes, it needs to be "input", not "usepackage"
-\input{glyphtounicode}
-\pdfgentounicode=1
+\usepackage{ifxetex}
+\ifxetex\else
+  \input{glyphtounicode}
+  \pdfgentounicode=1
+\fi
 
 %\usepackage[a-1b]{pdfx}
 
