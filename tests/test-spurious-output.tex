@@ -8,31 +8,29 @@
 \newbox\expectedbox
 \newbox\actualbox
 
-% Ensures that the \pagestyle{xxx} command doesn't output any spurious text or white space.
-%   #1 - page style name (e.g., plain, fancy, headings, empty)
-\newcommand{\test@pagestyle@output}[1]{%
-  % Ensure that \pagestyle{#1} doesn't introduce spurious space
+% Ensures that the specified macro doesn't output any spurious text or white space.
+%  #1 - macro under test
+%  #2 - error message
+\newcommand{\test@spurious@output}[2]{%
+  % Ensure that #1 doesn't introduce spurious space
   \setbox\expectedbox=\hbox{[]}%
-  \setbox\actualbox=\hbox{[%
-    \pagestyle{#1}%
-  ]}%
+  \setbox\actualbox=\hbox{[#1]}%
   \ifthenelse{\dimtest{\the\wd\expectedbox}{=}{\the\wd\actualbox}}{}{%
-    \isu@error{Detected spurious output!}{%
-      The command \string\pagestyle{#1} introduced spurious output (possibly only whitespace).
-    }%
+    \isu@error{Detected spurious output!}{#2}%
   }%
 }
 
-% Ensure that page styles doesn't introduce spurious space
-\test@pagestyle@output{plain}%
-\test@pagestyle@output{fancy}%
-\test@pagestyle@output{headings}%
-\test@pagestyle@output{empty}%
-\test@pagestyle@output{myheadings}%
-\test@pagestyle@output{titlepage}%
+% Ensure that page styles doesn't introduce spurious output
+\test@spurious@output{\pagestyle{plain}}{The \string\pagestyle{plain} command introduced spurious output.}%
+\test@spurious@output{\pagestyle{fancy}}{The \string\pagestyle{fancy} command introduced spurious output.}%
+\test@spurious@output{\pagestyle{empty}}{The \string\pagestyle{empty} command introduced spurious output.}%
+\test@spurious@output{\pagestyle{myheadings}}{The \string\pagestyle{myheadings} command introduced spurious output.}%
+\test@spurious@output{\pagestyle{titlepage}}{The \string\pagestyle{titlepage} command introduced spurious output.}%
 
-
-
+% Ensure that \...matter commands don't introduce spurious output
+\test@spurious@output{\let\clearpage\relax\frontmatter}{The \string\frontmatter command introduced spurious output.}%
+\test@spurious@output{\let\clearpage\relax\mainmatter}{The \string\mainmatter command introduced spurious output.}%
+\test@spurious@output{\let\clearpage\relax\backmatter}{The \string\backmatter command introduced spurious output.}%
 
 \makeatother
 \end{document}
