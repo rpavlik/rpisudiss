@@ -52,6 +52,19 @@
             <report styledir="${style.dir}" format="${report.format}" todir="${report.dir}"/>
         </junitreport>
     </target>
-    
-    <target name="full-test" depends="clean,test,format-tests" />
+
+    <target name="analyze">
+        <echo>Checking for test failures...</echo>
+        <exec executable="./analyze-results.sh" resultproperty="returncode" />
+        <fail message="At least one test failure!" status="${returncode}">
+            <condition>
+                <not>
+                    <equals arg1="${returncode}" arg2="0"/>
+                </not>
+            </condition>
+        </fail>
+    </target>
+
+    <target name="clean-and-run-tests" depends="clean,test,format-tests" />
+    <target name="full-test" depends="clean-and-run-tests,analyze" />
 </project>
