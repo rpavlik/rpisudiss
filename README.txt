@@ -61,6 +61,7 @@ The regression test suite requires the above packages, plus the following
 - latexmk version 4.31 or newer (in `latexmk` - outdated on 12.04)
 - ant and its junit support (requires both `ant` and `ant-optional`)
 - the bc command-line calculator (`bc`)
+- the `saxonb-xslt` command line tool (in `libsaxonb-java`)
 
 Testing
 -------
