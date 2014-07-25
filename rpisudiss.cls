@@ -388,7 +388,7 @@
 }
 
 % Command to indicate we're done with main content
-\renewcommand{\backmatter}{
+\renewcommand{\backmatter}{%
   \isu@info{In \string\backmatter, backing up secnumdepth.}%
   \isu@disable@secnum
   \@frontmatterfalse
