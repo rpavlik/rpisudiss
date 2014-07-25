@@ -1,0 +1,39 @@
+\documentclass{rpisudiss}
+
+\usepackage{xifthen}
+
+\begin{document}
+\makeatletter
+
+\newbox\expectedbox
+\newbox\actualbox
+
+% Ensures that the \pagestyle{xxx} command doesn't output any spurious text or white space.
+%   #1 - page style name (e.g., plain, fancy, headings, empty)
+\newcommand{\test@pagestyle@output}[1]{%
+  % Ensure that \pagestyle{#1} doesn't introduce spurious space
+  \setbox\expectedbox=\hbox{[]}%
+  \setbox\actualbox=\hbox{[%
+    \pagestyle{#1}%
+  ]}%
+  \ifthenelse{\dimtest{\the\wd\expectedbox}{=}{\the\wd\actualbox}}{}{%
+    \isu@error{Detected spurious output!}{%
+      The command \string\pagestyle{#1} introduced spurious output (possibly only whitespace).
+    }%
+  }%
+}
+
+% Ensure that page styles doesn't introduce spurious space
+\test@pagestyle@output{plain}%
+\test@pagestyle@output{fancy}%
+\test@pagestyle@output{headings}%
+\test@pagestyle@output{empty}%
+\test@pagestyle@output{myheadings}%
+\test@pagestyle@output{titlepage}%
+
+
+
+
+\makeatother
+\end{document}
+
