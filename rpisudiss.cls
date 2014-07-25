@@ -177,20 +177,20 @@
 \RequirePackage{fancyhdr}
 
 % override the plain page style.
-\fancypagestyle{plain}{
-  \fancyhf{} % clear all header and footer fields
-  \fancyhead[C]{\thepage} % Always put the page in the center header
-  \fancyfoot[C]{\isu@draftfooter} % In draft mode, put stuff in the center footer.
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{plain}{%
+  \fancyhf{}% clear all header and footer fields
+  \fancyhead[C]{\thepage}% Always put the page in the center header
+  \fancyfoot[C]{\isu@draftfooter}% In draft mode, put stuff in the center footer.
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
 % create a "titlepage" page style
-\fancypagestyle{titlepage}{
-  \fancyhf{} % clear all header and footer fields
-  \fancyfoot[C]{\isu@drafttitlefooter} % In draft mode, put stuff in the center footer.
-  \renewcommand{\headrulewidth}{0pt}
-  \renewcommand{\footrulewidth}{0pt}
+\fancypagestyle{titlepage}{%
+  \fancyhf{}% clear all header and footer fields
+  \fancyfoot[C]{\isu@drafttitlefooter}% In draft mode, put stuff in the center footer.
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0pt}%
 }
 
 \pagestyle{plain} % default page style

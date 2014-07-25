@@ -4,7 +4,8 @@ export DOCNAME=test-single-chapter
 export OPTIONS="-xelatex"
 . ./testutils.sh
 
-shouldbuild
+should_build
+
 pass_if_console_matches "ISU Thesis" "correct document class"
 
 fail_if_console_matches "detected driver: pdftex" "this isn't pdftex"

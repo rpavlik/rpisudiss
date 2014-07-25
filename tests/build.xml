@@ -42,7 +42,7 @@
         <runtestscripts filesetref="scripts.xelatex" />
     </target>
 
-    <target name="test" depends="test.pdftex,test.pdftex" />
+    <target name="test" depends="test.pdftex,test.xelatex" />
 
     <target name="format-tests">
         <junitreport todir="${results.dir}">
