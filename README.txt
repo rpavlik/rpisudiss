@@ -82,15 +82,28 @@ unpleasant.
 ### Running tests and generating reports
 The easiest thing to do is just `cd` into the `tests` directory and run
 `ant`. The default target is `full-test` which cleans test results, runs
-all tests, then combines and formats the results into HTML. A partial
-list of `ant` targets is:
+all tests, then combines and formats the results into HTML and shows you
+a brief summary of failing tests. A partial list of `ant` targets is:
 
 - `clean` - Removes the generated HTML report and the test result XML
   files.
-- `test` - Runs all the tests
+
+- `test` - Runs all the tests. (Always succeeds!)
+
 - `format-tests` - combines the test result XML files into one big file,
-  then generates a nice HTML report by transforming with the `.xsl` file. 
-- `full-test` - default, runs `clean`, `test`, and `format-tests`
+  then generates a nice HTML report by transforming with the `.xsl` file.
+
+- `clean-and-run-tests` - runs `clean`, `test`, and `format-tests` - but
+  doesn't really show you useful output data on the console, and always
+  exits successfully.
+
+- `analyze` - Effectively the same as running the `analyze-results.sh`
+  script: runs an XSLT transform on the results to just show simple
+  failure notices for each failing test, and exit with a "failed build"
+  if any such failed tests exist. Requires that you've already run least
+  `format-tests` to perform the merging of the XML files.
+
+- `full-test` - default, runs `clean-and-run-tests` then `analyze`
 
 
 ### Advanced details
