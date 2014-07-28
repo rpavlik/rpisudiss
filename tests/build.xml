@@ -9,41 +9,22 @@
     <fileset dir="." id="scripts.all">
         <include name="test-*.sh" />
     </fileset>
-
-    <fileset dir="." id="scripts.pdftex">
-        <include name="test-*-pdftex.sh" />
-    </fileset>
-    <fileset dir="." id="scripts.xelatex">
-        <include name="test-*-xelatex.sh" />
-    </fileset>
-
-    <globmapper id="results.files" from="test-*.sh" to="${results.dir}/TEST-*.xml" casesensitive="no"/>
-    <globmapper id="results.outputs" from="test-*.sh" to="${results.dir}/TEST-*.pdf" casesensitive="no"/>
+    <compositemapper id="results.all">
+        <globmapper id="results.files" from="test-*.sh" to="${results.dir}/TEST-*.xml" casesensitive="no"/>
+        <globmapper id="results.outputs" from="test-*.sh" to="${results.dir}/TEST-*.pdf" casesensitive="no"/>
+    </compositemapper>
 
     <target name="clean">
         <delete dir="${results.dir}" />
         <delete file="${report.file}" />
     </target>
 
-    <macrodef name="runtestscripts">
-        <attribute name="filesetref" default="NOT SET"/>
-        <sequential>
-            <apply executable="sh" dir="." failonerror="true">
-                <fileset refid="@{filesetref}" />
-                <mapper refid="results.files" />
-            </apply>
-        </sequential>
-    </macrodef>
-
-    <target name="test.pdftex">
-        <runtestscripts filesetref="scripts.pdftex" />
+    <target name="test">
+        <apply executable="sh" dir="." failonerror="true">
+            <fileset refid="scripts.all" />
+            <mapper refid="results.all" />
+        </apply>
     </target>
-
-    <target name="test.xelatex">
-        <runtestscripts filesetref="scripts.xelatex" />
-    </target>
-
-    <target name="test" depends="test.pdftex,test.xelatex" />
 
     <target name="format-tests">
         <junitreport todir="${results.dir}">
