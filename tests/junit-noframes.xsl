@@ -152,6 +152,9 @@
               <xsl:call-template name="testcase.test.header"/>
               <xsl:apply-templates select="./testcase" mode="print.test"/>
             </table>
+            <p>
+                <a href="#top">Back to top</a>
+            </p>
         </div>
     </xsl:for-each>
 </xsl:template>
