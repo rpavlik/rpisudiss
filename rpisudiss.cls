@@ -36,6 +36,8 @@
   \setkeys{isu}{#1}%
 }
 
+% For extended conditionals
+\RequirePackage{xifthen}
 
 
 %%%
@@ -215,6 +217,10 @@
   \newcommand{\isu@chapformat}{}
 \fi
 
+% Keep track of the number of appendices we have so we only number appendices
+% if there are more than one.
+\newcounter{isu@appendix@count}
+
 \titleformat{\chapter}[block]
   {\normalfont\large\bfseries\centering}
   {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
@@ -289,14 +295,14 @@
 % - Adjust indentation of levels
 % - Capitalize title entries, if requested
 \ifisu@capstoc
-  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename} }
-  \cftsetindents{chapter}{0em}{8em}
+  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename}\space}
+  \cftsetindents{chapter}{0em}{9em}
   \cftsetindents{section}{2em}{0em}
   \cftsetindents{subsection}{3em}{0em}
   \renewcommand{\cftchapfont}{\MakeTextUppercase}
 \else
-  \renewcommand\cftchappresnum{\chaptertitlename\ }
-  \cftsetindents{chapter}{0em}{6em}
+  \renewcommand\cftchappresnum{\protect\chaptertitlename\space}
+  \cftsetindents{chapter}{0em}{7em}
   \cftsetindents{section}{1em}{0em}
   \cftsetindents{subsection}{2em}{0em}
 \fi
@@ -387,12 +393,58 @@
   \isu@restore@secnum
 }
 
+% Start of appendices
+\providecommand{\isu@number@appendices}{0}% if this is our first pass
+\renewcommand\appendix{%
+  \par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\@chapapp{\appendixname}%
+  \gdef\thechapter{\@Alph\c@chapter}%
+  % Change the chapter name to 'Appendix' for the table of contents
+  \ifisu@capstoc
+    \addtocontents{toc}{%
+      \protect\renewcommand{\protect\cftchappresnum}{\MakeTextUppercase{\appendixname}\space}%
+    }%
+  \else
+    \addtocontents{toc}{%
+      \protect\renewcommand{\protect\cftchappresnum}{\appendixname\space}%
+    }%
+  \fi
+  % Count the number of appendices
+  \setcounter{isu@appendix@count}{0}%
+  \titleformat{\chapter}[block]%
+    {\normalfont\large\bfseries\centering\stepcounter{isu@appendix@count}}%
+    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}%
+    {0pt}%
+    {\isu@chapformat}%
+    {}%
+  \ifthenelse{\isu@number@appendices < 2}{%
+    % Leave appendix heading unnumbered
+    \titleformat{\chapter}[block]%
+      {\normalfont\large\bfseries\centering\stepcounter{isu@appendix@count}}%
+      {\if@mainmatter \isu@chapformat \chaptertitlename.\quad\fi}%
+      {0pt}%
+      {\isu@chapformat}%
+      {}%
+    % Remove appendix number from table of contents
+    \addtocontents{toc}{\protect\renewcommand\protect\numberline[1]{\hb@xt@\@tempdima{\appendixname\hfil}\@cftasnumb}}%
+  }{}%
+}
+
 % Command to indicate we're done with main content
 \renewcommand{\backmatter}{%
   \isu@info{In \string\backmatter, backing up secnumdepth.}%
   \isu@disable@secnum
   \@frontmatterfalse
   \@mainmatterfalse
+  % Stop counting appendices
+  \titleformat{\chapter}[block]%
+    {\normalfont\large\bfseries\centering}%
+    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}%
+    {0pt}%
+    {\isu@chapformat}%
+    {}%
 }
 
 % Verify that we actually got some main matter
@@ -408,6 +460,11 @@
       \fi
     \fi
   \fi
+}
+
+% Record the number of appendices in this document
+\AtEndDocument{%
+  \immediate\write\@mainaux{\gdef\noexpand\isu@number@appendices{\the\value{isu@appendix@count}}}
 }
 
 %%%
