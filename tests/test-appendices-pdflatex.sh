@@ -4,6 +4,11 @@
 
 should_build
 
+# Log the PDFTOTEXT output
+log_command_output "pdftotext -f 1 -l 1 -nopgbrk -layout ${TARGETNAME}.pdf -" "pdftotext page 1"
+log_command_output "pdftotext -f 2 -l 2 -nopgbrk -layout ${TARGETNAME}.pdf -" "pdftotext page 2"
+log_command_output "pdftotext -f 3 -l 3 -nopgbrk -layout ${TARGETNAME}.pdf -" "pdftotext page 3"
+
 pass_if_console_matches "ISU Thesis" "correct document class"
 
 fail_if_console_matches "Package nag Warning" "Looking for complains by nag"
