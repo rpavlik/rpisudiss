@@ -464,7 +464,9 @@
 
 % Record the number of appendices in this document
 \AtEndDocument{%
-  \immediate\write\@mainaux{\gdef\noexpand\isu@number@appendices{\the\value{isu@appendix@count}}}
+  \immediate\write\@mainaux{\gdef\noexpand\isu@number@appendices{\the\value{isu@appendix@count}}}%
+  \immediate\write\@mainaux{\noexpand\isu@info{The number of appendices in the tex file: \the\value{isu@appendix@count}.}}%
+  \immediate\write\@mainaux{\noexpand\isu@info{The number of appendices in the aux file: \noexpand\isu@number@appendices.}}%
 }
 
 %%%
