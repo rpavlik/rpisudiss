@@ -3,6 +3,8 @@
 ###
 # BEGIN SETUP CODE
 
+export TESTDIR="$(cd $(dirname $0) && pwd)"
+
 # Load sh2ju innards
 . $TESTDIR/sh2ju.sh
 
@@ -17,16 +19,6 @@ finish() {
 }
 trap finish EXIT
 
-# Set up variables for use by either the build or test scripts.
-export DIR="$scratch"
-export BASICLOG="$scratch/basiclog.txt"
-export LOG="$scratch/$DOCNAME.log"
-export TARGETNAME="$scratch/$DOCNAME"
-export RESULTSDIR="${juDIR}"
-
-export TESTDIR="$(cd $(dirname $0) && pwd)"
-export SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
-export TEXINPUTS="${SRCDIR}::"
 
 # Determine document and driver name
 testscriptbase=$(basename -s .sh "$0")
@@ -55,6 +47,16 @@ lualatex)
     exit 1
     ;;
 esac
+
+# Set up variables for use by either the build or test scripts.
+export DIR="$scratch"
+export BASICLOG="$scratch/basiclog.txt"
+export LOG="$scratch/$DOCNAME.log"
+export TARGETNAME="$scratch/$DOCNAME"
+export RESULTSDIR="${juDIR}"
+
+export SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
+export TEXINPUTS="${SRCDIR}::"
 
 # Basic feasibility check
 if [ ! -f "$TESTDIR/$DOCNAME.tex" ]; then
