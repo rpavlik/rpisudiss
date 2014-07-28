@@ -34,6 +34,7 @@ the Debian/Ubuntu package that contains it.
 - tocloft (`texlive-latex-extra`)
 - xpatch (`texlive-latex-extra`, or get it from CTAN if you're still using 12.04)
 - hyperref (`texlive-latex-base`)
+- xifthen (`texlive-latex-extra`)
 - In draft/draftcls mode only:
   - draftwatermark (`texlive-latex-extra`)
   - datetime (`texlive-latex-extra`)
