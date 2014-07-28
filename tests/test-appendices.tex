@@ -1,0 +1,26 @@
+% Equivalent of enabling ``-Wall -Wextra'' -- extra compile warnings.
+\RequirePackage[l2tabu, orthodox]{nag}
+
+\documentclass[capstoc,capschap]{rpisudiss}
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+\usepackage{blindtext}
+
+\begin{document}
+
+\frontmatter
+
+\tableofcontents
+
+\mainmatter % Start the body of your doc with numbered chapters, etc.
+
+\appendix
+
+\chapter{My Appendix: My Favorite Vestigial Digestive Organ}
+\blindtext
+
+\chapter{My Second Appendix: A Medical Mystery}
+\blindtext
+
+\end{document}
