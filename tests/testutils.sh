@@ -68,5 +68,13 @@ fail_if_log_matches() {
     juLog -name="$2" "_oppositegrep \"$1\" \"$LOG\""
 }
 
+pass_if_command_matches() {
+    juLog -name="$3" "$1 | grep \"$2\""
+}
+
+fail_if_command_matches() {
+    juLog -name="$3" "$1 | _oppositegrep \"$2\""
+}
+
 
 
