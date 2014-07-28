@@ -159,5 +159,17 @@ log_command_output() {
 }
 ###
 
+###
+# Convenience wrapper functions.
+# Primarily for use within things like XXX_if_command_matches or log_command_output
+
+# Gets the text of a given page in the PDF (numbered from the first as 1)
+text_of_page() {
+    if [ -f "${TARGETNAME}.pdf" ]; then
+        pdftotext -f $1 -l $1 -layout -nopgbrk "${TARGETNAME}.pdf" -
+    else
+        echo "Missing output PDF '${TARGETNAME}.pdf'!" 1>&2
+    fi
+}
 
 
