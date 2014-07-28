@@ -553,7 +553,7 @@
 \newcommand\isu@majorline{%
   \ifcase\value{isu@majors@counter}%
     \isu@error{Missing \protect\isumajor!}{%
-      You must specify one or more majors using the \string\isumajor{...} macro. 
+      You must specify one or more majors using the \string\isumajor{...} macro.
       Separate each major in the list with a comma.\\
       \\
       Examples:\\
