@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 set -e
 TESTDIR="$(cd $(dirname $0) && pwd)"
 
