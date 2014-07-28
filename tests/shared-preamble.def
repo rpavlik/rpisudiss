@@ -1,0 +1,18 @@
+
+
+% Basic title page stuff.
+\title{This is the title}
+\author{Ryan Andrew Pavlik}
+\isudegree{phd}
+\isugradyear{2015}
+\isusubmissiontype{dissertation}
+\isumajor{Computer Science}
+\isumajor{Human--Computer Interaction}
+
+\isuprofessor*{Judy M. Vance}% major prof
+\isuprofessor*{Leslie Miller}% major prof
+\isuprofessor{Debra Satterfield}
+\isuprofessor{Jonathan Kelly}
+\isuprofessor{David Weiss}
+\isuprofessor{Horea Ilies}
+
