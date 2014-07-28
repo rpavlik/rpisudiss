@@ -62,6 +62,7 @@ required in general for use of the class:
 The regression test suite requires the above packages, plus the
 following
 
+- blindtext (in `texlive-latex-extra`)
 - pdfLaTeX (in `texlive-latex-base`)
 - XeLaTeX (in `texlive-xetex`)
 - latexmk version 4.31 or newer (in `latexmk` - outdated on 12.04)
