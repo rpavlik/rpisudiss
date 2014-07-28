@@ -15,8 +15,8 @@ fail_if_console_matches "Package nag Warning" "Looking for complains by nag"
 pass_if_console_matches "No complaints by nag." "Nag package prints 'no complaints' message"
 
 # Check ToC
-pass_if_command_matches "text_of_page 1" "APPENDIX\s\+A" "ToC Multiple appendices: first is A." #todo restore page number check
-pass_if_command_matches "text_of_page 1" "APPENDIX\s\+B" "ToC Multiple appendices: second is B." #todo restore page number check
+pass_if_command_matches "text_of_page 1" "APPENDIX\s\+A.*2" "ToC Multiple appendices: first is A."
+pass_if_command_matches "text_of_page 1" "APPENDIX\s\+B.*3" "ToC Multiple appendices: second is B."
 fail_if_command_matches "text_of_page 1" "APPENDIX\s\+MY" "ToC Multiple appendices: none should have a missing number."
 
 # Check appendix headings
