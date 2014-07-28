@@ -16,14 +16,18 @@ finish() {
 }
 trap finish EXIT
 
-export DIR=$scratch
-export BASICLOG=$scratch/basiclog.txt
-export LOG=$scratch/$DOCNAME.log
-export TARGETNAME=$scratch/$DOCNAME
+
+. $TESTDIR/sh2ju.sh
+
+export DIR="$scratch"
+export BASICLOG="$scratch/basiclog.txt"
+export LOG="$scratch/$DOCNAME.log"
+export TARGETNAME="$scratch/$DOCNAME"
+export RESULTSDIR="${juDIR}"
 
 _runbuild() {
     (
-        cd $scratch
+        cd "$scratch"
 
         # $OPTIONS is if we want to pass in things to use xelatex or something
 
@@ -62,5 +66,4 @@ fail_if_log_matches() {
 }
 
 
-. $TESTDIR/sh2ju.sh
 
