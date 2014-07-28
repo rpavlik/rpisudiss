@@ -289,14 +289,14 @@
 % - Adjust indentation of levels
 % - Capitalize title entries, if requested
 \ifisu@capstoc
-  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename} }
-  \cftsetindents{chapter}{0em}{8em}
+  \renewcommand\cftchappresnum{\MakeTextUppercase{\chaptertitlename}\space}
+  \cftsetindents{chapter}{0em}{9em}
   \cftsetindents{section}{2em}{0em}
   \cftsetindents{subsection}{3em}{0em}
   \renewcommand{\cftchapfont}{\MakeTextUppercase}
 \else
-  \renewcommand\cftchappresnum{\chaptertitlename\ }
-  \cftsetindents{chapter}{0em}{6em}
+  \renewcommand\cftchappresnum{\protect\chaptertitlename\space}
+  \cftsetindents{chapter}{0em}{7em}
   \cftsetindents{section}{1em}{0em}
   \cftsetindents{subsection}{2em}{0em}
 \fi
@@ -386,6 +386,26 @@
   % restore secnumdepth: OK to number chapters from here on out.
   \isu@restore@secnum
 }
+
+% Start of appendices
+\renewcommand\appendix{%
+  \par
+  \setcounter{chapter}{0}%
+  \setcounter{section}{0}%
+  \gdef\@chapapp{\appendixname}%
+  \gdef\thechapter{\@Alph\c@chapter}%
+  % Change the chapter name to 'Appendix' for the table of contents
+  \ifisu@capstoc
+    \addtocontents{toc}{%
+      \protect\renewcommand{\protect\cftchappresnum}{\MakeTextUppercase{\appendixname}\space}%
+    }%
+  \else
+    \addtocontents{toc}{%
+      \protect\renewcommand{\protect\cftchappresnum}{\appendixname\space}%
+    }%
+  \fi
+}
+
 
 % Command to indicate we're done with main content
 \renewcommand{\backmatter}{%
