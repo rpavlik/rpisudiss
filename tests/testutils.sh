@@ -4,11 +4,38 @@ export TESTDIR="$(cd $(dirname $0) && pwd)"
 export SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
 export TEXINPUTS="${SRCDIR}:${TESTDIR}::"
 
+testscriptbase=$(basename -s .sh "$0")
+for possdriver in pdflatex xelatex lualatex; do
+    if echo $testscriptbase | grep -q -e "-${possdriver}$"; then
+        echo "${possdriver}!"
+        export DRIVER="${possdriver}"
+        export DOCNAME=$(echo $testscriptbase | sed -e "s/-${DRIVER}$//")
+        break
+    fi
+done
+
+case $DRIVER in
+pdflatex)
+    export OPTIONS="-interaction=nonstopmode -halt-on-error"
+    ;;
+xelatex)
+    export OPTIONS="-interaction=nonstopmode -halt-on-error -xelatex"
+    ;;
+lualatex)
+    export OPTIONS="-interaction=nonstopmode -halt-on-error -lualatex"
+    ;;
+*)
+    echo "Unknown or unspecified DRIVER='$DRIVER' for $0 - can't test!"
+    exit 1
+    ;;
+esac
+
 if [ ! -f "$TESTDIR/$DOCNAME.tex" ]; then
     echo "in $0 - Could not find $TESTDIR/$DOCNAME.tex!"
     exit 2
 fi
 
+echo "---- Test file: $DOCNAME.tex  Driver: $DRIVER ----"
 
 scratch=$(mktemp -d -t tmp.testdissertation.XXXXXXXXXX)
 finish() {
@@ -34,7 +61,7 @@ _runbuild() {
 
         # $OPTIONS is if we want to pass in things to use xelatex or something
 
-        latexmk -norc -cd- -pdf -g -interaction=nonstopmode -halt-on-error $OPTIONS "$TESTDIR/$DOCNAME" 2>&1 | tee basiclog.txt
+        latexmk -norc -cd- -pdf -g $OPTIONS "$TESTDIR/$DOCNAME" 2>&1 | tee basiclog.txt
     )
 }
 
