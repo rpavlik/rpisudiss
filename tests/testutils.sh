@@ -12,6 +12,9 @@ fi
 
 scratch=$(mktemp -d -t tmp.testdissertation.XXXXXXXXXX)
 finish() {
+  if [ -f "$TARGETNAME.pdf" ]; then
+    cp "$TARGETNAME.pdf" "${RESULTSDIR}/${suite}.pdf"
+  fi
   rm -rf "$scratch"
 }
 trap finish EXIT

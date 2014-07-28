@@ -18,6 +18,7 @@
     </fileset>
 
     <globmapper id="results.files" from="test-*.sh" to="${results.dir}/TEST-*.xml" casesensitive="no"/>
+    <globmapper id="results.outputs" from="test-*.sh" to="${results.dir}/TEST-*.pdf" casesensitive="no"/>
 
     <target name="clean">
         <delete dir="${results.dir}" />
