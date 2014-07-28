@@ -25,11 +25,21 @@ testscriptbase=$(basename "$0" .sh)
 for possdriver in pdflatex xelatex lualatex; do
     if echo $testscriptbase | grep -q -e "-${possdriver}$"; then
         echo "${possdriver}!"
-        export DRIVER="${possdriver}"
+        DRIVER="${possdriver}"
         export DOCNAME=$(echo $testscriptbase | sed -e "s/-${DRIVER}$//")
         break
     fi
 done
+
+if [ -z "$DRIVER" ]; then
+    DRIVER=pdflatex
+    echo "--- No driver detected! Defaulting to $DRIVER"
+fi
+
+if [ -z "$DOCNAME" ]; then
+    export DOCNAME=$(echo $testscriptbase) # make sure to get rid of whitespace this way
+    echo "--- Doc name not detected during driver detection - assuming it matches script name: $DOCNAME"
+fi
 
 # per-driver compilation options
 case $DRIVER in
