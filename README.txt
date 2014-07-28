@@ -70,6 +70,12 @@ following
 - the bc command-line calculator (`bc`)
 - the `saxonb-xslt` command line tool (in `libsaxonb-java`) (technically
   only required by the `analyze` ant target, but...)
+- `find` and `xargs` (in `findutils`, which you probably have already)
+- For optional use of `tests/parallel-test.sh`:
+  - GNU Parallel (package `parallel`)
+- For optional use of `tests/open-report.sh` (Linux-only):
+  - the `xdg-open` utility (in `xdg-utils`) with your default browser
+    set to something useful.
 
 Testing
 -------
@@ -80,12 +86,12 @@ welcome. In particular, tests to verify that documents conform to
 Graduate College requirements would be swell.
 
 The script-driven test results are logged into (reasonably-standard)
-jUnit-style XML files which end up in `tests/results/`. Using the
-built-in `junitreport` task in `ant` seems to be the most common way of
-merging results files and getting readable reports from those XML files.
-The generated HTML report ends up in `tests/report/` alongside some
-static assets used to make browsing test results not entirely
-unpleasant.
+jUnit-style XML files which end up in `tests/results/` along with the
+generated PDF file for each test (if applicable). Using the built-in
+`junitreport` task in `ant` seems to be the most common way of merging
+results files and getting readable reports from those XML files. The
+generated HTML report ends up in `tests/report/` alongside some static
+assets used to make browsing test results not entirely unpleasant.
 
 ### Running tests and generating reports
 The easiest thing to do is just `cd` into the `tests` directory and run
@@ -93,8 +99,8 @@ The easiest thing to do is just `cd` into the `tests` directory and run
 all tests, then combines and formats the results into HTML and shows you
 a brief summary of failing tests. A partial list of `ant` targets is:
 
-- `clean` - Removes the generated HTML report and the test result XML
-  files.
+- `clean` - Removes the generated HTML report, the test result XML
+  files, and the PDF outputs.
 
 - `test` - Runs all the tests. (Always succeeds!)
 
@@ -116,17 +122,41 @@ a brief summary of failing tests. A partial list of `ant` targets is:
 
 
 ### Advanced details
-Individual test scripts `test-*.sh` can be executed with `sh` to re-run
-just a single test suite. You must be in the `tests` directory to do
-this - no protection since the typical use case is running all tests
+**Individual test scripts `test-*.sh`** can be executed with `bash` to
+re-run just a single test suite. You must be in the `tests` directory to
+do this - no protection since the typical use case is running all tests
 because it's so fast. This is probably only useful if you're tweaking a
 particular test suite. You can re-generate the HTML report after doing
-this by running `ant format-tests`.
+this by running `ant format-tests`, or get a nice summary by running
+`generate-report.sh` which builds the report (with `format-tests`) then
+displays something useful to the console (and gives you an error code)
+if you have a failed test.
 
-Running `tests/run-all-tests.sh` will, logically, run all tests,
-generating xUnit-style results files in `tests/results`. Doing it this
-way is deprecated but might be useful for use with CI systems that have
-their own jUnit parsers, but that don't have ant.
+**`tests/generate-report.sh`** is just a shell-y way to build the
+ant targets `format-tests` and `analyze`, to give you a nice HTML
+report, a nice console summary of test failures (courtesy of some XSLT),
+and an error code. It uses ant internally, it's just a convenience.
+
+**`tests/run-all-tests.sh`** will, logically, run all tests, generating
+xUnit-style results files in `tests/results` along with output PDF
+files. Doing it this way instead of `ant test` is theoretically
+deprecated but might be useful for use with CI systems that have their
+own jUnit parsers, but that might not have ant. As such, if you want
+pretty results after calling this, you'll have to call
+`tests/generate-report.sh`.
+
+**`tests/parallel-test.sh`** will run all tests using GNU Parallel
+to execute multiple at a time. This goes really fast. It is otherwise
+completely identical to `run-all-tests.sh`, and similarly requires a
+`tests/generate-report.sh` call for nice output. As such, a parallel
+powered workflow probably includes a command like
+
+    ./parallel-test.sh && ./generate-report.sh
+
+**`tests/open-report.sh`** offers maximum command-line happiness to
+Linux users. It will have their desktop environment pick an HTML viewer
+(probably your default web browser) and open the report with it.
+Obviously this requires the report to already exist.
 
 Shell-to-jUnit output is courtesy of a patched version of
 <https://github.com/manolo/shell2junit> - see that page for how to hook
@@ -141,4 +171,5 @@ License
 
 - For the other files (such as class `*.cls` and style `*.sty` files):
   - MIT license <http://opensource.org/licenses/MIT>
-  - Initially, at least, Copyright 2014 Ryan Pavlik but see files for full details.
+  - Initially, at least, Copyright 2014 Ryan Pavlik but see files for
+    full details.
