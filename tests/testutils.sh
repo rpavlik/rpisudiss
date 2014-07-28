@@ -2,7 +2,7 @@
 
 export TESTDIR="$(cd $(dirname $0) && pwd)"
 export SRCDIR="$(cd $(dirname $0) && cd .. && pwd)"
-export TEXINPUTS="${SRCDIR}:${TESTDIR}::"
+export TEXINPUTS="${SRCDIR}::"
 
 testscriptbase=$(basename -s .sh "$0")
 for possdriver in pdflatex xelatex lualatex; do
@@ -54,6 +54,16 @@ export BASICLOG="$scratch/basiclog.txt"
 export LOG="$scratch/$DOCNAME.log"
 export TARGETNAME="$scratch/$DOCNAME"
 export RESULTSDIR="${juDIR}"
+
+# Running a test means the merged results are invalid - delete them.
+rm -f "${RESULTSDIR}/TESTS-TestSuites.xml"
+# Same thing with the output PDF
+rm -f "${RESULTSDIR}/${suite}.pdf"
+# and for goodness sake, get rid of auxiliary files in the source directory.
+# failing to do so causes weird unexpected errors.
+for ext in aux log out toc bbl; do
+    rm -f "${TESTDIR}/${DOCNAME}.${ext}"
+done
 
 _runbuild() {
     (
