@@ -21,18 +21,22 @@ Dependencies
 The following LaTeX packages are required. In parentheses after each is
 the Debian/Ubuntu package that contains it.
 
-- hardwrap (`texlive-latex-extra`, or get it from CTAN if you're still using 12.04)
+- hardwrap (`texlive-latex-extra`, or get it from CTAN if you're still
+  using 12.04)
 - xkeyval (`texlive-latex-recommended`)
 - indentfirst (`texlive-latex-base`)
 - geometry (`texlive-latex-base`)
 - fancyhdr (`texlive-latex-base`)
-- textcase (`texlive-latex-extra` in 12.04 or `texlive-latex-recommended` in Debian)
-- etoolbox (`texlive-latex-extra` recommended, though it also appears to be in `etoolbox`?)
+- textcase (`texlive-latex-extra` in 12.04 or
+  `texlive-latex-recommended` in Debian)
+- etoolbox (`texlive-latex-extra` recommended, though it also appears to
+  be in `etoolbox`?)
 - titlesec (`texlive-latex-extra`)
 - setspace (`texlive-latex-recommended`)
 - tocbibind (`texlive-latex-extra`)
 - tocloft (`texlive-latex-extra`)
-- xpatch (`texlive-latex-extra`, or get it from CTAN if you're still using 12.04)
+- xpatch (`texlive-latex-extra`, or get it from CTAN if you're still
+  using 12.04)
 - hyperref (`texlive-latex-base`)
 - xifthen (`texlive-latex-extra`)
 - In draft/draftcls mode only:
@@ -55,22 +59,25 @@ required in general for use of the class:
 - glyphtounicode.tex (`texlive-base`)
 - bibtex (`texlive-binaries`)
 
-The regression test suite requires the above packages, plus the following
+The regression test suite requires the above packages, plus the
+following
 
 - pdfLaTeX (in `texlive-latex-base`)
 - XeLaTeX (in `texlive-xetex`)
 - latexmk version 4.31 or newer (in `latexmk` - outdated on 12.04)
+- the `bash` shell (you probably have it)
 - ant and its junit support (requires both `ant` and `ant-optional`)
 - the bc command-line calculator (`bc`)
-- the `saxonb-xslt` command line tool (in `libsaxonb-java`)
+- the `saxonb-xslt` command line tool (in `libsaxonb-java`) (technically
+  only required by the `analyze` ant target, but...)
 
 Testing
 -------
 
 These regression tests are by no means complete, but they're at least a
-smoketest. You'll need `latexmk` installed, as well as `pdflatex` and
-`xelatex` and the dependencies of this class itself, plus the Java build
-tool `ant` (stay with me here) if you want a nice readable HTML report.
+smoketest. Contributions to make them more complete are certainly
+welcome. In particular, tests to verify that documents conform to
+Graduate College requirements would be swell.
 
 The script-driven test results are logged into (reasonably-standard)
 jUnit-style XML files which end up in `tests/results/`. Using the
@@ -92,7 +99,8 @@ a brief summary of failing tests. A partial list of `ant` targets is:
 - `test` - Runs all the tests. (Always succeeds!)
 
 - `format-tests` - combines the test result XML files into one big file,
-  then generates a nice HTML report by transforming with the `.xsl` file.
+  then generates a nice HTML report by transforming with the `.xsl`
+  file.
 
 - `clean-and-run-tests` - runs `clean`, `test`, and `format-tests` - but
   doesn't really show you useful output data on the console, and always
