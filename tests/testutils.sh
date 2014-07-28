@@ -103,5 +103,9 @@ fail_if_command_matches() {
     juLog -name="$3" "$1 | _oppositegrep \"$2\""
 }
 
+log_command_output() {
+    juLog -name="Output only: $2" "$1"
+}
+
 
 
