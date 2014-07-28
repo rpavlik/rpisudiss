@@ -5,8 +5,5 @@ TESTDIR="$(cd $(dirname $0) && pwd)"
 (
 cd $TESTDIR
 
-for testscript in test-*.sh; do
-    cd $TESTDIR
-    bash $testscript
-done
+find . -name "test-*.sh" -print0 | xargs -n1 -0 bash
 )
