@@ -36,6 +36,8 @@
   \setkeys{isu}{#1}%
 }
 
+% For extended conditionals
+\RequirePackage{xifthen}
 
 
 %%%
@@ -215,6 +217,10 @@
   \newcommand{\isu@chapformat}{}
 \fi
 
+% Keep track of the number of appendices we have so we only number appendices
+% if there are more than one.
+\newcounter{isu@appendix@count}
+
 \titleformat{\chapter}[block]
   {\normalfont\large\bfseries\centering}
   {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}
@@ -388,6 +394,7 @@
 }
 
 % Start of appendices
+\providecommand{\isu@number@appendices}{0}% if this is our first pass
 \renewcommand\appendix{%
   \par
   \setcounter{chapter}{0}%
@@ -404,8 +411,26 @@
       \protect\renewcommand{\protect\cftchappresnum}{\appendixname\space}%
     }%
   \fi
+  % Count the number of appendices
+  \setcounter{isu@appendix@count}{0}%
+  \titleformat{\chapter}[block]%
+    {\normalfont\large\bfseries\centering\stepcounter{isu@appendix@count}}%
+    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}%
+    {0pt}%
+    {\isu@chapformat}%
+    {}%
+  \ifthenelse{\isu@number@appendices < 2}{%
+    % Leave appendix heading unnumbered
+    \titleformat{\chapter}[block]%
+      {\normalfont\large\bfseries\centering\stepcounter{isu@appendix@count}}%
+      {\if@mainmatter \isu@chapformat \chaptertitlename.\quad\fi}%
+      {0pt}%
+      {\isu@chapformat}%
+      {}%
+    % Remove appendix number from table of contents
+    \addtocontents{toc}{\protect\renewcommand\protect\numberline[1]{\hb@xt@\@tempdima{\appendixname\hfil}\@cftasnumb}}%
+  }{}%
 }
-
 
 % Command to indicate we're done with main content
 \renewcommand{\backmatter}{%
@@ -413,6 +438,13 @@
   \isu@disable@secnum
   \@frontmatterfalse
   \@mainmatterfalse
+  % Stop counting appendices
+  \titleformat{\chapter}[block]%
+    {\normalfont\large\bfseries\centering}%
+    {\if@mainmatter \isu@chapformat \chaptertitlename\space\thechapter.\quad\fi}%
+    {0pt}%
+    {\isu@chapformat}%
+    {}%
 }
 
 % Verify that we actually got some main matter
@@ -428,6 +460,11 @@
       \fi
     \fi
   \fi
+}
+
+% Record the number of appendices in this document
+\AtEndDocument{%
+  \immediate\write\@mainaux{\gdef\noexpand\isu@number@appendices{\the\value{isu@appendix@count}}}
 }
 
 %%%
