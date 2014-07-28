@@ -107,6 +107,12 @@
 %%%
 % Minor formatting options, composition aids, etc.
 
+% option copyrightnotice/nocopyrightnotice: indicate if you want a copyright notice on the title page. Defaults to on.
+\newif\ifisu@copyright
+\DeclareOptionX{copyrightnotice}{\isu@copyrighttrue}
+\DeclareOptionX{nocopyrightnotice}{\isu@copyrightfalse}
+
+
 % option draftcls: adds "DRAFT" and a date/time stamp on the footer.
 \newif\ifisu@draftcls
 \isu@draftclsfalse
@@ -139,6 +145,7 @@
 
 % Default options
 \ExecuteOptionsX{onehalfspacing}
+\ExecuteOptionsX{copyrightnotice}
 \PassOptionsToClass{12pt}{book}
 \PassOptionsToClass{openany}{book}
 \PassOptionsToClass{oneside}{book}
@@ -633,10 +640,14 @@
   \fi
 }
 
-\newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
+\ifisu@copyright
+  \newcommand\isu@copyrightnotice{\\       % Unclear what the spacing between notice and the text above should be.
   Copyright \copyright\ \@author, \isu@gradyear.
   All rights reserved.
-}
+  }
+\else
+  \newcommand\isu@copyrightnotice{}
+\fi
 
 % Abstract environment
 \newenvironment{abstract}{%
