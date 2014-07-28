@@ -65,7 +65,7 @@ following
 - pdfLaTeX (in `texlive-latex-base`)
 - XeLaTeX (in `texlive-xetex`)
 - latexmk version 4.31 or newer (in `latexmk` - outdated on 12.04)
-- the `bash` shell (you probably have it)
+- a `sh`-compatible shell (you probably have one like `bash` or `dash`)
 - ant and its junit support (requires both `ant` and `ant-optional`)
 - the bc command-line calculator (`bc`)
 - the `saxonb-xslt` command line tool (in `libsaxonb-java`) (technically

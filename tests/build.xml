@@ -28,7 +28,7 @@
     <macrodef name="runtestscripts">
         <attribute name="filesetref" default="NOT SET"/>
         <sequential>
-            <apply executable="bash" dir="." failonerror="true">
+            <apply executable="sh" dir="." failonerror="true">
                 <fileset refid="@{filesetref}" />
                 <mapper refid="results.files" />
             </apply>
@@ -38,7 +38,7 @@
     <target name="test.pdftex">
         <runtestscripts filesetref="scripts.pdftex" />
     </target>
-    
+
     <target name="test.xelatex">
         <runtestscripts filesetref="scripts.xelatex" />
     </target>
