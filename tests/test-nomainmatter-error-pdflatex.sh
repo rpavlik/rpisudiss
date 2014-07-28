@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export DOCNAME=test-nomainmatter-error
 
 . ./testutils.sh
 

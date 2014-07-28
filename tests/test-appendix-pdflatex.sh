@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export DOCNAME=test-appendix
 
 . ./testutils.sh
 

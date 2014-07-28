@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export DOCNAME=test-dummy-example
-export OPTIONS="-xelatex"
 . ./testutils.sh
 
 should_build

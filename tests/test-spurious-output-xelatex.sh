@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export DOCNAME=test-spurious-output
-export OPTIONS="-xelatex"
 . ./testutils.sh
 
 should_build

@@ -1,6 +1,5 @@
 #!/bin/bash
 
-export DOCNAME=test-spurious-output
 
 . ./testutils.sh
 
