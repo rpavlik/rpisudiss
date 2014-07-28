@@ -38,6 +38,12 @@
     <target name="analyze">
         <echo>Checking for test failures...</echo>
         <exec executable="./analyze-results.sh" resultproperty="returncode" />
+
+        <condition property="testmessage" value="No failures detected!" else="">
+            <equals arg1="${returncode}" arg2="0"/>
+        </condition>
+        <echo message="${testmessage}" />
+
         <fail message="At least one test failure!" status="${returncode}">
             <condition>
                 <not>
