@@ -12,7 +12,7 @@ pass_if_console_matches "No complaints by nag." "Nag package prints 'no complain
 
 # Check ToC
 fail_if_command_matches "text_of_page 1" "APPENDIX\s\+A" "Single appendix shouldn't have a number in ToC."
-pass_if_command_matches "text_of_page 1" "APPENDIX\s\+MY APPENDIX" "Single appendix is unnumbered in ToC."
+pass_if_command_matches "text_of_page 1" "APPENDIX\s\+MY APPENDIX.*3" "Single appendix is unnumbered in ToC, and correctly pointed to."
 
 # Check appendix heading
 fail_if_command_matches "text_of_page 4" "APPENDIX\s\+A" "Single appendix shouldn't have a number in chapter heading."
