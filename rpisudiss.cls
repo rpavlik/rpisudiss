@@ -474,6 +474,11 @@
   \immediate\write\@mainaux{\gdef\noexpand\isu@number@appendices{\the\value{isu@appendix@count}}}%
   \immediate\write\@mainaux{\noexpand\isu@info{The number of appendices in the tex file: \the\value{isu@appendix@count}.}}%
   \immediate\write\@mainaux{\noexpand\isu@info{The number of appendices in the aux file: \noexpand\isu@number@appendices.}}%
+  \ifnum\value{isu@appendix@count} = \isu@number@appendices%
+    \isu@info@noline{Appendix counts match: I'm confident that our decision to number or not number is correct.}%
+  \else%
+    \isu@warning@noline{The number of appendices seems to have changed. Rerun LaTeX to ensure they are numbered properly.}%
+  \fi%
 }
 
 %%%
