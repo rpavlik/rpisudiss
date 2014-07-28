@@ -164,9 +164,16 @@ log_command_output() {
 # Primarily for use within things like XXX_if_command_matches or log_command_output
 
 # Gets the text of a given page in the PDF (numbered from the first as 1)
+# Can take one argument (a single page) or two (a range).  Page breaks (form feeds)
+# are removed since they aren't legal in XML CDATA so they break junit.
 text_of_page() {
+    firstpage=$1
+    lastpage=$1
+    if [ $# -eq 2 ]; then
+        lastpage=$2
+    fi
     if [ -f "${TARGETNAME}.pdf" ]; then
-        pdftotext -f $1 -l $1 -layout -nopgbrk "${TARGETNAME}.pdf" -
+        pdftotext -f $firstpage -l $lastpage -layout -nopgbrk "${TARGETNAME}.pdf" -
     else
         echo "Missing output PDF '${TARGETNAME}.pdf'!" 1>&2
     fi
