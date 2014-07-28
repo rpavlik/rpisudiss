@@ -21,7 +21,7 @@ trap finish EXIT
 
 
 # Determine document and driver name
-testscriptbase=$(basename -s .sh "$0")
+testscriptbase=$(basename "$0" .sh)
 for possdriver in pdflatex xelatex lualatex; do
     if echo $testscriptbase | grep -q -e "-${possdriver}$"; then
         echo "${possdriver}!"
