@@ -655,10 +655,15 @@
   \newcommand\isu@copyrightnotice{}
 \fi
 
-% Abstract environment
+% Abstract environment - it's a chapter in frontmatter, but a section* in
+% mainmatter or standalone chapters.
 \newenvironment{abstract}{%
-  \chapter{Abstract}%
-  \isu@spacing
+  \if@frontmatter
+    \chapter{Abstract}%
+    \isu@spacing
+  \else
+    \section*{Abstract}
+  \fi
 }{}
 
 % Basically wipe out this environment so it doesn't monkey with page numbering.
