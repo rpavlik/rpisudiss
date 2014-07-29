@@ -306,12 +306,13 @@
   \cftsetindents{chapter}{0em}{9em}
   \cftsetindents{section}{2em}{0em}
   \cftsetindents{subsection}{3em}{0em}
-  \renewcommand{\cftchapfont}{\MakeTextUppercase}
+  \renewcommand{\cftchapfont}{\bfseries\MakeTextUppercase}
 \else
   \renewcommand\cftchappresnum{\protect\chaptertitlename\space}
   \cftsetindents{chapter}{0em}{7em}
   \cftsetindents{section}{1em}{0em}
   \cftsetindents{subsection}{2em}{0em}
+  \renewcommand{\cftchapfont}{\bfseries }
 \fi
 
 % - Remove section/subsection numbers from ToC by capturing
