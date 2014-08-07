@@ -76,9 +76,11 @@ following
 - pdftotext (in `poppler-utils`)
 - For optional use of `tests/parallel-test.sh`:
   - GNU Parallel (package `parallel`)
-- For optional use of `tests/open-report.sh` (Linux-only):
-  - the `xdg-open` utility (in `xdg-utils`) with your default browser
+- For optional use of `tests/open-report.sh`:
+  - on Linux, the `xdg-open` utility (in `xdg-utils`) with your default browser
     set to something useful.
+  - on Mac OS X, the standard tool `open` is used.
+  - on other platforms, if you can't get or fake `xdg-open` you're out of luck.
 
 ### Full dev setup - Debian or Ubuntu
 
