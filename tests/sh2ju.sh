@@ -24,6 +24,17 @@
 asserts=00; tests=0; errors=0; total=0; content=""
 date=`which gdate || which date`
 
+if date +%s.%N | grep N > /dev/null; then
+	getdate() {
+		$date +%s
+	}
+else
+	# Fractional seconds aren't standard, not avail on mac os x
+	getdate() {
+		$date +%s.%N
+	}
+fi
+
 # create output folder
 juDIR=`pwd`/results
 mkdir -p "$juDIR" || exit
@@ -83,11 +94,11 @@ juLog() {
   echo "+++ Running case: $name " | tee -a $outf
   echo "+++ working dir: "`pwd`           | tee -a $outf
   echo "+++ command: $cmd"            | tee -a $outf
-  ini=`$date +%s.%N`
+  ini="$(getdate)"
   eVal "$cmd" 2>&1                | tee -a $outf
-  evErr=`cat $errfile`
+  evErr=$(cat $errfile)
   rm -f $errfile
-  end=`date +%s.%N`
+  end="$(getdate)"
   echo "+++ exit code: $evErr"        | tee -a $outf
   
   # set the appropriate error, based in the exit code and the regex  
