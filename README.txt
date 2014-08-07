@@ -65,6 +65,7 @@ following
 - blindtext (in `texlive-latex-extra`)
 - pdfLaTeX (in `texlive-latex-base`)
 - XeLaTeX (in `texlive-xetex`)
+- pdftotext (in `poppler-utils`)
 - latexmk version 4.31 or newer (in `latexmk` - outdated on 12.04)
 - a `sh`-compatible shell (you probably have one like `bash` or `dash`)
 - ant and its junit support (requires both `ant` and `ant-optional`)
@@ -78,6 +79,23 @@ following
 - For optional use of `tests/open-report.sh` (Linux-only):
   - the `xdg-open` utility (in `xdg-utils`) with your default browser
     set to something useful.
+
+### Full dev setup - Debian or Ubuntu
+
+    sudo apt-get install texlive-base texlive-binaries \
+    texlive-latex-base texlive-latex-recommended \
+    texlive-latex-extra texlive-fonts-recommended \
+    texlive-xetex tex-gyre bc ant ant-optional libsaxonb-java \
+    findutils parallel latexmk poppler-utils
+
+Supplement with CTAN as above if you have an old release
+(TeXLive 2013 or older, IIRC)
+
+### Full dev setup - Mac OS X
+
+MacTeX 2014 required. Plus, via Mac Homebrew:
+
+    brew install ant parallel poppler saxon
 
 Testing
 -------
