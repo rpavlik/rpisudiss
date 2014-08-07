@@ -285,6 +285,7 @@
 % - Add PDF bookmark
 % - Page break after
 \xpretocmd{\tableofcontents}{%
+  \clearpage%
   \begin{singlespace}%
   \pdfbookmark[0]{\contentsname}{pdfbookmark:contents}%
 }{}{}
