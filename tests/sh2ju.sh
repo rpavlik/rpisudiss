@@ -114,8 +114,8 @@ juLog() {
   # calculate vars
   tests="$(expr $tests + 1)"
   errors="$(expr $errors + $err)"
-  time=`echo "$end - $ini" | bc -l`
-  total=`echo "$total + $time" | bc -l`
+  thetime="$(echo \"$end - $ini\" | bc -l)"
+  total="$(echo \"$total + $thetime\" | bc -l)"
 
   # write the junit xml report
   ## failure tag
