@@ -2,9 +2,12 @@
 # For the impatient or the many-cored.
 
 # Ensure parallel is installed
-PARALLEL=$(which parallel) || \
+if which parallel > /dev/null; then
+	echo
+else
     echo "ERROR: You must install 'parallel' before running this script." 1>&2 ; \
     exit 1
+fi
 
 TESTDIR="$(cd $(dirname $0) && pwd)"
 
