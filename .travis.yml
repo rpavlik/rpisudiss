@@ -14,7 +14,7 @@ before_install:
 # Actually run the tests
 before_script:
   - cd tests
-  - ant clean-and-run-tests
+  - ant clean-and-run-tests > /dev/null
 
 # Run the xslt transform and grep so that we get just the failure messages and a good exit code.
 script:
