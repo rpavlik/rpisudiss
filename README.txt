@@ -74,6 +74,7 @@ following
   only required by the `analyze` ant target, but...)
 - `find` and `xargs` (in `findutils`, which you probably have already)
 - pdftotext (in `poppler-utils`)
+- pdftk (in `pdftk`)
 - For optional use of `tests/parallel-test.sh`:
   - GNU Parallel (package `parallel`)
 - For optional use of `tests/open-report.sh`:
