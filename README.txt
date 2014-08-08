@@ -100,6 +100,13 @@ MacTeX 2014 required. Plus, via Mac Homebrew:
 
     brew install ant parallel poppler saxon
 
+as well as PDFtk. One idea might be to do:
+
+    brew tap docmunch/homebrew-pdftk
+    brew install pdftk
+
+though I have no idea how good of an idea that is.
+
 Testing
 -------
 
