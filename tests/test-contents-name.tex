@@ -1,0 +1,29 @@
+\documentclass{rpisudiss}
+
+\usepackage{ifxetex}
+
+\ifxetex
+  \usepackage[english]{polyglossia}
+\else
+  \usepackage[english]{babel}
+\fi
+
+\usepackage[logonly]{trace}
+
+\traceon
+\begin{document}
+\traceoff
+
+\makeatletter
+\ifthenelse{\equal{\contentsname}{Table of Contents}}{%
+  \isu@info{TOC name is [\contentsname].}%
+}{%
+  \isu@error{Bad \string\contentsname\space definition.}{%
+    TOC name is [\contentsname] instead of [Table of Contents].
+    The \string\contentsname macro has been redefined by someone.
+  }%
+}
+\makeatother
+
+\end{document}
+
