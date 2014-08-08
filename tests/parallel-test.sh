@@ -1,5 +1,12 @@
 #!/bin/sh
 
+# Ensure parallel is installed
+if [ "x" = x`which parallel` ]; then
+    echo "ERROR: You must install 'parallel' before running this script."
+    exit 1
+fi
+
+
 # For the impatient or the many-cored.
 
 TESTDIR="$(cd $(dirname $0) && pwd)"
