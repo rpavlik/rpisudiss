@@ -21,4 +21,10 @@ pass_if_command_matches "text_of_page 2" "Dedication" "Dedication on page ii"
 pass_if_command_matches "text_of_page 3 | head -n 1" "\s*iii\s*" "First text on the third page is the page number iii"
 pass_if_command_matches "text_of_page 3" "Table of Contents" "ToC on page iii"
 
-# TODO: Check the PDF bookmarks to ensure that the dedication and table of contents are on different pages.
+# Check the PDF bookmarks to ensure that the dedication and table of contents are on different pages.
+pass_if_bookmark_on_page "Dedication" 2 "Dedication bookmark on page 2"
+pass_if_bookmark_on_page "Table of Contents" 3 "TOC bookmark on page 3"
+
+pass_if_bookmark_is_level "Dedication" 1 "Dedication bookmark is level 1"
+pass_if_bookmark_is_level "Table of Contents" 1 "TOC bookmark is level 1"
+

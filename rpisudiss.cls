@@ -739,5 +739,12 @@
   \end{titlepage}
 }
 
+% Compatibility with babel and polyglossia
+\AtBeginDocument{%
+  \ifdefined\captionsenglish
+    \addto\captionsenglish{\def\contentsname{Contents}}%
+  \fi
+}
+
 \endinput
 
