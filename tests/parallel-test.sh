@@ -1,18 +1,15 @@
 #!/bin/sh
+# For the impatient or the many-cored.
 
 # Ensure parallel is installed
-if [ "x" = x`which parallel` ]; then
-    echo "ERROR: You must install 'parallel' before running this script."
+PARALLEL=$(which parallel) || \
+    echo "ERROR: You must install 'parallel' before running this script." 1>&2 ; \
     exit 1
-fi
-
-
-# For the impatient or the many-cored.
 
 TESTDIR="$(cd $(dirname $0) && pwd)"
 
 runthetests() {
-    find . -name "test-*.sh" -print0 | parallel -0 sh
+    find . -name "test-*.sh" -print0 | $PARALLEL -0 sh
 }
 
 (
