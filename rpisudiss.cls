@@ -742,7 +742,7 @@
 % Compatibility with babel and polyglossia
 \AtBeginDocument{%
   \ifdefined\captionsenglish
-    \addto\captionsenglish{\def\contentsname{Contents}}%
+    \addto\captionsenglish{\def\contentsname{Table of Contents}}%
   \fi
 }
 
