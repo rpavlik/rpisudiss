@@ -62,6 +62,7 @@ esac
 export DIR="$scratch"
 export BASICLOG="$scratch/basiclog.txt"
 export LOG="$scratch/$DOCNAME.log"
+export PDF="$scratch/$DOCNAME.pdf"
 export TARGETNAME="$scratch/$DOCNAME"
 export RESULTSDIR="${juDIR}"
 
@@ -107,6 +108,62 @@ _runbuild() {
 # A wrapper for grep that inverts its exit code: error if it finds something, success if it doesn't
 _oppositegrep() {
     ! grep "$@" 2>&1 >/dev/null
+}
+
+# Checks that PDF bookmark appears on specified page.
+# Arguments: PDF bookmark name, page number
+# Returns: 0 if bookmark is on specified page, 1 if bookmark is on different page, 2 if bookmark doesn't exist
+_check_pdfbookmark_page() {
+    pdftk "$PDF" dump_data | \
+        sed -e '/^Bookmark\(Title\|PageNumber\)/ !{d}' \
+            -e 's/^Bookmark\(Title\|PageNumber\): //' | (
+        read BOOKMARK_NAME
+        read BOOKMARK_PAGE
+        while [ -n "$BOOKMARK_NAME" ]; do
+            if [ "x$BOOKMARK_NAME" = "x$1" ]; then
+                if [ $BOOKMARK_PAGE -eq $2 ]; then
+                    # Bookmark is on expected page
+                    exit 0
+                else
+                    # Bookmark is on unexpected page
+                    exit 1
+                fi
+            fi
+            read BOOKMARK_NAME
+            read BOOKMARK_PAGE
+        done
+    )
+
+    EXIT_CODE=$?
+    return $EXIT_CODE
+}
+
+# Checks that PDF bookmark is a specified level
+# Arguments: PDF bookmark name, level number
+# Returns: 0 if bookmark is specified level, 1 if bookmark is a different level, 2 if bookmark doesn't exist
+_check_pdfbookmark_level() {
+    pdftk "$PDF" dump_data | \
+        sed -e '/^Bookmark\(Title\|Level\)/ !{d}' \
+            -e 's/^Bookmark\(Title\|Level\): //' | (
+        read BOOKMARK_NAME
+        read BOOKMARK_LEVEL
+        while [ -n "$BOOKMARK_NAME" ]; do
+            if [ "x$BOOKMARK_NAME" = "x$1" ]; then
+                if [ $BOOKMARK_LEVEL -eq $2 ]; then
+                    # Bookmark is expected level
+                    exit 0
+                else
+                    # Bookmark is unexpected level
+                    exit 1
+                fi
+            fi
+            read BOOKMARK_NAME
+            read BOOKMARK_LEVEL
+        done
+    )
+
+    EXIT_CODE=$?
+    return $EXIT_CODE
 }
 
 ###
@@ -159,6 +216,21 @@ fail_if_command_matches() {
     juLog -name="$3" "$1 | _oppositegrep \"$2\""
 }
 ###
+
+###
+# Assertions about PDF bookmarks appearing on specific pages
+# Arguments: title, page number, test name/description
+pass_if_bookmark_on_page() {
+    juLog -name="$3" "_check_pdfbookmark_page \"$1\" $2"
+}
+
+# Assertions about PDF bookmark levels
+# They take x arguments: title, level number, test name/description
+pass_if_bookmark_is_level() {
+    juLog -name="$3" "_check_pdfbookmark_level \"$1\" $2"
+}
+
+
 
 ###
 # "Assertion" that simply records a successful test and includes command output
