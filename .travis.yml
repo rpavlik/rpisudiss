@@ -20,7 +20,7 @@ before_script:
 script:
 - ./analyze-results.sh
 after_script:
-- ./tests/update-gh-pages.sh
+- ./update-gh-pages.sh
 env:
   global:
     secure: kuotiRvd02lHJbL3FoDKefzl/ZQnpB8cB/fl3YuKt6mA8KQr9vfX8gf+O6MYPVeCJ/uKAfXrigM8P4oJdmKhd5BTQrFRMER5XO/D+SK8fE6O1ct66efVhTsJzLvNeKT8WacCZcLvwHfAKySdlMidAhqmUfLicV+7hYyz4UX4ZD4=
