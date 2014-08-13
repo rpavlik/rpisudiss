@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+if [ "x$TRAVIS_PULL_REQUEST" == "xfalse" ]; then
     echo -e "Starting to update gh-pages\n"
 
     #copy data we're interested in to other place
-    cp -R tests/report $HOME/tests
+    cp -R report $HOME/tests
 
     #go to home and setup git
     cd $HOME
