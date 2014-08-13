@@ -3,16 +3,16 @@
 
 # Ensure parallel is installed
 if which parallel > /dev/null; then
-	echo
+    echo "-- parallel is installed"
 else
-    echo "ERROR: You must install 'parallel' before running this script." 1>&2 ; \
+    echo "ERROR: You must install 'parallel' before running this script." 1>&2
     exit 1
 fi
 
 TESTDIR="$(cd $(dirname $0) && pwd)"
 
 runthetests() {
-    find . -name "test-*.sh" -print0 | $PARALLEL -0 sh
+    find . -name "test-*.sh" -print0 | parallel -0 sh
 }
 
 (
