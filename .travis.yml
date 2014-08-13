@@ -4,7 +4,7 @@ before_install:
 - sudo apt-get update -qq
 - sudo apt-get install --no-install-recommends poppler-utils findutils unzip bc ant
   ant-optional libsaxonb-java texlive-binaries texlive-latex-base texlive-latex-recommended
-  texlive-latex-extra tex-gyre texlive-fonts-recommended texlive-xetex latexmk pdftk
+  texlive-latex-extra tex-gyre texlive-fonts-recommended texlive-xetex latexmk pdftk lmodern
 - #wget http://mirrors.ctan.org/install/macros/latex/contrib/hardwrap.tds.zip
 - wget http://www.vrac.iastate.edu/~godbyk/files/hardwrap.tds.zip
 - sudo unzip hardwrap.tds.zip -d /usr/share/texmf
