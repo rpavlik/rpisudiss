@@ -17,6 +17,7 @@ if [ "x$TRAVIS_PULL_REQUEST" == "xfalse" ]; then
     #go into diractory and copy data we're interested in to that directory
     cd gh-pages
     cp -Rf $HOME/tests/* ./tests/
+    mv -f ./tests/junit-noframes.html ./tests/index.html
 
     #add, commit and push files
     git add -f .
