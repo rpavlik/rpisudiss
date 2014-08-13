@@ -5,9 +5,11 @@ before_install:
 - sudo apt-get install --no-install-recommends poppler-utils findutils unzip bc ant
   ant-optional libsaxonb-java texlive-binaries texlive-latex-base texlive-latex-recommended
   texlive-latex-extra tex-gyre texlive-fonts-recommended texlive-xetex latexmk pdftk
-- wget http://mirrors.ctan.org/install/macros/latex/contrib/hardwrap.tds.zip
+- #wget http://mirrors.ctan.org/install/macros/latex/contrib/hardwrap.tds.zip
+- wget http://www.vrac.iastate.edu/~godbyk/files/hardwrap.tds.zip
 - sudo unzip hardwrap.tds.zip -d /usr/share/texmf
-- wget http://mirrors.ctan.org/install/macros/latex/contrib/xpatch.tds.zip
+- #wget http://mirrors.ctan.org/install/macros/latex/contrib/xpatch.tds.zip
+- wget http://www.vrac.iastate.edu/files/xpatch.tds.zip
 - sudo unzip xpatch.tds.zip -d /usr/share/texmf
 - sudo texhash
 - wget http://ftp.debian.org/debian/pool/main/l/latexmk/latexmk_4.39-1_all.deb
