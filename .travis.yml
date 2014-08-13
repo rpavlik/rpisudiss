@@ -9,7 +9,7 @@ before_install:
 - wget http://www.vrac.iastate.edu/~godbyk/files/hardwrap.tds.zip
 - sudo unzip hardwrap.tds.zip -d /usr/share/texmf
 - #wget http://mirrors.ctan.org/install/macros/latex/contrib/xpatch.tds.zip
-- wget http://www.vrac.iastate.edu/files/xpatch.tds.zip
+- wget http://www.vrac.iastate.edu/~godbyk/files/xpatch.tds.zip
 - sudo unzip xpatch.tds.zip -d /usr/share/texmf
 - sudo texhash
 - wget http://ftp.debian.org/debian/pool/main/l/latexmk/latexmk_4.39-1_all.deb
