@@ -28,6 +28,7 @@ VER_GT=11
 # get first component, like CAR
 _ver_head() {
 	echo "$1" | cut -d "." -f 1
+}
 
 # get tail, like CDR
 _ver_tail() {
