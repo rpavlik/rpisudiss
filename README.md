@@ -4,9 +4,10 @@ Unofficial Iowa State University LaTeX files by Rylie Pavlik
 Project Status
 --------------
 
-This was worthwhile and worked when I last used it.
-However, I have moved on (graduated!), so I no longer use this
-or know if it is valuable, and have no capacity to meaningfully maintain it.
+This was worthwhile and worked when I last used it (though on modern Linux the
+self tests fail). However, I have moved on (graduated!), so I no longer use this
+or know if it is valuable (this was written for 2014, I cannot even find the
+rules for formatting in 2024), and have no capacity to meaningfully maintain it.
 
 **Unmaintained**
 
