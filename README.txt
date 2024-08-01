@@ -211,5 +211,5 @@ License
 
 - For the other files (such as class `*.cls` and style `*.sty` files):
   - MIT license <http://opensource.org/licenses/MIT>
-  - Initially, at least, Copyright 2014 Ryan Pavlik but see files for
+  - Initially, at least, Copyright 2014 Rylie Pavlik but see files for
     full details.
