@@ -16,21 +16,21 @@
   \setbox\expectedbox=\hbox{[]}%
   \setbox\actualbox=\hbox{[#1]}%
   \ifthenelse{\dimtest{\the\wd\expectedbox}{=}{\the\wd\actualbox}}{}{%
-    \isu@error{Detected spurious output!}{#2}%
+    \isu@error{Detected spurious output! #2. Expected \the\wd\expectedbox\ vs \the\wd\actualbox}{#2. pagestyle and matter commands should not change a box size.}%
   }%
 }
 
 % Ensure that page styles doesn't introduce spurious output
-\test@spurious@output{\pagestyle{plain}}{The \string\pagestyle{plain} command introduced spurious output.}%
-\test@spurious@output{\pagestyle{fancy}}{The \string\pagestyle{fancy} command introduced spurious output.}%
-\test@spurious@output{\pagestyle{empty}}{The \string\pagestyle{empty} command introduced spurious output.}%
-\test@spurious@output{\pagestyle{myheadings}}{The \string\pagestyle{myheadings} command introduced spurious output.}%
-\test@spurious@output{\pagestyle{titlepage}}{The \string\pagestyle{titlepage} command introduced spurious output.}%
+\test@spurious@output{\pagestyle{plain}}{The \string\pagestyle{plain} command is broken}%
+\test@spurious@output{\pagestyle{fancy}}{The \string\pagestyle{fancy} command is broken}%
+\test@spurious@output{\pagestyle{empty}}{The \string\pagestyle{empty} command is broken}%
+\test@spurious@output{\pagestyle{myheadings}}{The \string\pagestyle{myheadings} command is broken}%
+\test@spurious@output{\pagestyle{titlepage}}{The \string\pagestyle{titlepage} command is broken}%
 
 % Ensure that \...matter commands don't introduce spurious output
-\test@spurious@output{\let\clearpage\relax\frontmatter}{The \string\frontmatter command introduced spurious output.}%
-\test@spurious@output{\let\clearpage\relax\mainmatter}{The \string\mainmatter command introduced spurious output.}%
-\test@spurious@output{\let\clearpage\relax\backmatter}{The \string\backmatter command introduced spurious output.}%
+\test@spurious@output{\let\clearpage\relax\frontmatter}{The \string\frontmatter command is broken}%
+\test@spurious@output{\let\clearpage\relax\mainmatter}{The \string\mainmatter command is broken}%
+\test@spurious@output{\let\clearpage\relax\backmatter}{The \string\backmatter command is broken}%
 
 \makeatother
 \end{document}
