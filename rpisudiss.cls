@@ -1,8 +1,8 @@
-%% Ryan Pavlik's custom, from-scratch ISU thesis class.
+%% Rylie Pavlik's custom, from-scratch ISU thesis class.
 %
 %    The MIT License (MIT)
 %
-%    Copyright (c) 2014 Ryan Pavlik
+%    Copyright (c) 2014 Rylie Pavlik
 %
 %    Permission is hereby granted, free of charge, to any person obtaining a copy
 %    of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 %    THE SOFTWARE.
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{rpisudiss}[2014/07/06 Ryan Pavlik's ISU Thesis]
+\ProvidesClass{rpisudiss}[2014/07/06 Rylie Pavlik's ISU Thesis]
 
 % For nicer, word-wrapped error, warning, and info messages
 \RequirePackage{hardwrap}
